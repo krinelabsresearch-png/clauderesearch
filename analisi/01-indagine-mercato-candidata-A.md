@@ -1,5 +1,7 @@
 # KRINÉ Labs — Indagine di mercato sulla Candidata A
 
+> **⚠️ Superato in parte.** Il documento `02-revisione-asset-target-decisioni.md` corregge questa analisi sui punti seguenti: (a) target, rituale, dose, frequenza, formato e applicatore sono **decisioni aperte**, non vincoli, e qui erano stati trattati come vincoli; (b) non esiste alcuna ragione nella chimica della formula che la renda meno adatta a un pubblico femminile — l'evidenza di adenosina, piroctone e melatonina è in larga parte femminile; (c) la classifica dei target è stata ricalcolata e si ribalta verso i segmenti femminili; (d) l'architettura di prezzo passa al formato da 120 mL. Restano validi: la scala dei claim come filtro dominante, l'esposizione brevettuale, l'aritmetica del €/mese, i costi industriali, l'economia dell'acquisizione e la centralità della ritenzione.
+
 **Oggetto:** target più appetibili, fattibilità di un prodotto multitarget, prezzo e prospettive di mercato
 **Ipotesi di lavoro:** la Candidata A del dossier V9.3 è la formula definitiva e non si tocca
 **Data:** settembre 2026
