@@ -7,7 +7,7 @@ node render.mjs            # produce cover.pdf e body.pdf con Chromium
 # poi unire i due file (la copertina non porta il numero di pagina)
 ```
 
-`Krine-Labs_Analisi-di-mercato_v4.pdf` è la versione corrente e supera le precedenti.
+`Krine-Labs_Analisi-di-mercato_v5.pdf` è la versione corrente e supera le precedenti.
 
 Differenze della v2: flacone da 60 mL con percorsi da tre e cinque al posto
 del formato da 120 mL; garanzia a 150 giorni condizionata al percorso
@@ -30,3 +30,12 @@ ammesso e dichiarato, a tre condizioni: copertura nella valutazione di
 sicurezza, tollerabilita testata sul regime massimo, nessuna implicazione
 di dose-risposta. La condizione della garanzia passa dai flaconi ai
 giorni d uso nel regime di riferimento.
+
+Differenze della v5: stime di laboratorio e produzione riviste al ribasso
+dopo averle decomposte voce per voce. Formulazione da 40-90 a 18-50 mila,
+stabilita da 5-12 a 4-10, lotto pilota e prima produzione da 30-90 a
+20-48 su una prima produzione di 3.000 pezzi. Investimento centrale da
+215 a 155 mila euro. Aggiunta la tabella di decomposizione delle due voci
+maggiori e le tre leve che ne derivano: dimensione della prima
+produzione, programma analitico, preventivo a pacchetto sviluppo piu
+produzione.
