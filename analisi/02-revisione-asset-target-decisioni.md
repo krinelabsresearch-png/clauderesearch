@@ -262,7 +262,7 @@ Contribuzione stimata (IVA 22%, COGS 120 mL ≈ €13,50, evasione €7):
 |---|---:|---:|---|
 | 60 mL a €59 | 48,36 | 32,86 | no |
 | 120 mL a €99 | 81,15 | 60,65 | **sì** |
-| 3 × 120 mL a €269 | 220,49 | 179,99 | **sì, oltre il doppio** |
+| 3 × 120 mL a €269 | 220,49 | 170,99 | **sì, oltre il doppio** |
 
 **Con il formato da 120 mL il prodotto si ripaga al primo ordine senza dover vendere un multipack** — che è l'obiettivo, perché un multipack chiede al cliente un impegno che al primo acquisto non vuole prendere.
 
