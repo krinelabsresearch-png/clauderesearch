@@ -7,7 +7,7 @@ node render.mjs            # produce cover.pdf e body.pdf con Chromium
 # poi unire i due file (la copertina non porta il numero di pagina)
 ```
 
-`Krine-Labs_Analisi-di-mercato_v5.pdf` è la versione corrente e supera le precedenti.
+`Krine-Labs_Analisi-di-mercato_v6.pdf` è la versione corrente e supera le precedenti.
 
 Differenze della v2: flacone da 60 mL con percorsi da tre e cinque al posto
 del formato da 120 mL; garanzia a 150 giorni condizionata al percorso
@@ -39,3 +39,11 @@ stabilita da 5-12 a 4-10, lotto pilota e prima produzione da 30-90 a
 maggiori e le tre leve che ne derivano: dimensione della prima
 produzione, programma analitico, preventivo a pacchetto sviluppo piu
 produzione.
+
+Differenze della v6: decomposte e riviste tutte le voci di costo, non solo
+laboratorio e produzione, assumendo preventivi messi in concorrenza.
+Investimento centrale da 155 a 135 mila euro. Aggiunte due voci prima
+assenti: marchio e assicurazione responsabilita civile prodotto. Emergono
+quattro leve di costo (combinare gli studi, dimensione della prima
+produzione, preventivo a pacchetto, flacone di serie) e un avvertimento
+sul confronto fra preventivi di laboratorio.
