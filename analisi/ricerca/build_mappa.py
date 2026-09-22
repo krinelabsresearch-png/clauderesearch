@@ -107,7 +107,7 @@ dati = [
  ("Philip Kingsley","Density Serum","profumeria","densità","EU",None,None,None,"",None,"","","","","da rilevare"),
  ("Alpecin","Caffeine Liquid","GDO","anticaduta","DE",None,None,200,"",None,"","","","","ancoraggio bassissimo, canale diverso dal nostro"),
  ("KRINÉ","Siero leave-on, flacone singolo","DTC","densità e scalp","IT",59.00,49.00,60,"4 erogazioni da 0,5 mL, una volta la sera",2.0,"tutte","tutte le percentuali degli attivi","150 giorni sul percorso","sì","noi, formato singolo"),
- ("KRINÉ","Siero leave-on, percorso da 5","DTC","densità e scalp","IT",239.00,None,300,"4 erogazioni da 0,5 mL, una volta la sera",2.0,"tutte","tutte le percentuali degli attivi","150 giorni, condizionata","—","noi, percorso. Attenzione: 5 flaconi al netto del residuo danno 142,5 giorni, non 150"),
+ ("KRINÉ","Siero leave-on, percorso da 6","DTC","densità e scalp","IT",279.00,None,360,"4 erogazioni da 0,5 mL, una volta la sera",2.0,"tutte","tutte le percentuali degli attivi","150 giorni, condizionata","—","noi, percorso completo. 6 flaconi al netto del 5% di residuo danno 342 mL, cioè 171 giorni: coprono i 150 della garanzia. Con 5 flaconi ne coprivano 142,5."),
 ]
 
 for i,d in enumerate(dati, start=2):
@@ -168,7 +168,7 @@ voci = [
  ("Costo mensile più basso", f"=IFERROR(MIN(Mappa!O2:O{ult}),\"\")", "l'ancoraggio che il cliente confronta"),
  ("Costo mensile più alto", f"=IFERROR(MAX(Mappa!O2:O{ult}),\"\")", ""),
  ("Costo mensile medio", f"=IFERROR(AVERAGE(Mappa!O2:O{ult}),\"\")", ""),
- ("Nostro costo mensile, percorso da 5", f"=IFERROR(O{ult},\"\")", "sotto o sopra la media?"),
+ ("Nostro costo mensile, percorso da 6", f"=IFERROR(O{ult},\"\")", "sotto o sopra la media?"),
  ("", "", ""),
  ("Quanti dichiarano tutte le percentuali", f'=COUNTIF(Mappa!P2:P{ult},"tutte")', "se resta 1, la trasparenza integrale è terreno libero"),
  ("Quanti ne dichiarano alcune", f'=COUNTIF(Mappa!P2:P{ult},"alcune")', "dichiarare qualche percentuale non è una novità"),
