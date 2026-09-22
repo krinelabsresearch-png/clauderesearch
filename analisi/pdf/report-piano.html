@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>Kriné Labs — Analisi di mercato e scelte di prodotto</title>
+<style>
+  @page { size: A4; margin: 20mm 18mm 18mm 18mm; }
+  @page :first { margin: 0; }
+
+  :root{
+    --ink:#1b1a18;
+    --ink-soft:#4a473f;
+    --ink-faint:#7c786e;
+    --accent:#6b4f2a;
+    --accent-soft:#a08356;
+    --rule:#d9d4c8;
+    --tint:#f6f3ec;
+    --tint-2:#efeadf;
+    --warn:#8a3a2a;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body{
+    font-family:"Charter","Bitstream Charter","Liberation Serif",Georgia,serif;
+    font-size:10.4pt; line-height:1.52; color:var(--ink);
+    margin:0; padding:0; hyphens:auto;
+  }
+  h1,h2,h3,h4,.sans{ font-family:"Liberation Sans",Helvetica,Arial,sans-serif; }
+
+  /* ---------- cover ---------- */
+  .cover{
+    height:297mm; padding:38mm 24mm 22mm 24mm;
+    display:flex; flex-direction:column; justify-content:space-between;
+    background:var(--tint); page-break-after:always;
+  }
+  .cover .brand{
+    font-family:"Liberation Sans",sans-serif; font-size:11pt; letter-spacing:.42em;
+    text-transform:uppercase; color:var(--accent); font-weight:700;
+  }
+  .cover .rule{ height:2.5px; background:var(--accent); width:56mm; margin:9mm 0 11mm; }
+  .cover h1{
+    font-size:30pt; line-height:1.16; font-weight:700; margin:0 0 7mm; letter-spacing:-.015em;
+  }
+  .cover .sub{ font-size:13pt; color:var(--ink-soft); line-height:1.45; max-width:130mm; font-family:"Liberation Sans",sans-serif; }
+  .cover .meta{ font-family:"Liberation Sans",sans-serif; font-size:9.2pt; color:var(--ink-soft); line-height:1.75; }
+  .cover .meta b{ color:var(--ink); font-weight:600; }
+  .cover .conf{
+    margin-top:7mm; font-size:8.6pt; color:var(--accent); letter-spacing:.14em;
+    text-transform:uppercase; font-weight:700;
+  }
+
+  /* ---------- structure ---------- */
+  section{ page-break-before:always; }
+  section.cont{ page-break-before:auto; }
+
+  h2{
+    font-size:15.5pt; line-height:1.25; margin:0 0 4mm; font-weight:700; letter-spacing:-.01em;
+    padding-bottom:2.4mm; border-bottom:2px solid var(--accent);
+  }
+  h2{ page-break-after:avoid; }
+  h2 .num{ color:var(--accent-soft); font-weight:700; margin-right:2.4mm; }
+  h3{ font-size:11.4pt; margin:6mm 0 2.2mm; font-weight:700; color:var(--ink); page-break-after:avoid; }
+  h4{ font-size:10.2pt; margin:5mm 0 1.6mm; font-weight:700; color:var(--accent); page-break-after:avoid; }
+  p{ margin:0 0 3.1mm; text-align:justify; }
+  ul,ol{ margin:0 0 3.4mm; padding-left:5.2mm; }
+  li{ margin-bottom:1.5mm; text-align:justify; }
+  strong{ font-weight:700; }
+  em{ font-style:italic; }
+  .lead{ font-size:11.2pt; color:var(--ink-soft); line-height:1.5; margin-bottom:5mm; }
+
+  /* ---------- tables ---------- */
+  table{
+    width:100%; border-collapse:collapse; margin:3.5mm 0 4.5mm;
+    font-family:"Liberation Sans",sans-serif; font-size:8.5pt; line-height:1.38;
+    page-break-inside:avoid;
+  }
+  thead th{
+    background:var(--tint-2); text-align:left; font-weight:700; color:var(--ink);
+    padding:1.8mm 2.1mm; border-bottom:1.6px solid var(--accent-soft); vertical-align:bottom;
+  }
+  tbody td{ padding:1.6mm 2.1mm; border-bottom:.7px solid var(--rule); vertical-align:top; }
+  tbody tr:last-child td{ border-bottom:1.1px solid var(--accent-soft); }
+  td.n, th.n{ text-align:right; white-space:nowrap; }
+  td.c, th.c{ text-align:center; }
+  tbody tr.hi td{ background:#f4efe3; font-weight:600; }
+  caption{
+    caption-side:bottom; text-align:left; font-family:"Liberation Sans",sans-serif;
+    font-size:7.6pt; color:var(--ink-faint); padding-top:1.6mm; line-height:1.35;
+  }
+
+  /* ---------- boxes ---------- */
+  .key{
+    background:var(--tint); border-left:3.5px solid var(--accent);
+    padding:3.6mm 4.2mm; margin:4mm 0 4.5mm; page-break-inside:avoid;
+  }
+  .key p{ margin:0; }
+  .key p + p{ margin-top:2.2mm; }
+  .key .label{
+    font-family:"Liberation Sans",sans-serif; font-size:7.8pt; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--accent); font-weight:700; display:block; margin-bottom:1.8mm;
+  }
+  .warn{ border-left-color:var(--warn); }
+  .warn .label{ color:var(--warn); }
+
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:4mm; margin:3.5mm 0 4mm; }
+  .card{
+    border:.8px solid var(--rule); padding:3.2mm 3.6mm; page-break-inside:avoid;
+  }
+  .card .h{
+    font-family:"Liberation Sans",sans-serif; font-weight:700; font-size:9.4pt;
+    margin-bottom:1.8mm; color:var(--accent);
+  }
+  .card p{ margin:0; font-size:9.6pt; }
+
+  .stat-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:4mm; margin:4mm 0 5mm; }
+  .stat{ border-top:2.2px solid var(--accent); padding-top:2.4mm; }
+  .stat .v{ font-family:"Liberation Sans",sans-serif; font-size:19pt; font-weight:700; line-height:1.06; letter-spacing:-.02em; }
+  .stat .k{ font-family:"Liberation Sans",sans-serif; font-size:8.1pt; color:var(--ink-soft); line-height:1.35; margin-top:1.4mm; }
+
+  .note{ font-size:9.1pt; color:var(--ink-soft); font-style:italic; }
+  .tag{
+    font-family:"Liberation Sans",sans-serif; font-size:7.4pt; font-weight:700;
+    letter-spacing:.07em; text-transform:uppercase; padding:.5mm 1.5mm;
+    border:.8px solid var(--accent-soft); color:var(--accent); white-space:nowrap;
+  }
+  .tag.dato{ border-color:#4a6b3a; color:#3d5c2e; }
+  .tag.stima{ border-color:#8a6a2a; color:#7a5c24; }
+
+  /* index */
+  .toc{ font-family:"Liberation Sans",sans-serif; display:grid; grid-template-columns:1fr 1fr; gap:0 7mm; }
+  .toc .e{ border-bottom:.6px solid var(--rule); padding:1.5mm 0 1.4mm; }
+  .toc .e .t{ font-size:8.9pt; color:var(--ink); font-weight:600; line-height:1.25; }
+  .toc .e .t b{ color:var(--accent-soft); font-weight:700; margin-right:1.8mm; }
+  .toc .e .d{ font-size:7.5pt; color:var(--ink-faint); line-height:1.3; margin-top:.5mm; }
+
+  .avoid{ page-break-inside:avoid; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div>
+    <div class="brand">Kriné Labs</div>
+    <div class="rule"></div>
+    <h1>Piano di progetto<br>e richiesta di finanziamento</h1>
+    <div class="sub">Siero leave-on per il cuoio capelluto. Che cosa sappiamo, che cosa stiamo ipotizzando, e che decisione compra ogni euro dei 250.000 richiesti.</div>
+  </div>
+  <div>
+    <div class="meta">
+      <b>Oggetto</b> · Piano di sviluppo e di lancio, fabbisogno di capitale, tappe di decisione<br>
+      <b>Base documentale</b> · Dossier tecnico di formulazione V9.3, formula guida C · ricerca di mercato e rilevazioni proprie<br>
+      <b>Data</b> · 22 settembre 2026<br>
+      <b>Stato</b> · Seconda stesura, dopo la revisione critica di un investitore
+    </div>
+    <div class="conf">Documento riservato · uso esclusivo del destinatario</div>
+  </div>
+</div>
+
+<section class="cont" style="page-break-before:always">
+  <h2><span class="num">00</span>Come leggere questo documento</h2>
+
+  <p class="lead">Serve a decidere se mettere 250.000 euro in un prodotto cosmetico che non esiste ancora. Descrive che cosa è già noto, che cosa resta una scommessa, e quale decisione viene comprata da ogni tranche di spesa. È scritto perché qualcuno lo contesti, quindi ogni numero dichiara da dove viene e ogni termine tecnico viene spiegato la prima volta.</p>
+
+  <h3>Tre livelli di affermazione, e li teniamo separati</h3>
+  <table>
+    <thead><tr><th style="width:26mm">Livello</th><th>Che cos'è</th><th style="width:44mm">Come lo riconoscete</th></tr></thead>
+    <tbody>
+      <tr><td><b>Dato</b></td><td>Verificabile da un terzo: viene dal dossier tecnico, da una pagina pubblica con indirizzo e data, o da una legge</td><td>nessuna etichetta, con la fonte accanto</td></tr>
+      <tr><td><b>Stima</b></td><td>Un calcolo fatto da noi a partire da dati. L'aritmetica è mostrata, i valori di partenza sono dichiarati</td><td>etichetta <span class="tag stima">stima</span></td></tr>
+      <tr><td><b>Ipotesi</b></td><td>Una scommessa non ancora verificata. Il piano serve a trasformarla in dato, o a scartarla</td><td>etichetta <span class="tag">ipotesi</span></td></tr>
+    </tbody>
+  </table>
+  <p>La distinzione conta più di quanto sembri. La prima stesura di questo piano trattava come acquisite diverse cose che erano scommesse, e un investitore che se ne accorge smette di fidarsi anche delle parti solide.</p>
+
+  <h3>Indice</h3>
+  <div class="toc">
+    <div class="e"><div class="t"><b>01</b>Che cosa compriamo con il capitale</div><div class="d">noto, ipotizzato, da verificare</div></div>
+    <div class="e"><div class="t"><b>02</b>Il prodotto e la formula guida</div><div class="d">che cos'è, a che punto è</div></div>
+    <div class="e"><div class="t"><b>03</b>Il mercato, ricostruito dal basso</div><div class="d">dalla popolazione ai clienti possibili</div></div>
+    <div class="e"><div class="t"><b>04</b>La concorrenza e il costo mensile vero</div><div class="d">la metrica che mancava a tutti</div></div>
+    <div class="e"><div class="t"><b>05</b>Che cosa possiamo dire, e come</div><div class="d">promesse consentite, prove, Academy</div></div>
+    <div class="e"><div class="t"><b>06</b>A chi vendere: due ipotesi da confrontare</div><div class="d">e come si decide fra loro</div></div>
+    <div class="e"><div class="t"><b>07</b>Dose, formato, garanzia</div><div class="d">un solo prodotto, numeri coerenti</div></div>
+    <div class="e"><div class="t"><b>08</b>Economia unitaria completa</div><div class="d">tutti i costi, e il CAC che possiamo permetterci</div></div>
+    <div class="e"><div class="t"><b>09</b>Coorti, cassa, pareggio</div><div class="d">quando rientrano i soldi</div></div>
+    <div class="e"><div class="t"><b>10</b>I 250.000 euro</div><div class="d">allocazione e tappe di decisione</div></div>
+    <div class="e"><div class="t"><b>11</b>I rischi</div><div class="d">in ordine di quanto possono fermare il progetto</div></div>
+    <div class="e"><div class="t"><b>12</b>Dopo questa raccolta</div><div class="d">difendibilità, seconda raccolta, ritorno</div></div>
+    <div class="e"><div class="t"><b>13</b>I primi novanta giorni</div><div class="d">che cosa parte subito</div></div>
+    <div class="e"><div class="t"><b>14</b>Metodo, fonti e limiti</div><div class="d">come è stato costruito</div></div>
+    <div class="e"><div class="t"><b>A</b>Appendice: i costi voce per voce</div><div class="d">per chiedere i preventivi</div></div>
+    <div class="e"><div class="t"><b>B</b>Appendice: la mappa competitiva</div><div class="d">metodo e stato della rilevazione</div></div>
+  </div>
+
+  <h3>Le parole che ricorrono</h3>
+  <table>
+    <thead><tr><th style="width:40mm">Termine</th><th>Che cosa significa qui</th></tr></thead>
+    <tbody>
+      <tr><td><b>Siero leave-on</b></td><td>Un liquido che si applica e non si risciacqua, a differenza di uno shampoo. Resta sulla pelle fino al lavaggio successivo.</td></tr>
+      <tr><td><b>Cuoio capelluto</b></td><td>La pelle sotto i capelli. Da qualche anno il settore ha iniziato a trattarla come la pelle del viso, ed è la corrente su cui si appoggia questo prodotto.</td></tr>
+      <tr><td><b>Attivo</b></td><td>Un ingrediente inserito perché fa qualcosa, non perché serve a dare consistenza o profumo. La quantità si esprime in percentuale sul peso totale.</td></tr>
+      <tr><td><b>Veicolo</b></td><td>Tutto ciò che non è un attivo: acqua, solventi, addensanti. Tiene gli attivi in soluzione e determina come il prodotto si sente addosso.</td></tr>
+      <tr><td><b>Claim</b></td><td>Quello che si può scrivere sulla confezione e in pubblicità. In Europa ogni claim va sostenuto da prove <em>sul prodotto finito</em>, non sui singoli ingredienti.</td></tr>
+      <tr><td><b>Costo di acquisizione</b></td><td>Quanto si spende in pubblicità per portare un cliente nuovo al primo acquisto. Nel testo compare anche come CAC.</td></tr>
+      <tr><td><b>Contribuzione</b></td><td>Quello che resta di un ordine dopo il costo del prodotto, la spedizione, le commissioni e l'assistenza, prima della pubblicità e prima dei costi fissi.</td></tr>
+      <tr><td><b>Percorso</b></td><td>La confezione da tre o sei flaconi, cioè il ciclo di trattamento completo.</td></tr>
+      <tr><td><b>Academy</b></td><td>Una sezione del sito, proposta qui, che pubblica gli studi scientifici sugli ingredienti della categoria con i loro limiti. Serve ad aiutare il cliente a valutare, non a suggerire conclusioni. Spiegata nel capitolo 05.</td></tr>
+      <tr><td><b>Airless</b></td><td>Flacone con pompa che eroga senza far entrare aria. Protegge gli ingredienti che si ossidano e dosa una quantità fissa a ogni pressione.</td></tr>
+      <tr><td><b>Formula guida</b></td><td>La configurazione su cui si sviluppa il prodotto. Qui è la C. Le alternative restano documentate nel dossier tecnico.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2><span class="num">01</span>Che cosa compriamo con il capitale</h2>
+
+  <p class="lead">Questa è la tabella che un investitore dovrebbe leggere per prima. Divide ciò che sappiamo da ciò che stiamo scommettendo, e indica quale spesa risolve ciascuna scommessa.</p>
+
+  <table>
+    <caption>Le voci in grassetto sono quelle che possono fermare il progetto.</caption>
+    <thead><tr><th style="width:52mm">Questione</th><th class="c" style="width:18mm">Stato</th><th>Che cosa la risolve, e quanto costa</th></tr></thead>
+    <tbody>
+      <tr><td>Composizione, dosi, razionale, alternative</td><td class="c">noto</td><td>Il dossier tecnico è completo e documentato</td></tr>
+      <tr><td>Quadro normativo sui claim</td><td class="c">noto</td><td>Regolamento europeo e documento tecnico della Commissione</td></tr>
+      <tr><td>Prezzi e formati della concorrenza</td><td class="c">parziale</td><td>Rilevazione in corso, 24 prodotti. Lavoro interno, due giorni</td></tr>
+      <tr><td><b>La formula si può davvero produrre entro i vincoli d'uso</b></td><td class="c">ipotesi</td><td>Fattibilità e micro-prove di laboratorio, fasi 0-3. <b>18-50 mila euro</b></td></tr>
+      <tr><td><b>È tollerata nell'uso ripetuto</b></td><td class="c">ipotesi</td><td>Verifica dermatologica su 30-40 persone per 4 settimane. <b>4-11 mila euro</b></td></tr>
+      <tr><td><b>La formula guida non ricade in brevetti altrui</b></td><td class="c">ipotesi</td><td>Parere di un mandatario sulla configurazione C. <b>1,5-5 mila euro</b></td></tr>
+      <tr><td>Possiamo dire qualcosa che valga il prezzo</td><td class="c">ipotesi</td><td>Un protocollo unico a 4 settimane più la misura dell'aspetto. <b>12-30 mila euro</b></td></tr>
+      <tr><td><b>Esiste un pubblico disposto a pagare ~50 euro al mese</b></td><td class="c">ipotesi</td><td>Interviste, poi pagine di prova con preordine. <b>20-40 mila euro</b></td></tr>
+      <tr><td><b>Acquisire un cliente costa meno di 50 euro</b></td><td class="c">ipotesi</td><td>Solo la vendita vera lo dice. È la tappa finale del piano</td></tr>
+      <tr><td>Chi compra il percorso lo completa</td><td class="c">ipotesi</td><td>Si misura sulle prime coorti a 150 giorni</td></tr>
+      <tr><td>Il vantaggio è difendibile</td><td class="c">ipotesi</td><td>Non dalla formula. Da dati propri, riacquisto e reputazione, che si costruiscono col tempo</td></tr>
+    </tbody>
+  </table>
+
+  <div class="key">
+    <span class="label">La premessa, detta come va detta</span>
+    <p>Abbiamo un capitolato tecnico avanzato, una formula guida e alternative documentate. La superiorità del prodotto, la disponibilità a pagare e il vantaggio commerciale restano ipotesi. <b>Questo piano serve a verificarle con il minor capitale possibile, e a fermarsi presto se non reggono.</b></p>
+  </div>
+
+  <p>Nella prima stesura di questo documento diverse di queste righe comparivano come fatti acquisiti. Un investitore ce lo ha fatto notare, il rilievo era corretto, e la versione che state leggendo è la conseguenza.</p>
+</section>
+
+<section>
+  <h2><span class="num">02</span>Il prodotto e la formula guida</h2>
+
+  <p class="lead">Un siero da applicare sul cuoio capelluto ogni sera e non risciacquare, pensato per un uso continuato di sei-dodici mesi. Lavora su due fronti: la densità del capello e la salute della pelle che sta sotto.</p>
+
+  <h3>La formula guida è la C</h3>
+  <p>Il dossier tecnico descrive tre configurazioni complete e due riserve. Quella su cui si sviluppa è la <b>C</b>: trentacinque ingredienti, priva della diaminopirimidina ossido. La A, che contiene anche quella molecola, resta un'opzione e verrà ripresa solo se il parere brevettuale la dichiarerà percorribile. La B interviene se il piroctone olamina dà problemi di stabilità o di approvvigionamento.</p>
+  <p>Avere tre architetture già calcolate non è una raffinatezza da laboratorio. Significa che un problema di fornitura o un brevetto altrui non fermano il progetto, lo fanno cambiare strada. Per chi finanzia, riduce la probabilità di pagare mesi di lavoro che si interrompono al primo ostacolo.</p>
+
+  <h3>La regola sulle dosi, detta con precisione</h3>
+  <p>Il principio del dossier è che un attivo entra alla dose dello studio che lo giustifica, oppure resta fuori. Applicato alla lettera non è vero per tutta la formula, e conviene dirlo prima che lo scopra qualcun altro.</p>
+  <table>
+    <thead><tr><th style="width:44mm">Categoria</th><th>Regola effettiva</th></tr></thead>
+    <tbody>
+      <tr><td><b>Attivi protetti</b><br><span class="note">adenosina, procianidine, niacinamide, ectoina</span></td><td>Dose e identità fisse, corrispondenti allo studio di riferimento. Non si toccano</td></tr>
+      <tr><td><b>Attivi condizionati</b><br><span class="note">piroctone olamina, estratti botanici</span></td><td>Dose motivata, <b>non sempre uguale a quella dello studio</b>. Il piroctone sta allo 0,30% mentre lo studio sul prodotto da non risciacquare usava lo 0,45%: il dossier lo scrive, e lo scriviamo anche noi</td></tr>
+      <tr><td>Veicolo e sensoriali</td><td>Ottimizzabili dal laboratorio entro i vincoli d'uso</td></tr>
+    </tbody>
+  </table>
+  <p>La promessa corretta, quella che useremo anche in comunicazione, suona così: <i>gli attivi protetti sono alla dose dello studio; per gli altri la dose è motivata e la differenza rispetto allo studio è dichiarata</i>. È meno slogan della versione assoluta. Ha il vantaggio di essere vera, il che conta parecchio per un marchio che ha scelto di pubblicare le proprie schede.</p>
+
+  <h3>A che punto siamo</h3>
+  <p>La formula è definita e pronta per andare a un laboratorio esterno. Non esistono prove di durata nel tempo, non esiste un lotto di prova, nessuno studio è stato eseguito sul prodotto finito. Con tempi realistici il lancio cade fra i dodici e i ventiquattro mesi da oggi, il che ha una conseguenza che il piano finanziario deve tenere: <b>l'anno uno dalla raccolta non è l'anno uno commerciale</b>. I ricavi cominciano dopo, e i clienti acquisiti a dicembre consumano quasi tutto l'anno successivo.</p>
+</section>
+
+<section>
+  <h2><span class="num">03</span>Il mercato, ricostruito dal basso</h2>
+
+  <p class="lead">La versione precedente di questa analisi dichiarava 800.000 persone interessate e 35-55 mila raggiungibili, senza mostrare come ci si arrivava. Qui ogni passaggio è una moltiplicazione visibile, con la sua fonte e la sua incertezza.</p>
+
+  <h3>Popolazione con diradamento, in Italia</h3>
+  <table>
+    <caption>Popolazione residente da arrotondare sui dati Istat correnti; prevalenza dell'alopecia androgenetica da studi di popolazione su soggetti caucasici. <span class="tag stima">stima</span></caption>
+    <thead><tr><th>Fascia</th><th class="n">Popolazione</th><th class="n">Prevalenza</th><th class="n">Con diradamento</th></tr></thead>
+    <tbody>
+      <tr><td>Uomini 25-34</td><td class="n">3,2 M</td><td class="n">25%</td><td class="n">800.000</td></tr>
+      <tr><td>Uomini 35-44</td><td class="n">3,5 M</td><td class="n">40%</td><td class="n">1.400.000</td></tr>
+      <tr><td>Uomini 45-54</td><td class="n">4,4 M</td><td class="n">50%</td><td class="n">2.200.000</td></tr>
+      <tr><td>Donne 25-34</td><td class="n">3,1 M</td><td class="n">12%</td><td class="n">372.000</td></tr>
+      <tr><td>Donne 35-44</td><td class="n">3,5 M</td><td class="n">20%</td><td class="n">700.000</td></tr>
+      <tr><td>Donne 45-54</td><td class="n">4,5 M</td><td class="n">25%</td><td class="n">1.125.000</td></tr>
+      <tr class="hi"><td><b>Totale 25-54</b></td><td class="n">22,2 M</td><td class="n">30%</td><td class="n"><b>6,6 milioni</b></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Dal diradamento al cliente possibile</h3>
+  <table>
+    <caption>Ogni riga è una moltiplicazione. Le percentuali in colonna centrale sono le nostre ipotesi: sono il punto in cui l'analisi è più contestabile, e vanno discusse una per una. <span class="tag">ipotesi</span></caption>
+    <thead><tr><th>Passaggio</th><th class="c" style="width:22mm">Quota</th><th class="n" style="width:26mm">Persone</th><th style="width:52mm">Su che cosa si regge</th></tr></thead>
+    <tbody>
+      <tr><td>Con diradamento, 25-54 anni</td><td class="c">—</td><td class="n">6.600.000</td><td>Tabella sopra</td></tr>
+      <tr><td>Lo percepisce e vuole intervenire</td><td class="c">20%</td><td class="n">1.320.000</td><td>Molti hanno il fenomeno senza considerarlo un problema. Da verificare nelle interviste</td></tr>
+      <tr><td>Compra almeno un prodotto topico all'anno</td><td class="c">25%</td><td class="n">330.000</td><td>Gli altri usano integratori, shampoo, farmaci, o nulla</td></tr>
+      <tr><td>Accetta una spesa di 45 € al mese o più</td><td class="c">15%</td><td class="n">49.500</td><td><b>Il filtro più selettivo e il più incerto.</b> Il prezzo mediano della categoria in farmacia è molto più basso</td></tr>
+      <tr class="hi"><td><b>Raggiungibile dai nostri canali</b></td><td class="c">70%</td><td class="n"><b>34.650</b></td><td>Acquista online, legge in italiano, non dipende dal consiglio del farmacista</td></tr>
+    </tbody>
+  </table>
+
+  <p>Trentacinquemila persone all'anno in Italia. Estendendo a Germania e Spagna con le stesse proporzioni si arriva fra le 150 e le 230 mila, con l'avvertenza che la Germania ha un mercato della farmacia più forte e la Spagna una capacità di spesa diversa.</p>
+
+  <h3>Che quota possiamo prendere</h3>
+  <table>
+    <caption>Applicata al mercato servibile italiano di 34.650 persone.</caption>
+    <thead><tr><th>Scenario</th><th class="n">Quota</th><th class="n">Clienti/anno in Italia</th><th>Confronto</th></tr></thead>
+    <tbody>
+      <tr><td>Prudente</td><td class="n">2%</td><td class="n">700</td><td>Un marchio piccolo e poco visibile</td></tr>
+      <tr class="hi"><td><b>Centrale</b></td><td class="n"><b>4%</b></td><td class="n"><b>1.400</b></td><td>Buona esecuzione digitale, nessun accesso al retail fisico</td></tr>
+      <tr><td>Buono</td><td class="n">7%</td><td class="n">2.400</td><td>Con canale professionale e prime presenze in profumeria</td></tr>
+    </tbody>
+  </table>
+
+  <div class="key warn">
+    <span class="label">Dove questa ricostruzione può sbagliare</span>
+    <p>Le quattro percentuali della seconda tabella non sono misurate. Se la disponibilità a spendere 45 euro al mese fosse del 5% invece che del 15%, il mercato servibile scenderebbe da 34.650 a 11.550 persone e il piano andrebbe rifatto. <b>È la singola ipotesi che più conviene attaccare</b>, ed è la ragione per cui le interviste e il test con preordine vengono prima di qualunque spesa di produzione.</p>
+  </div>
+
+  <p>Un'ultima avvertenza sul tetto. Nella stesura precedente comparivano cinque-quindici milioni di ricavi europei come «tetto realistico». Quel numero veniva dall'analogia con un marchio nordeuropeo che dichiara oltre duecentomila clienti, non da una misura. Resta uno scenario di riferimento, e va letto come tale.</p>
+</section>
+
+<section>
+  <h2><span class="num">04</span>La concorrenza e il costo mensile vero</h2>
+
+  <p class="lead">Tutti i confronti di prezzo della categoria si fanno a parità di volume: sessanta millilitri contro sessanta millilitri. È il confronto che vede chi guarda uno scaffale, e non ha quasi nulla a che vedere con quello che il cliente spende davvero, perché le dosi giornaliere vanno da mezzo millilitro a quattro.</p>
+
+  <h3>Quello che succede aggiungendo la colonna della dose</h3>
+  <table>
+    <caption>Dose e durata dalle indicazioni d'uso pubblicate dalle marche; prezzi da rilevazione in corso, da riconfermare con indirizzo e data. Il costo mensile è calcolato, non dichiarato dalle marche. <span class="tag stima">stima</span></caption>
+    <thead><tr><th>Prodotto</th><th class="n">Formato</th><th class="n">Prezzo</th><th>Dose dichiarata</th><th class="n">Durata</th><th class="n">Costo/mese</th></tr></thead>
+    <tbody>
+      <tr><td>Bioscalin TricoAge</td><td class="n">40 mL</td><td class="n">48,56 €</td><td>6 pipette ogni 3 giorni</td><td class="n">~90 gg</td><td class="n">16 €</td></tr>
+      <tr><td>The Ordinary Multi-Peptide</td><td class="n">60 mL</td><td class="n">26,50 €</td><td>da rilevare</td><td class="n">—</td><td class="n">—</td></tr>
+      <tr><td>Kérastase Genesis</td><td class="n">90 mL</td><td class="n">56,90 €</td><td>4 pipette, 1 volta/die</td><td class="n">~38 gg</td><td class="n">45 €</td></tr>
+      <tr><td>OUAI Scalp Serum</td><td class="n">60 mL</td><td class="n">61,00 €</td><td>2 contagocce, ~1,5 mL</td><td class="n">~40 gg</td><td class="n">46 €</td></tr>
+      <tr class="hi"><td><b>KRINÉ, percorso da 6</b></td><td class="n"><b>360 mL</b></td><td class="n"><b>279 €</b></td><td><b>2 mL la sera</b></td><td class="n"><b>171 gg</b></td><td class="n"><b>49 €</b></td></tr>
+      <tr><td>Ducray Neoptide</td><td class="n">90 mL</td><td class="n">44,94 €</td><td>circa 12 spruzzi/die, ciclo 3 mesi</td><td class="n">~90 gg</td><td class="n">15 €</td></tr>
+      <tr><td>Vichy Dercos Aminexil 5</td><td class="n">126 mL</td><td class="n">51,20 €</td><td>3 fiale a settimana</td><td class="n">~49 gg</td><td class="n">31 €</td></tr>
+      <tr><td>Scandinavian Biolabs Bio-Pilixin</td><td class="n">100 mL</td><td class="n">55,00 €</td><td>almeno 2 pipette/die</td><td class="n">~50 gg</td><td class="n">33 €</td></tr>
+      <tr><td>Nioxin Night Density</td><td class="n">70 mL</td><td class="n">60,69 €</td><td>2-4 pipette ogni sera</td><td class="n">23-35 gg</td><td class="n">52-79 €</td></tr>
+      <tr><td>Living Proof Density</td><td class="n">50 mL</td><td class="n">66,00 €</td><td>2-3 contagocce/die</td><td class="n">~30 gg</td><td class="n">66 €</td></tr>
+    </tbody>
+  </table>
+
+  <p>Due conclusioni della stesura precedente erano sbagliate, e vanno corrette in modo esplicito.</p>
+
+  <p><b>Non siamo il prodotto a dose più alta della categoria.</b> Kérastase indica quattro pipette al giorno, che sui novanta millilitri dichiarati corrispondono a circa 2,4 mL. Nioxin arriva a quattro pipette ogni sera. I nostri due millilitri stanno in mezzo, non in cima.</p>
+
+  <p><b>Non siamo nemmeno i più cari al mese.</b> A quarantanove euro il percorso da sei flaconi costa meno di Living Proof, quanto OUAI e Kérastase, meno di Nioxin nel suo regime pieno. Nella versione precedente scrivevamo di chiedere più di tutti potendo promettere meno: era un errore di calcolo, non di giudizio, e andava nella direzione di sottovalutarci.</p>
+
+  <h3>Il canale che avevamo sottovalutato</h3>
+  <p>L'ancoraggio basso del mercato italiano non è The Ordinary a ventisei euro. È la <b>farmacia</b>, dove Bioscalin costa sedici euro al mese e Ducray quindici. Entrambi hanno risolto il problema del costo mensile dal lato della frequenza: applicazioni diradate, oppure dosi piccole distribuite su un ciclo di tre mesi.</p>
+  <p>Bioscalin dichiara la leadership del mercato anticaduta italiano, ha il consiglio del banco e venticinque anni di pubblicità televisiva alle spalle, e costa un terzo di noi. Il confronto non si vince sul prezzo e nemmeno sulla comodità. Si può provare a vincerlo solo su ciò che in farmacia nessuno fa: dichiarare le quantità, pubblicare le prove, dire dove l'evidenza è debole.</p>
+  <p>Questo sposta anche il modo in cui si legge la nostra collocazione. Nella fascia premium digitale stiamo in mezzo al gruppo. Rispetto alla farmacia italiana siamo tre volte più cari, e quella distanza va giustificata con qualcosa che il cliente possa verificare da solo.</p>
+
+  <h3>Sulla trasparenza: quanto è libero il terreno</h3>
+  <p>Avevamo scritto che dichiarare le percentuali degli attivi «non lo fa nessuno». È falso. The INKEY List pubblica 1% di caffeina, 1% di Redensyl e 1% di betaina sul suo trattamento per il cuoio capelluto, e lo usa come argomento di vendita.</p>
+  <p>La distinzione che regge, e che va verificata prodotto per prodotto invece che affermata, è un'altra: INKEY dichiara <b>tre percentuali scelte</b> su una formula di quattordici ingredienti. Dichiararle tutte è un'altra cosa; pubblicare accanto la qualità delle prove, con i loro limiti e le loro smentite, è un'altra cosa ancora. Nella mappa competitiva la colonna che misura questo esiste e ha tre valori possibili: nessuna, alcune, tutte. Quando sarà compilata sapremo se il terreno è libero.</p>
+
+  <div class="key">
+    <span class="label">Stato della rilevazione</span>
+    <p>Ventiquattro prodotti in griglia, con prezzo e formato per sedici, dose dichiarata per nove, costo mensile calcolabile per otto. <b>Nessuna riga è ancora verificata aprendo la pagina</b>, e finché resta così la mappa è un punto di partenza, non una fonte. Metodo e istruzioni sono in appendice B.</p>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">05</span>Che cosa possiamo dire, e come</h2>
+
+  <p class="lead">Un pubblico si può aggredire solo se il beneficio che compra sta a un livello che possiamo sostenere con prove il giorno in cui parte la campagna. Questo capitolo dice qual è quel livello, che cosa costa alzarlo, e che cosa possiamo usare nel frattempo.</p>
+
+  <h3>La scala delle promesse</h3>
+  <p>La legge europea gradua le affermazioni sui cosmetici: più forte è la promessa, più pesante la prova. Il dossier ha tradotto la gradazione in cinque livelli.</p>
+  <table>
+    <caption>Costi e tempi sono stime da confermare con preventivi. Il livello 2 e il livello 3a si possono comprare in un protocollo solo, ed è quello che intendiamo fare.</caption>
+    <thead><tr><th style="width:8mm">Liv.</th><th style="width:38mm">Che cosa si può dire</th><th>Prove necessarie</th><th class="n" style="width:22mm">Costo</th><th class="c" style="width:20mm">Al lancio?</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>«Non unge», «asciuga in fretta»</td><td>Prove strumentali e d'uso sul prodotto</td><td class="n">4-9 k€</td><td class="c"><b>sì</b></td></tr>
+      <tr><td>2</td><td>Cuoio capelluto più confortevole, meno desquamazione, meno prurito</td><td>Misure di idratazione e barriera, valutazione dermatologica</td><td class="n">9-20 k€</td><td class="c"><b>sì</b></td></tr>
+      <tr><td>3a</td><td>Aspetto del capello nel breve periodo</td><td>Fotografie standardizzate, gruppo di valutatori, volume alla radice</td><td class="n">6-15 k€</td><td class="c"><b>sì</b></td></tr>
+      <tr class="hi"><td>3b</td><td>«Capelli dall'aspetto più pieno», dimostrato</td><td>Conteggio fotografico a 24 settimane contro prodotto senza attivi</td><td class="n">70-150 k€</td><td class="c">no</td></tr>
+      <tr><td>4</td><td>«Aiuta a ridurre la caduta quotidiana»</td><td>Studio controllato sul prodotto finito</td><td class="n">80-180 k€</td><td class="c">no</td></tr>
+      <tr><td>5</td><td>«Stimola la ricrescita», «tratta la calvizie»</td><td>—</td><td class="n">—</td><td class="c">mai</td></tr>
+    </tbody>
+  </table>
+  <p>Il livello 5 non è una limitazione subita. Un prodotto presentato come capace di curare una condizione diventa un medicinale per presentazione, con regole incomparabilmente più severe e un percorso autorizzativo che non abbiamo alcuna intenzione di affrontare.</p>
+  <p>Una precisazione che ci era stata contestata, e giustamente: <b>la norma non richiede uno studio nuovo per ogni messaggio o per ogni pubblico.</b> Richiede prove pertinenti e adeguate al beneficio dichiarato. Un protocollo ben disegnato può sostenere più claim, ed è la ragione per cui le voci di spesa del livello 1, 2 e 3a si comprano insieme.</p>
+
+  <h3>Che cosa usano i concorrenti che non hanno studi propri</h3>
+  <table>
+    <thead><tr><th style="width:46mm">Strumento</th><th>Che cosa permette</th><th class="n" style="width:20mm">Costo</th></tr></thead>
+    <tbody>
+      <tr><td>«Testato dermatologicamente»</td><td>Si riferisce alla tollerabilità, non all'efficacia. Il consumatore lo legge come garanzia di qualità</td><td class="n">0,8-2 k€</td></tr>
+      <tr><td>Percentuali di gradimento su un gruppo di utilizzatori</td><td>«L'87% ha percepito il cuoio capelluto più confortevole». Legale se presentata come autovalutazione, con metodo depositato</td><td class="n">inclusa nel protocollo</td></tr>
+      <tr><td>Misure strumentali</td><td>Oggettive, verificabili, e suonano cliniche perché lo sono</td><td class="n">inclusa nel protocollo</td></tr>
+      <tr><td>Dati del fornitore dell'ingrediente</td><td>Utilizzabili solo argomentando che il risultato si trasferisce al prodotto finito</td><td class="n">0</td></tr>
+    </tbody>
+  </table>
+  <p>Un limite da conoscere: l'autovalutazione non basta quando il claim implica un risultato biologico misurabile in un momento preciso. Esistono casi sanzionati per «clinicamente provato meno 47% di rughe» sostenuto da un questionario a diciotto persone.</p>
+
+  <h3>L'Academy</h3>
+  <p>Una sezione del sito che fa informazione sugli ingredienti della categoria, non solo sui nostri. Per ciascuno: gli studi esistenti, come erano disegnati, quante persone, quanto duravano, chi li ha finanziati, quali limiti hanno, e le prove sfavorevoli accanto a quelle favorevoli.</p>
+
+  <p>Nella prima stesura la ragione per costruirla era sbagliata. Avevamo scritto che, poiché la conclusione la trae il lettore, la conclusione non è un nostro claim. Il ragionamento non regge: la valutazione tiene conto delle attribuzioni implicite e del contesto, e mettere una sezione su un sito che vende non la rende estranea alla comunicazione commerciale.</p>
+
+  <div class="key">
+    <span class="label">La ragione giusta</span>
+    <p>L'Academy serve ad <b>aiutare il cliente a valutare evidenze e limiti</b>, in una categoria dove nessuno lo fa e dove chi compra ha quasi sempre già speso soldi senza risultato. Non serve a fargli dedurre una superiorità che non abbiamo dimostrato. La differenza non è filosofica: decide come si scrivono le pagine, dove stanno, e che cosa non ci si può mettere.</p>
+  </div>
+
+  <p>Tre vincoli che ne derivano, e che vanno rispettati dal primo contenuto:</p>
+  <ul>
+    <li><b>Niente ripubblicazione dei testi.</b> Comprare un articolo scientifico non dà il diritto di ospitarlo. Si pubblicano sintesi originali, tabelle di dati e collegamenti, con i diritti verificati prima.</li>
+    <li><b>Completezza obbligatoria.</b> Le prove sfavorevoli con lo stesso rilievo di quelle favorevoli, comprese quelle che riguardano i nostri attivi e le concentrazioni che non usiamo.</li>
+    <li><b>Nessun numero di efficacia accanto al carrello</b>, e nessuna campagna che porti direttamente a una scheda con un aggancio di efficacia.</li>
+  </ul>
+
+  <p>Sul ritorno commerciale siamo stati ottimisti e va corretto. Il posizionamento sui motori di ricerca richiede da nove a diciotto mesi, l'esito non è garantito, e contenuti, revisione, aggiornamento e traduzioni hanno un costo ricorrente. <b>Nel piano finanziario l'Academy non porta nessuna riduzione certa del costo di acquisizione.</b> È una scommessa il cui costo è noto e il cui ritorno va misurato.</p>
+
+  <h3>Lo stato delle prove, sulla pagina prodotto</h3>
+  <div class="key">
+    <span class="label">Stato delle prove · aggiornato al [data]</span>
+    <p><b>Le percentuali qui sopra sono quelle reali della formula.</b> Gli studi che trovi in Academy sono stati condotti sui singoli ingredienti, non su questo prodotto: non è dimostrato che i loro risultati si trasferiscano alla formula completa, né che gli effetti si sommino tra loro.</p>
+    <p><b>Su questo prodotto abbiamo dimostrato:</b> comfort del cuoio capelluto, riduzione della desquamazione visibile, assenza di residuo.<br>
+    <b>Non abbiamo ancora dimostrato:</b> aumento della densità, riduzione della caduta.</p>
+  </div>
+  <p>Questa riga ha una funzione economica oltre che etica. Il tasso di rimborso di una garanzia lunga dipende dalla distanza fra quello che il cliente ha creduto di comprare e quello che il prodotto dimostra. Abbassare l'aspettativa in modo esplicito riduce i rimborsi, e nel capitolo 08 si vede quanto pesano.</p>
+</section>
+
+<section>
+  <h2><span class="num">06</span>A chi vendere: due ipotesi da confrontare</h2>
+
+  <p class="lead">La stesura precedente classificava quattordici pubblici con un punteggio e ne dichiarava uno vincitore. Il metodo aveva un difetto che un lettore attento ha individuato subito: i punteggi erano ipotesi, e il risultato della somma veniva poi usato come se fosse una prova. Qui il ragionamento è rifatto.</p>
+
+  <h3>Prima correggiamo una lettura scientifica</h3>
+  <p>Avevamo sostenuto che l'evidenza degli attivi è «in parte femminile», elencando gli studi condotti su sole donne. La tabella era vera e incompleta, perché ometteva le concentrazioni.</p>
+  <table>
+    <caption>Dalla matrice degli studi del dossier tecnico, con le colonne che mancavano alla versione precedente. <span class="tag dato">dato</span></caption>
+    <thead><tr><th style="width:34mm">Attivo</th><th style="width:34mm">Popolazione</th><th class="n">Dose studiata</th><th class="n">Nostra dose</th><th>Trasferibilità</th></tr></thead>
+    <tbody>
+      <tr><td>Adenosina, 2008</td><td>30 donne</td><td class="n">0,75%</td><td class="n">0,75%</td><td>Stessa dose. Regime a due applicazioni contro la nostra singola</td></tr>
+      <tr><td>Adenosina, 2024</td><td>27 uomini, 19 donne</td><td class="n">0,75%</td><td class="n">0,75%</td><td>Stessa dose e stesso regime. Disegno senza controllo con veicolo</td></tr>
+      <tr class="hi"><td>Piroctone olamina, 2021</td><td>43 donne</td><td class="n">0,45%</td><td class="n"><b>0,30%</b></td><td><b>Dose inferiore.</b> Il dossier annota che quel risultato non valida lo 0,30%</td></tr>
+      <tr class="hi"><td>Melatonina, 2004</td><td>40 donne</td><td class="n">0,1%</td><td class="n"><b>0,0033%</b></td><td><b>Trenta volte inferiore.</b> Il dossier dichiara che il risultato non si trasferisce</td></tr>
+    </tbody>
+  </table>
+  <p>Con le concentrazioni davanti, la conclusione cade: <b>il sesso dei partecipanti non stabilisce quale pubblico sia più favorevole alla formula completa.</b> Serviva a un'altra cosa, e per quella resta valido: smontare l'idea che il prodotto sia «maschile» perché il dossier lo aveva descritto così. Non è maschile né femminile, e la scelta del pubblico va fatta su altro.</p>
+
+  <h3>Le due ipotesi che mettiamo alla prova</h3>
+  <p>Invece di una classifica, due candidature. Si sceglie prima il problema concreto, poi l'età e il genere utili a raggiungerlo.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="h">Ipotesi 1 — il profilo tecnico</div>
+      <p>Persone con cute da normale a grassa, desquamazione lieve, prurito occasionale e diradamento percepito. Uomini e donne.</p>
+      <p style="margin-top:2mm"><b>A favore:</b> è il profilo per cui la formula è stata pensata, e il beneficio che compra (comfort, meno desquamazione) è quello che possiamo dimostrare per primo, con nove-venti mila euro e otto settimane.</p>
+      <p style="margin-top:2mm"><b>Contro:</b> chi vuole solo lenire la cute trova prodotti a dieci-trenta euro. La disponibilità a spendere cinquanta euro al mese va costruita sul diradamento, non sul comfort.</p>
+    </div>
+    <div class="card">
+      <div class="h">Ipotesi 2 — la spesa cosmetica già esistente</div>
+      <p>Persone abituate a spendere in cosmetica, che cercano soprattutto comfort e aspetto dei capelli. Prevalentemente donne fra 30 e 55 anni.</p>
+      <p style="margin-top:2mm"><b>A favore:</b> capacità di spesa più alta, canale digitale meno caro, abitudine a valutare ingredienti e concentrazioni. Il nostro modo di comunicare le parla.</p>
+      <p style="margin-top:2mm"><b>Contro:</b> è il pubblico più affollato di marchi noti, e dentro ci sono persone con aspettative molto diverse. Alcune comprano comfort, altre si aspettano meno caduta, che non possiamo promettere.</p>
+    </div>
+  </div>
+
+  <p>A parità di informazioni la prima è più coerente con il prodotto che abbiamo. La seconda è commercialmente più interessante. Non lo sappiamo, ed è precisamente il tipo di cosa che si decide ascoltando, non ragionando.</p>
+
+  <h3>Come si decide, e in che ordine</h3>
+  <table>
+    <thead><tr><th style="width:36mm">Passo</th><th>Che cosa misura</th><th class="n" style="width:20mm">Costo</th><th class="c" style="width:20mm">Quando</th></tr></thead>
+    <tbody>
+      <tr><td><b>Dodici-sedici interviste</b>, condotte dai fondatori</td><td>Acquisti già fatti, spesa reale, prodotti abbandonati e perché. Non «compreresti a 59 euro», che non misura nulla</td><td class="n">6-12 k€</td><td class="c">mesi 1-3</td></tr>
+      <tr><td><b>Confronti a pagamento, una domanda per volta</b></td><td>Prima il messaggio, poi il prezzo, poi la garanzia. Mai tutto insieme</td><td class="n">15-30 k€</td><td class="c">mesi 4-9</td></tr>
+      <tr><td>Preordine con caparra rimborsabile</td><td>Impegno reale, che è un'altra cosa dall'interesse dichiarato</td><td class="n">incluso sopra</td><td class="c">mesi 6-9</td></tr>
+      <tr><td>Vendita vera</td><td>L'unica misura del costo di acquisizione</td><td class="n">al lancio</td><td class="c">mesi 15+</td></tr>
+    </tbody>
+  </table>
+
+  <div class="key warn">
+    <span class="label">Un errore di disegno che avevamo già scritto</span>
+    <p>Il piano precedente proponeva tre messaggi per tre prezzi con garanzia mostrata o nascosta. Sono <b>diciotto combinazioni</b>: con il traffico che ci possiamo permettere, nessuna cella raggiunge un numero di conversioni su cui si possa concludere qualcosa. I confronti vanno fatti in sequenza, tenendo ferma ogni variabile tranne quella in esame.</p>
+  </div>
+
+  <p>Una lista d'attesa misura curiosità. Una caparra misura impegno. Nessuna delle due è il costo di acquisizione di un cliente che compra, riceve il prodotto e non lo restituisce. Quel numero arriva solo con la vendita, ed è per questo che l'ultima tranche del capitale serve a misurarlo.</p>
+</section>
+
+<section>
+  <h2><span class="num">07</span>Dose, formato, garanzia</h2>
+
+  <p class="lead">Tre decisioni che devono descrivere lo stesso prodotto. Nella stesura precedente non lo facevano, e l'incoerenza era aritmetica.</p>
+
+  <h3>Quanto prodotto, e quante volte</h3>
+  <table>
+    <caption>Regimi usati dagli studi che sostengono gli attivi. <span class="tag dato">dato</span></caption>
+    <thead><tr><th>Studio</th><th style="width:44mm">Regime</th><th class="n" style="width:28mm">Totale al giorno</th></tr></thead>
+    <tbody>
+      <tr><td>Adenosina con pantenolo e niacinamide, 2024</td><td>1 mL una volta al giorno</td><td class="n">1 mL</td></tr>
+      <tr><td>Adenosina, 2008 e 2015</td><td>due volte al giorno</td><td class="n">circa 2 mL</td></tr>
+      <tr><td>Diaminopirimidina ossido, 2023</td><td>1 mL due volte al giorno</td><td class="n">2 mL</td></tr>
+      <tr><td>Piroctone olamina, 2021</td><td>1,5 g per metà testa, una volta al giorno</td><td class="n">circa 3 mL</td></tr>
+    </tbody>
+  </table>
+  <p>Due millilitri al giorno è la mediana. Il nostro regime li concentra in una sola applicazione serale, e questo va detto con una precisione che prima ci mancava: <b>un millilitro due volte al giorno e due millilitri una volta hanno lo stesso volume complessivo, ma non è dimostrato che abbiano lo stesso effetto biologico.</b> Frequenza, quantità per applicazione e quantità giornaliera sono tre cose diverse e vanno tenute separate anche quando conviene confonderle.</p>
+
+  <h3>L'area, e il massimo d'uso</h3>
+  <p>Il rituale definito per superficie — un'erogazione da mezzo millilitro ogni trenta centimetri quadrati — rende il prodotto indipendente dal sesso di chi lo usa, perché la quantità che arriva su ogni centimetro di pelle resta la stessa. Ha però una conseguenza che la stesura precedente non aveva calcolato: su un'area ampia si arriva a tre millilitri per applicazione, e combinandolo con una seconda applicazione si arriverebbe a sei millilitri al giorno.</p>
+  <p>Per questo la formulazione «fino a due applicazioni» non basta. Il massimo d'uso va espresso in <b>millilitri al giorno</b>, deciso una volta sola su base tecnica, e portato al valutatore della sicurezza in quella forma. Finché non c'è quella decisione, nel materiale commerciale compare solo il regime di riferimento.</p>
+
+  <h3>Il formato, e l'errore che abbiamo corretto</h3>
+  <p>Sessanta millilitri, meno il cinque per cento che resta nel flacone airless, fanno cinquantasette millilitri utilizzabili. A due millilitri al giorno sono ventotto giorni e mezzo.</p>
+  <div class="key warn">
+    <span class="label">Cinque flaconi non coprono 150 giorni</span>
+    <p>Cinque flaconi danno 285 mL, cioè <b>142,5 giorni</b>. La garanzia a 150 giorni condizionata all'acquisto di cinque flaconi, che avevamo scritto, chiedeva al cliente meno prodotto di quanto il periodo richiede. Per coprire i 150 giorni servono 5,26 flaconi.</p>
+    <p>Correzione: <b>il percorso diventa da sei flaconi</b>, 342 mL, 171 giorni. Copre i 150 con margine e non obbliga il cliente a comprare un flacone in più a metà strada.</p>
+  </div>
+
+  <table>
+    <thead><tr><th>Formato</th><th class="n">Giorni</th><th class="n">Prezzo</th><th class="n">€/mese</th><th class="n">€/mL</th><th>Ruolo</th></tr></thead>
+    <tbody>
+      <tr><td>60 mL singolo</td><td class="n">28,5</td><td class="n">59 €</td><td class="n">62 €</td><td class="n">0,98</td><td>Riferimento di prezzo, prova, scaffale</td></tr>
+      <tr><td>Abbonamento, 60 mL al mese</td><td class="n">28,5</td><td class="n">49 €</td><td class="n">52 €</td><td class="n">0,82</td><td>Ingresso a barriera minima</td></tr>
+      <tr><td>Percorso 3 flaconi</td><td class="n">85,5</td><td class="n">149 €</td><td class="n">52 €</td><td class="n">0,83</td><td>Impegno intermedio</td></tr>
+      <tr class="hi"><td><b>Percorso 6 flaconi con garanzia</b></td><td class="n"><b>171</b></td><td class="n"><b>279 €</b></td><td class="n"><b>49 €</b></td><td class="n"><b>0,78</b></td><td><b>L'offerta principale</b></td></tr>
+    </tbody>
+  </table>
+
+  <h3>La garanzia: su che cosa, esattamente</h3>
+  <p>Il meccanismo è quello di un concorrente europeo che dichiara oltre duecentomila clienti: rimborso a centocinquanta giorni, a condizione di aver completato il percorso. Azzera il rischio al primo acquisto, e trasforma la garanzia in ciò che trattiene il cliente fino al momento in cui l'effetto diventa osservabile.</p>
+  <p>Che quel meccanismo abbia <em>causato</em> la crescita di quel marchio non è dimostrato, e non lo assumiamo. Dimostra che esiste, che è sostenibile, e che qualcuno lo ha costruito abbastanza bene da raccogliere quattro milioni di euro.</p>
+  <p>Restano tre cose da definire prima di scriverla su una pagina, e sono quelle su cui una garanzia mal congegnata si rivolta contro chi la offre:</p>
+  <ul>
+    <li><b>Su quale beneficio.</b> Se al lancio vendiamo comfort e aspetto, centocinquanta giorni non possono diventare una promessa implicita di recupero della densità. Il testo deve dire su che cosa si è insoddisfatti.</li>
+    <li><b>Che cosa succede prima.</b> Intolleranza, reazione, interruzione: vanno gestite subito e senza condizioni, e non devono passare dalla porta della garanzia. Nessuno deve avere un incentivo a continuare un uso mal tollerato per avere diritto a un rimborso.</li>
+    <li><b>Il diritto di recesso a quattordici giorni resta</b>, è indipendente dalla garanzia e non si può escludere.</li>
+  </ul>
+</section>
+
+<section>
+  <h2><span class="num">08</span>Economia unitaria completa</h2>
+
+  <p class="lead">Quanto resta davvero di ogni ordine, con tutti i costi variabili e non solo quelli comodi. Da qui esce il numero che conta più di ogni altro in questo piano: quanto possiamo permetterci di spendere per acquisire un cliente.</p>
+
+  <h3>Il costo industriale</h3>
+  <table>
+    <caption>Stime su prezzi indicativi di distribuzione europea a volumi di sviluppo; l'incertezza sulle voci principali è di un fattore due. <span class="tag stima">stima</span></caption>
+    <thead><tr><th>Voce</th><th class="n" style="width:34mm">Per flacone da 60 mL</th></tr></thead>
+    <tbody>
+      <tr><td>Materie prime</td><td class="n">2,50 – 5,90 €</td></tr>
+      <tr><td>Flacone airless con pompa dosatrice</td><td class="n">1,20 – 2,40 €</td></tr>
+      <tr><td>Astuccio, etichetta, foglietto</td><td class="n">0,45 – 0,90 €</td></tr>
+      <tr><td>Riempimento, assemblaggio, controlli</td><td class="n">1,00 – 2,00 €</td></tr>
+      <tr><td>Analisi di rilascio del lotto</td><td class="n">0,20 – 0,70 €</td></tr>
+      <tr class="hi"><td><b>Totale</b></td><td class="n"><b>5,35 – 11,90 €</b> · centrale <b>8,50</b></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Tutti gli altri costi variabili</h3>
+  <p>La stesura precedente usava sette euro di «evasione dell'ordine» e si fermava lì. Mancavano le commissioni di incasso, l'assistenza, i resi e le sostituzioni. Sono voci piccole che sommate spostano il conto in modo sgradevole, come si vede più avanti.</p>
+  <table>
+    <thead><tr><th style="width:52mm">Voce</th><th>Come si calcola</th></tr></thead>
+    <tbody>
+      <tr><td>Prelievo e imballo</td><td>1,20 € per ordine</td></tr>
+      <tr><td>Corriere in Italia</td><td>4,50 € un flacone · 5,50 € tre · 6,50 € sei</td></tr>
+      <tr><td>Commissione di incasso</td><td>1,9% dell'importo più 0,25 € per transazione</td></tr>
+      <tr><td>Assistenza, resi, sostituzioni</td><td>Accantonamento del 3% sul ricavo netto</td></tr>
+      <tr><td>Rimborso, quando avviene</td><td>Restituisce il ricavo netto. Prodotto e spedizione restano spesi</td></tr>
+    </tbody>
+  </table>
+
+  <table>
+    <caption>Italia, IVA 22%, costo industriale centrale di 8,50 € per flacone.</caption>
+    <thead><tr><th>Prodotto</th><th class="n">Prezzo</th><th class="n">Netto IVA</th><th class="n">Costo prodotto</th><th class="n">Logistica</th><th class="n">Incasso</th><th class="n">Assistenza</th><th class="n">Contribuzione</th></tr></thead>
+    <tbody>
+      <tr><td>60 mL singolo</td><td class="n">59 €</td><td class="n">48,36</td><td class="n">8,50</td><td class="n">5,70</td><td class="n">1,37</td><td class="n">1,45</td><td class="n"><b>31,34</b></td></tr>
+      <tr><td>Abbonamento mensile</td><td class="n">49 €</td><td class="n">40,16</td><td class="n">8,50</td><td class="n">5,70</td><td class="n">1,18</td><td class="n">1,21</td><td class="n"><b>23,58</b></td></tr>
+      <tr><td>Percorso 3 flaconi</td><td class="n">149 €</td><td class="n">122,13</td><td class="n">25,50</td><td class="n">6,70</td><td class="n">3,08</td><td class="n">3,66</td><td class="n"><b>83,19</b></td></tr>
+      <tr class="hi"><td><b>Percorso 6 flaconi</b></td><td class="n"><b>279 €</b></td><td class="n">228,69</td><td class="n">51,00</td><td class="n">7,70</td><td class="n">5,55</td><td class="n">6,86</td><td class="n"><b>157,58</b></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Che cosa succede con i rimborsi</h3>
+  <table>
+    <caption>Percorso da sei flaconi a 279 €. Il rimborso restituisce il ricavo netto; prodotto, spedizione, commissione e assistenza sono già stati spesi e non tornano.</caption>
+    <thead><tr><th>Rimborsi</th><th class="n">Contribuzione</th><th class="n">Con pubblicità a 60 €</th><th class="n">a 80 €</th></tr></thead>
+    <tbody>
+      <tr><td>5%</td><td class="n">146,14 €</td><td class="n">+86,14</td><td class="n">+66,14</td></tr>
+      <tr class="hi"><td><b>12%, ipotesi centrale</b></td><td class="n"><b>130,13 €</b></td><td class="n"><b>+70,13</b></td><td class="n"><b>+50,13</b></td></tr>
+      <tr><td>20%</td><td class="n">111,84 €</td><td class="n">+51,84</td><td class="n">+31,84</td></tr>
+      <tr><td>30%</td><td class="n">89,97 €</td><td class="n">+29,97</td><td class="n">+9,97</td></tr>
+      <tr><td>Pareggio</td><td class="n">—</td><td class="n">42,7%</td><td class="n">33,9%</td></tr>
+    </tbody>
+  </table>
+  <p>Avevamo scritto che la garanzia «regge anche con un cliente su tre che chiede il rimborso». Con il percorso da cinque flaconi e una pubblicità da ottanta euro il limite era il 32,4%, quindi la frase era falsa di poco ma era falsa. Con il percorso da sei e i costi completi il limite sale al 33,9%, e un cliente su tre resta al margine del pareggio. La formulazione onesta è che <b>il meccanismo regge fino a circa un terzo di rimborsi, e a quel livello non guadagna nulla.</b></p>
+  <p>Come riferimento esterno: i tassi di reso nel commercio diretto di cosmetici stanno fra il 4 e il 15%. Una garanzia condizionata al completamento del percorso ha un attrito molto maggiore di un reso ordinario, il che suggerisce un valore nella parte bassa. Nessuno di questi numeri è il nostro, e il nostro si conoscerà solo con le prime coorti.</p>
+
+  <h3>Il costo di acquisizione che possiamo permetterci</h3>
+  <p>Fin qui il CAC è stato trattato come un'ipotesi da mettere nel modello. È il verso sbagliato. Il margine e il tempo di recupero determinano quanto possiamo spendere, e la domanda da porsi è se quella cifra sia raggiungibile.</p>
+  <table>
+    <caption>Regola di disciplina: il valore del cliente deve essere almeno il doppio del costo per acquisirlo. <span class="tag stima">stima</span></caption>
+    <thead><tr><th>Comportamento d'acquisto</th><th class="n">Valore del cliente</th><th class="n">CAC massimo</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><td>Percorso da 6, con 12% di rimborsi</td><td class="n">130,13 €</td><td class="n"><b>65 €</b></td><td>Il capitale torna al primo ordine</td></tr>
+      <tr><td>Abbonamento, durata media 4,2 mesi</td><td class="n">99,04 €</td><td class="n"><b>50 €</b></td><td>Il capitale torna al terzo mese</td></tr>
+      <tr><td>Acquisto singolo, 1,6 ordini medi</td><td class="n">50,14 €</td><td class="n"><b>25 €</b></td><td>Da solo non sostiene pubblicità a pagamento</td></tr>
+      <tr class="hi"><td><b>Media ponderata</b><br><span class="note">35% percorso · 50% abbonamento · 15% singolo</span></td><td class="n"><b>102,59 €</b></td><td class="n"><b>51 €</b></td><td>La soglia da rispettare</td></tr>
+    </tbody>
+  </table>
+
+  <div class="key warn">
+    <span class="label">La domanda che questo piano deve risolvere</span>
+    <p>Non «quanto costerà acquisire un cliente», ma <b>«sappiamo acquisirne uno sotto i cinquanta euro, in questa categoria, in Italia»</b>. I riferimenti pubblici per il commercio diretto di cosmetici indicano quaranta-cento euro, con i capelli nella parte alta per via del costo delle parole chiave. Siamo quindi al limite inferiore di un intervallo noto, e la risposta non si può dedurre: si compra, con l'ultima tranche del capitale.</p>
+  </div>
+
+  <p>Sempre sul tema, una correzione a una frase troppo netta della stesura precedente. Avevamo scritto che con un costo di acquisizione di cento euro il modello «non funziona mai». Con il percorso da sei flaconi e rimborsi al dodici per cento resta positivo per trenta euro a cliente, e sul cliente medio per due euro e mezzo. Sono margini troppo sottili per finanziare una crescita, che è cosa diversa dall'impossibilità matematica.</p>
+
+  <p class="note">Nota sul margine lordo. L'ottantadue per cento che compariva nella versione precedente è corretto come rapporto fra prezzo e costo industriale al netto dell'IVA, e non descrive quello che resta per remunerare l'impresa. Dopo logistica, incassi, assistenza e pubblicità la contribuzione sul flacone singolo scende al 53% del ricavo netto, e il resto deve ancora coprire i costi fissi.</p>
+</section>
+
+<section>
+  <h2><span class="num">09</span>Coorti, cassa, pareggio</h2>
+
+  <p class="lead">Tre comportamenti d'acquisto con economie diverse, un calendario in cui i ricavi arrivano molto dopo le spese, e un fabbisogno di cassa che tocca il minimo prima che il conto economico giri.</p>
+
+  <h3>Quando rientra il capitale, per ciascun comportamento</h3>
+  <table>
+    <thead><tr><th>Comportamento</th><th>Quando si recupera la spesa pubblicitaria</th><th>Che cosa resta da misurare</th></tr></thead>
+    <tbody>
+      <tr><td><b>Percorso prepagato</b></td><td>Al primo ordine, con margine</td><td>Comprare sei flaconi non dimostra usarli per sei mesi. Incasso, consumo, rimborso e riacquisto sono quattro eventi distinti</td></tr>
+      <tr><td><b>Abbonamento</b></td><td>Terzo mese a 60 € di CAC, quarto a 80 €</td><td>Probabilità di restare mese per mese, e quanta parte arriva al centocinquantesimo giorno</td></tr>
+      <tr><td>Acquisto singolo</td><td>Secondo ordine, se arriva</td><td>Tempo e probabilità dell'ordine successivo</td></tr>
+    </tbody>
+  </table>
+  <p>Il dato che nessuno dei due documenti precedenti misurava, e che è il più importante di tutti, è il <b>riacquisto dopo la fine della garanzia</b>. Distingue un cliente soddisfatto da uno che ha semplicemente finito un programma.</p>
+
+  <h3>Il calendario</h3>
+  <table>
+    <caption>Dalla chiusura della raccolta. La produzione e il lancio cadono nel secondo anno.</caption>
+    <thead><tr><th class="c" style="width:26mm">Mesi</th><th>Che cosa succede</th><th class="n" style="width:24mm">Uscite</th><th class="n" style="width:22mm">Entrate</th></tr></thead>
+    <tbody>
+      <tr><td class="c">1-3</td><td>Parere brevettuale, capitolato, mappa competitiva, interviste</td><td class="n">12.000</td><td class="n">—</td></tr>
+      <tr><td class="c">4-9</td><td>Laboratorio: fattibilità, metodi analitici, candidati, tollerabilità</td><td class="n">45.000</td><td class="n">—</td></tr>
+      <tr><td class="c">10-15</td><td>Stabilità, prove per i claim, regolatorio, Academy, confronti a pagamento</td><td class="n">55.000</td><td class="n">—</td></tr>
+      <tr class="hi"><td class="c">16-24</td><td>Produzione, lancio, pubblicità, misura del costo di acquisizione</td><td class="n">138.000</td><td class="n">in crescita</td></tr>
+    </tbody>
+  </table>
+
+  <div class="key">
+    <span class="label">Il punto più basso della cassa</span>
+    <p>Cade fra il ventesimo e il ventiduesimo mese, quando produzione e pubblicità sono state pagate e i ricavi stanno appena partendo. Il fabbisogno massimo stimato è fra <b>centocinquanta e centottanta mila euro</b>. I duecentocinquanta mila lo coprono, e il margine serve proprio a non dover raccogliere di corsa nel momento peggiore.</p>
+  </div>
+
+  <h3>Le scorte</h3>
+  <p>Il primo lotto da tremila flaconi equivale a cinquecento percorsi da sei, prima dei campioni e delle sostituzioni. Nello scenario centrale, millequattrocento clienti nel primo anno commerciale consumano circa <b>seimiladuecento flaconi</b>: il primo lotto copre poco più di sei mesi di vendita.</p>
+  <p>Il secondo riordino va quindi ordinato attorno al ventesimo mese, prima di sapere se il costo di acquisizione regge. È capitale immobilizzato in un momento di incertezza, ed è la ragione per cui nell'allocazione compare una voce di venticinquemila euro dedicata.</p>
+
+  <h3>Quanti clienti servono per restituire il capitale</h3>
+  <table>
+    <caption>Sui 250.000 euro dell'intera raccolta, con la contribuzione media ponderata di 102,59 € per cliente.</caption>
+    <thead><tr><th class="n" style="width:36mm">Costo di acquisizione</th><th class="n">Resta per cliente</th><th class="n">Clienti necessari</th></tr></thead>
+    <tbody>
+      <tr><td class="n">40 €</td><td class="n">62,59</td><td class="n">3.994</td></tr>
+      <tr class="hi"><td class="n"><b>50 €</b></td><td class="n"><b>52,59</b></td><td class="n"><b>4.754</b></td></tr>
+      <tr><td class="n">60 €</td><td class="n">42,59</td><td class="n">5.870</td></tr>
+      <tr><td class="n">80 €</td><td class="n">22,59</td><td class="n">11.066</td></tr>
+      <tr><td class="n">100 €</td><td class="n">2,59</td><td class="n">96.525</td></tr>
+    </tbody>
+  </table>
+  <p>Con la quota centrale del capitolo 03, millequattrocento clienti all'anno in Italia, la restituzione del capitale richiede fra i tre e i quattro anni di vendita a sessanta euro di costo di acquisizione, e diventa irraggiungibile sopra gli ottanta senza aprire Germania e Spagna.</p>
+
+  <p class="note">Tutte queste cifre reggono su due ipotesi non misurate: il 55% che completa il percorso e il 12% che chiede il rimborso. Sono le due più fragili del piano e le due che lo muovono di più. Una variazione di dieci euro nei costi variabili per cliente, per dare un'idea, porta i clienti necessari a ottanta euro di CAC da 11.066 a quasi ventimila.</p>
+</section>
+
+<section>
+  <h2><span class="num">10</span>I 250.000 euro</h2>
+
+  <p class="lead">A che cosa servono, in che ordine si spendono, e quale decisione compra ciascuna tranche. Una richiesta di capitale che non dichiara il punto in cui si potrebbe fermare non è un piano.</p>
+
+  <h3>Allocazione</h3>
+  <table>
+    <caption>Le voci tecniche sono decomposte in appendice A. <span class="tag stima">stima</span></caption>
+    <thead><tr><th>Voce</th><th class="n" style="width:26mm">Euro</th><th style="width:60mm">Che cosa compra</th></tr></thead>
+    <tbody>
+      <tr><td>Sviluppo di laboratorio, fasi 0-7</td><td class="n">35.000</td><td>Metodi di misura, micro-prove, candidato completo</td></tr>
+      <tr><td>Lotto di prova e prima produzione, 3.000 pezzi</td><td class="n">34.000</td><td>Prodotto vendibile</td></tr>
+      <tr><td>Prove per i claim di lancio</td><td class="n">22.000</td><td>Cose vere da poter scrivere</td></tr>
+      <tr><td>Tollerabilità: test dermatologico e verifica dell'uso ripetuto</td><td class="n">8.000</td><td>Il permesso di andare avanti</td></tr>
+      <tr><td>Durata nel tempo, tenuta microbiologica, compatibilità</td><td class="n">7.000</td><td>Una data di scadenza difendibile</td></tr>
+      <tr><td>Academy: parere legale, contenuti, revisione scientifica</td><td class="n">9.000</td><td>Il canale che non si compra all'asta</td></tr>
+      <tr><td>Parere brevettuale sulla formula guida</td><td class="n">4.000</td><td>Il diritto di vendere in Europa</td></tr>
+      <tr><td>Adempimenti regolatori</td><td class="n">4.000</td><td>Il diritto di vendere</td></tr>
+      <tr><td>Marchio, assicurazione, codici</td><td class="n">4.000</td><td>Protezione del nome e responsabilità prodotto</td></tr>
+      <tr><td>Confezionamento, design, fotografia, sito</td><td class="n">8.000</td><td>Lavoro interno, restano i costi fisici</td></tr>
+      <tr class="hi"><td><b>Sottototale fino al prodotto pronto</b></td><td class="n"><b>135.000</b></td><td></td></tr>
+      <tr><td>Pubblicità, primi sei mesi</td><td class="n">60.000</td><td><b>La misura del costo di acquisizione</b>, che è l'informazione più preziosa dell'intero piano</td></tr>
+      <tr><td>Secondo lotto di produzione</td><td class="n">25.000</td><td>Continuità di fornitura dal mese venti</td></tr>
+      <tr><td>Riserva per rimborsi e assistenza</td><td class="n">10.000</td><td>La garanzia va onorata anche se il prodotto delude</td></tr>
+      <tr><td>Strumenti, piattaforma, contabilità, 24 mesi</td><td class="n">10.000</td><td></td></tr>
+      <tr><td>Margine di manovra</td><td class="n">10.000</td><td>Perché qualcosa costerà più del previsto</td></tr>
+      <tr class="hi"><td><b>Totale</b></td><td class="n"><b>250.000</b></td><td></td></tr>
+    </tbody>
+  </table>
+  <p class="note">Due voci non sono in questa tabella e vanno discusse separatamente: il sostentamento di chi lavora al progetto a tempo pieno, e l'IVA di cassa sugli acquisti prima dell'inizio delle vendite. Entrambe dipendono da scelte societarie che non sono ancora state fatte.</p>
+
+  <h3>Le quattro tappe, e dove ci si ferma</h3>
+  <p>Ogni tappa termina con una decisione. Il criterio di arresto è scritto prima, non dopo aver visto i risultati.</p>
+  <table>
+    <thead><tr><th class="c" style="width:16mm">Tappa</th><th class="n" style="width:20mm">Importo</th><th style="width:54mm">Che cosa si ottiene</th><th>Si prosegue se…</th></tr></thead>
+    <tbody>
+      <tr><td class="c"><b>1</b><br><span class="note">mesi 1-3</span></td><td class="n">12.000</td><td>Parere brevettuale sulla formula guida, capitolato completo ai laboratori, mappa competitiva verificata, sedici interviste</td><td>La formula guida è percorribile e le interviste non smentiscono la disponibilità a spendere</td></tr>
+      <tr><td class="c"><b>2</b><br><span class="note">mesi 4-9</span></td><td class="n">45.000</td><td>Fattibilità, metodi di misura, candidato completo, tollerabilità dell'uso ripetuto</td><td>Il prodotto si può fabbricare entro i vincoli d'uso ed è tollerato</td></tr>
+      <tr><td class="c"><b>3</b><br><span class="note">mesi 10-15</span></td><td class="n">55.000</td><td>Durata, prove per i claim, regolatorio, Academy, confronti a pagamento sul messaggio</td><td>Abbiamo claim dimostrati e un segnale di domanda a un prezzo vicino a quello previsto</td></tr>
+      <tr class="hi"><td class="c"><b>4</b><br><span class="note">mesi 16-24</span></td><td class="n">138.000</td><td>Produzione, lancio, pubblicità, <b>misura del costo di acquisizione reale</b></td><td>Il costo di acquisizione sta sotto i cinquanta euro. Se sta fra cinquanta e settanta si rivede l'offerta; sopra settanta ci si ferma</td></tr>
+    </tbody>
+  </table>
+
+  <div class="key">
+    <span class="label">Che cosa resta se ci si ferma alla tappa 3</span>
+    <p>Un prodotto finito, conforme, con prove proprie, un dossier trasferibile e un marchio depositato. Sono centododicimila euro spesi che lasciano un bene cedibile, non un buco. <b>La tappa 4 è la sola in cui si può perdere davvero il capitale</b>, ed è per questo che ha un criterio di arresto numerico invece che discrezionale.</p>
+  </div>
+
+  <p>Sulla richiesta conviene essere espliciti. La stesura precedente di questo piano era stata presentata a fronte di centomila euro, mentre le sue stesse cifre indicavano centotrentacinquemila di sole spese pre-lancio. L'incoerenza era reale ed è stata corretta alzando la richiesta a una cifra che copre il percorso fino alla risposta sulla domanda che conta.</p>
+</section>
+
+<section>
+  <h2><span class="num">11</span>I rischi</h2>
+
+  <p class="lead">In ordine di quanto possono fermare il progetto, non di quanto sono probabili.</p>
+
+  <table>
+    <thead><tr><th style="width:46mm">Rischio</th><th class="c" style="width:16mm">Tappa</th><th>Come si riconosce, e cosa si fa</th></tr></thead>
+    <tbody>
+      <tr><td><b>Il costo di acquisizione supera i settanta euro</b></td><td class="c">4</td><td>Si misura solo vendendo. È il criterio di arresto del piano: sopra quella soglia il modello di sola vendita diretta non regge, e si valuta la cessione o la licenza del prodotto invece di insistere</td></tr>
+      <tr><td><b>La verifica di tollerabilità va male</b></td><td class="c">2</td><td>La formula contiene solventi e sostanze che favoriscono la penetrazione. Il dossier ha già scritto l'ordine delle modifiche in caso di esito negativo; il costo è un ciclo di laboratorio in più, non la fine del progetto</td></tr>
+      <tr><td><b>Parere brevettuale sfavorevole sulla formula guida</b></td><td class="c">1</td><td>Restano le altre architetture, già calcolate. Costa tempo, non il capitale</td></tr>
+      <tr><td><b>Pochi completano il percorso</b></td><td class="c">4</td><td>Sotto il 35% il conto regge solo con pubblicità molto economica. Contromisure: comunicazione della garanzia, contatto a metà percorso, lavoro sull'esperienza d'uso</td></tr>
+      <tr><td>I rimborsi superano un terzo</td><td class="c">4</td><td>È la soglia oltre la quale la garanzia smette di ripagarsi. La causa più probabile non è il prodotto ma la distanza fra quello che promettiamo e quello che dimostriamo</td></tr>
+      <tr><td>Il laboratorio quota molto più del previsto</td><td class="c">1-2</td><td>La voce più incerta è lo sviluppo dei metodi di misura, che può raddoppiare il preventivo. Si chiede a fasi, e si chiede anche come pacchetto sviluppo più produzione</td></tr>
+      <tr><td>L'Academy viene contestata, soprattutto in Germania</td><td class="c">3</td><td>Lì i concorrenti possono agire direttamente. Il parere legale sull'impianto precede il primo contenuto, e la versione tedesca viene verificata sul posto</td></tr>
+      <tr><td>Un gruppo grande occupa per primo lo stesso spazio</td><td class="c">—</td><td>Hanno tutti i pezzi per farlo. La difesa non è la formula: è arrivare prima e costruire una relazione con i clienti</td></tr>
+      <tr><td>Ingiallimento su capelli chiari o grigi</td><td class="c">2</td><td>La formula contiene due estratti colorati. Prova da poche centinaia di euro, da fare presto perché colpirebbe il pubblico con più capacità di spesa</td></tr>
+      <tr><td>Il primo lotto resta invenduto</td><td class="c">4</td><td>Tremila flaconi con tre anni di durata. La perdita massima è il costo del lotto, non la sopravvivenza dell'azienda</td></tr>
+      <tr><td>Concentrazione su una persona sola</td><td class="c">tutte</td><td>Non compare in nessuna riga di bilancio ed è il rischio operativo più alto. Con un abbonamento e una garanzia lunga ci sono obblighi verso i clienti che non si sospendono</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2><span class="num">12</span>Dopo questa raccolta</h2>
+
+  <p class="lead">Che cosa difende il progetto dalla copia, che cosa serve dopo i duecentocinquanta mila, e che ritorno può ragionevolmente aspettarsi chi entra adesso.</p>
+
+  <h3>La difendibilità, senza illusioni</h3>
+  <p>Una formula pubblicata non protegge niente. La lista degli ingredienti è obbligatoria per legge e le quantità, una volta dichiarate, sono note a chiunque. Nella stesura precedente comparivano diciotto-ventiquattro mesi come tempo necessario a copiarci: è un numero che non abbiamo modo di dimostrare e lo ritiriamo.</p>
+  <p>Quello che si può costruire è meno appariscente e più difficile da replicare:</p>
+  <ul>
+    <li><b>Dati propri.</b> Chi compra, che cosa abbandona e quando, quale messaggio converte, quale claim genera rimborsi. Dopo due anni di vendita è un patrimonio che un nuovo entrante non ha.</li>
+    <li><b>Qualità ripetibile e metodi trasferibili.</b> Vale come bene cedibile, e come protezione dal fornitore unico.</li>
+    <li><b>Reputazione sostenuta dai risultati.</b> In una categoria dove quasi tutti promettono più di quanto dimostrano, essere il marchio che dichiara i limiti è una posizione che si perde in un giorno e si costruisce in anni. Vale solo se non si bara mai.</li>
+    <li>Accesso alla distribuzione, se e quando arriva.</li>
+  </ul>
+
+  <h3>La raccolta successiva</h3>
+  <p>Se la tappa 4 dà un costo di acquisizione sotto i cinquanta euro, serve capitale per comprare volume: pubblicità continuativa, scorte, primo personale. L'ordine di grandezza è fra cinquecentomila e un milione, fra il ventiquattresimo e il trentesimo mese, a condizioni che dipendono interamente dal numero misurato in quella tappa. Se il costo sta fra cinquanta e settanta si raccoglie meno e si lavora sull'offerta prima di spingere. Sopra settanta non si raccoglie.</p>
+
+  <h3>Il ritorno, detto con i numeri</h3>
+  <p>Un marchio di nicchia profittevole è un buon investimento per un business angel o per chi è specializzato nei beni di consumo. Per un fondo con obiettivi di crescita elevati probabilmente non lo è, e vale la pena dirlo prima che dopo.</p>
+  <table>
+    <caption>Esempio puramente illustrativo. La partecipazione offerta e la valutazione non sono ancora state definite e sono materia di trattativa. <span class="tag">ipotesi</span></caption>
+    <thead><tr><th>Passaggio</th><th class="n">Valore</th></tr></thead>
+    <tbody>
+      <tr><td>Investimento</td><td class="n">250.000 €</td></tr>
+      <tr><td>Partecipazione iniziale ipotizzata</td><td class="n">18%</td></tr>
+      <tr><td>Dopo la raccolta successiva, diluita a</td><td class="n">12%</td></tr>
+      <tr><td>Valore distribuibile agli azionisti in un'uscita a 8 milioni</td><td class="n">960.000 €</td></tr>
+      <tr><td>Valore in un'uscita a 15 milioni</td><td class="n">1.800.000 €</td></tr>
+      <tr class="hi"><td><b>Multiplo sull'investimento</b></td><td class="n"><b>3,8x – 7,2x</b></td></tr>
+    </tbody>
+  </table>
+  <p>Una precisazione che spesso si dà per scontata e non lo è: <b>ricavi per dieci milioni non significano un valore azionario di dieci milioni.</b> Nei beni di consumo il valore si calcola sui margini e sulla crescita, non sul fatturato, e un marchio con cinque milioni di ricavi e buoni margini vale molto meno di cinque milioni.</p>
+
+  <h3>Le domande a cui il piano deve ancora rispondere</h3>
+  <p>Non richiedono spese legali oggi, ma richiedono una risposta prima della firma.</p>
+  <table>
+    <thead><tr><th style="width:56mm">Domanda</th><th>Perché conta per chi investe</th></tr></thead>
+    <tbody>
+      <tr><td>Impegno e competenze di chi lavora al progetto, con le responsabilità divise</td><td>Un'azienda che fa tutto in casa dipende da poche persone</td></tr>
+      <tr><td>Fabbisogno personale dei fondatori e tempo effettivamente disponibile</td><td>Un fondatore che deve mantenersi altrove non può sostenere una tappa da nove mesi</td></tr>
+      <tr><td>Proprietà di formula, metodi, dati e dossier nei contratti con il produttore</td><td>Se il laboratorio possiede i metodi, il valore dell'azienda resta lì</td></tr>
+      <tr><td>Possibilità di trasferire la produzione a un altro laboratorio</td><td>Un fornitore unico senza alternative è un rischio e una leva negoziale contro di noi</td></tr>
+      <tr><td>Partecipazione offerta, capitale successivo atteso, governo delle decisioni</td><td>Senza questi tre numeri non si può giudicare il prezzo dell'investimento</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2><span class="num">13</span>I primi novanta giorni</h2>
+
+  <p class="lead">La prima tappa costa dodicimila euro e produce tre risposte che cambiano tutto quello che viene dopo.</p>
+
+  <ol>
+    <li><b>Parere brevettuale sulla formula guida.</b> La domanda va posta nel modo giusto: non «siamo liberi», ma «la configurazione C ricade nelle rivendicazioni della famiglia individuata, e se sì quali alternative ne restano fuori». Arrivando con il fascicolo già pronto il consulente fattura meno ore. Costo 1.500-5.000 €.</li>
+    <li><b>Capitolato completo ai laboratori, identico per tutti.</b> Con sette voci che la versione precedente non conteneva: colore degli estratti su ciocche bianche, grigie e bionde; residuo su capello lungo con lavaggio ogni tre giorni; confronto del polimero filmante anche su capello lungo e chiaro; prove di erogazione su capelli lunghi; rituale definito per superficie; massimo d'uso espresso in millilitri al giorno; recupero dei testi originali degli studi per estrarne area e volume di applicazione.</li>
+    <li><b>Preventivi confrontabili</b>, chiesti a tre laboratori nella stessa forma, divisi per fasi e anche come pacchetto sviluppo più produzione. Sulle prove cliniche il preventivo più basso è quasi sempre più basso perché fa di meno: venti persone invece di quaranta, nessuna supervisione dermatologica. Il capitolato si definisce prima, altrimenti non si confrontano prezzi ma cose diverse.</li>
+    <li><b>Mappa competitiva verificata.</b> Ventiquattro prodotti, con indirizzo e data su ogni riga. Le colonne che contano sono prezzo, formato, dose dichiarata e quindi costo mensile. Due giorni di lavoro interno, e sostituisce una discussione che finora abbiamo fatto a intuito.</li>
+    <li><b>Dodici-sedici interviste</b>, condotte dai fondatori, su acquisti già fatti e non su intenzioni. Servono a scegliere fra le due ipotesi di pubblico del capitolo 06.</li>
+    <li><b>Decisioni societarie e contrattuali</b>: forma della società, proprietà di formula e dati nei contratti con il produttore, partecipazione offerta.</li>
+  </ol>
+
+  <div class="key">
+    <span class="label">Il criterio per passare alla tappa 2</span>
+    <p>La formula guida è percorribile dal punto di vista brevettuale, almeno due laboratori hanno quotato una fase 1 entro il budget previsto, e le interviste non smentiscono la disponibilità a spendere attorno ai cinquanta euro al mese. Se uno dei tre manca, si rivede il piano prima di spendere i quarantacinquemila della tappa successiva.</p>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">14</span>Metodo, fonti e limiti</h2>
+
+  <h3>Come è stato costruito</h3>
+  <p>Il documento incrocia il dossier tecnico di formulazione, letto integralmente, con rilevazioni su fonti pubbliche e con modelli di costo e di ricavo costruiti per questo piano. È la seconda stesura: la prima è stata sottoposta a una revisione critica esterna, che ha trovato errori di calcolo e di inferenza. Le correzioni sono segnalate nel testo dove cambiano una conclusione.</p>
+
+  <h3>Che cosa è verificabile</h3>
+  <p>Composizione, dosi, studi citati con le loro popolazioni e concentrazioni, vincoli di legge, scala dei claim, stato brevettuale, catena di fornitura: tutto dal dossier tecnico. Prezzi, formati e dosi dei concorrenti: dalla mappa competitiva, con lo stato di verifica indicato riga per riga.</p>
+
+  <h3>Che cosa è stima o ipotesi</h3>
+  <p>I costi industriali e di sviluppo; i costi e i tempi degli studi; il dimensionamento del mercato e le quattro percentuali che lo compongono; il tasso di completamento del percorso; il tasso di rimborso; il costo di acquisizione; la ripartizione fra i tre comportamenti d'acquisto; la valutazione e il ritorno dell'investitore.</p>
+
+  <h3>Limiti dichiarati</h3>
+  <ul>
+    <li><b>La mappa competitiva non è ancora verificata.</b> Prezzi e dosi provengono da rilevazioni indirette. Finché nessuno ha aperto le pagine con data, il capitolo 04 è un'ipotesi ben costruita.</li>
+    <li><b>Le percentuali del dimensionamento non sono misurate.</b> Se la disponibilità a spendere fosse un terzo di quella ipotizzata, il mercato servibile scenderebbe da 34.650 a meno di dodicimila persone.</li>
+    <li><b>Completamento e rimborso sono le due ipotesi più fragili</b> e le due che muovono di più il risultato.</li>
+    <li><b>Questo documento non contiene pareri legali.</b> Le considerazioni su brevetti, claim, Academy e classificazione del prodotto sono valutazioni di rischio commerciale.</li>
+    <li><b>Nessuno studio sul prodotto finito esiste oggi.</b> Ogni affermazione su che cosa il prodotto farà è un'ipotesi da verificare.</li>
+    <li>La popolazione italiana per fascia d'età va riallineata ai dati Istat correnti prima di presentare il documento a un terzo.</li>
+  </ul>
+
+  <h3>Riferimenti esterni</h3>
+  <table>
+    <caption>Da completare con indirizzo e data di consultazione prima della versione da consegnare.</caption>
+    <thead><tr><th style="width:56mm">Tema</th><th>Fonte</th></tr></thead>
+    <tbody>
+      <tr><td>Criteri per i claim cosmetici</td><td>Regolamento (UE) 655/2013 e documento tecnico della Commissione europea sui claim cosmetici, 2017</td></tr>
+      <tr><td>Prevalenza del diradamento</td><td>Studi di popolazione su soggetti caucasici e studi epidemiologici trasversali pubblicati</td></tr>
+      <tr><td>Tassi di reso nel commercio diretto</td><td>Rilevazioni di settore 2026 per categoria di prodotto</td></tr>
+      <tr><td>Costo di acquisizione nella cosmetica</td><td>Rilevazioni di settore 2025-2026 sulla vendita diretta</td></tr>
+      <tr><td>Garanzia di rimborso di un concorrente</td><td>Condizioni pubblicate dalla società e comunicato sull'operazione di finanziamento</td></tr>
+      <tr><td>Percentuali dichiarate da un concorrente</td><td>Pagina di prodotto della marca</td></tr>
+      <tr><td>Prezzi, formati e dosi dei concorrenti</td><td>Mappa competitiva, appendice B</td></tr>
+      <tr><td>Regole sui liquidi nel bagaglio a mano</td><td>Fonti di settore aeronautico, 2026</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2><span class="num">A</span>Appendice: i costi voce per voce</h2>
+
+  <p class="lead">Le stime decomposte nella forma in cui servono per chiedere i preventivi.</p>
+
+  <table>
+    <caption>Laboratorio e produzione. Materie prime valorizzate ai costi del capitolo 08. <span class="tag stima">stima</span></caption>
+    <thead><tr><th style="width:54mm">Voce</th><th class="n" style="width:30mm">Euro</th><th>Nota</th></tr></thead>
+    <tbody>
+      <tr><td>Valutazione di fattibilità</td><td class="n">1.500 – 5.000</td><td>La prima risposta del laboratorio: si può fare così com'è?</td></tr>
+      <tr><td>Metodi per misurare gli attivi</td><td class="n">5.000 – 15.000</td><td><b>La voce più cara e la più incerta.</b> Quattro attivi da dosare con strumenti di precisione a ogni lotto</td></tr>
+      <tr><td>Micro-prove, mappa di solubilità, confronti sugli opzionali</td><td class="n">6.000 – 18.000</td><td>Serve a capire che cosa resta in soluzione</td></tr>
+      <tr><td>Candidati completi e ottimizzazione della sensazione d'uso</td><td class="n">5.000 – 12.000</td><td></td></tr>
+      <tr><td>Lotto di prova, 20-50 kg</td><td class="n">3.500 – 12.000</td><td>Materie prime, tempo macchina, messa a punto, analisi</td></tr>
+      <tr><td>Prodotto per 3.000 flaconi, circa 180 kg</td><td class="n">7.600 – 17.600</td><td></td></tr>
+      <tr><td>Flaconi, astucci, etichette</td><td class="n">5.000 – 10.000</td><td>Flacone di serie, senza stampi dedicati</td></tr>
+      <tr><td>Riempimento, assemblaggio, controlli sul lotto</td><td class="n">4.500 – 8.500</td><td></td></tr>
+    </tbody>
+  </table>
+
+  <table>
+    <caption>Tollerabilità e prove per i claim. <span class="tag stima">stima</span></caption>
+    <thead><tr><th style="width:54mm">Voce</th><th class="n" style="width:30mm">Euro</th><th>Nota</th></tr></thead>
+    <tbody>
+      <tr><td>Test dermatologico su 20-25 persone</td><td class="n">800 – 2.000</td><td>Dà il claim «testato dermatologicamente». Economico e sproporzionatamente utile</td></tr>
+      <tr><td>Verifica dell'uso ripetuto, 30-40 persone, 4 settimane</td><td class="n">3.500 – 9.000</td><td>La decisione che precede gli studi di efficacia</td></tr>
+      <tr><td>Protocollo unico a 4 settimane su 40 persone</td><td class="n">9.000 – 20.000</td><td><b>Cinque misure insieme:</b> idratazione, barriera, desquamazione, prurito, gradimento. Comprate separate costerebbero il doppio</td></tr>
+      <tr><td>Aspetto del capello a breve termine</td><td class="n">6.000 – 15.000</td><td>Può agganciarsi allo stesso studio</td></tr>
+    </tbody>
+  </table>
+
+  <table>
+    <caption>Academy, marchio e adempimenti. <span class="tag stima">stima</span></caption>
+    <thead><tr><th style="width:54mm">Voce</th><th class="n" style="width:30mm">Euro</th><th>Nota</th></tr></thead>
+    <tbody>
+      <tr><td>Parere legale sull'impianto dell'Academy</td><td class="n">1.500 – 4.000</td><td>Separazione dal percorso d'acquisto, evidenza degli avvertimenti, versione tedesca</td></tr>
+      <tr><td>Acquisto dei testi originali degli studi</td><td class="n">600 – 1.500</td><td>Per leggerli, non per ripubblicarli</td></tr>
+      <tr><td>Revisione scientifica esterna delle schede</td><td class="n">1.500 – 5.000</td><td><b>Non comprimibile.</b> Protegge l'unica cosa che ci distingue</td></tr>
+      <tr><td>Revisione madrelingua delle traduzioni</td><td class="n">900 – 2.500</td><td>Tedesco e spagnolo</td></tr>
+      <tr><td>Deposito del marchio nell'Unione europea</td><td class="n">1.000 – 3.000</td><td></td></tr>
+      <tr><td>Responsabilità civile prodotto, primo anno</td><td class="n">800 – 2.500</td><td>Per un cosmetico venduto direttamente non è opzionale</td></tr>
+      <tr><td>Codici a barre, primo anno</td><td class="n">150 – 400</td><td></td></tr>
+    </tbody>
+  </table>
+
+  <div class="key">
+    <span class="label">Quattro modi di spendere meno senza comprare meno</span>
+    <p><b>1.</b> Combinare gli studi invece di comprarli separati: un protocollo a quattro settimane su quaranta persone misura cinque cose insieme.<br>
+    <b>2.</b> Tenere piccola la prima produzione: tremila pezzi costano 20-48 mila euro, diecimila ne costano 54-114 mila.<br>
+    <b>3.</b> Chiedere il preventivo anche come pacchetto sviluppo più produzione: molti produttori conto terzi assorbono parte dello sviluppo se ottengono la produzione.<br>
+    <b>4.</b> Usare un flacone di serie: uno stampo dedicato costa 15-40 mila euro e non dà nulla al cliente finché il prodotto non ha dimostrato di vendere.</p>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">B</span>Appendice: la mappa competitiva</h2>
+
+  <p class="lead">Metodo, stato della rilevazione e istruzioni. Il foglio di calcolo è un allegato separato di questo documento.</p>
+
+  <h3>A che cosa serve</h3>
+  <p>A rispondere con dati verificabili a tre domande che finora abbiamo trattato per intuizione: quanto costa davvero un mese di trattamento per noi e per ciascun concorrente; chi dichiara le percentuali degli attivi e quante; che cosa promettono i concorrenti e con quali prove.</p>
+
+  <h3>Le colonne, e perché ci sono</h3>
+  <table>
+    <thead><tr><th style="width:46mm">Gruppo</th><th>Colonne</th><th>Domanda a cui rispondono</th></tr></thead>
+    <tbody>
+      <tr><td>Identificazione</td><td>marca, prodotto, canale, posizionamento, paese</td><td>Con chi ci stiamo confrontando davvero</td></tr>
+      <tr><td><b>Verificabilità</b></td><td>indirizzo, data di consultazione, stato</td><td>Una riga senza queste tre celle non vale nulla</td></tr>
+      <tr><td><b>Costo mensile</b></td><td>prezzo, formato, dose dichiarata, millilitri al giorno, giorni, euro al mese</td><td>La metrica su cui il cliente decide, e che mancava a tutta la nostra analisi</td></tr>
+      <tr><td>Trasparenza</td><td>percentuali dichiarate, quali</td><td>Il terreno della trasparenza è libero o occupato</td></tr>
+      <tr><td>Promesse</td><td>claim principale, livello sulla nostra scala, prove citate</td><td>Fin dove si spingono gli altri, e con che cosa</td></tr>
+      <tr><td>Modello commerciale</td><td>garanzia, abbonamento, recensioni</td><td>La garanzia è un vantaggio o è già la norma</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Stato al momento della stesura</h3>
+  <table>
+    <thead><tr><th>Voce</th><th class="n">Righe</th></tr></thead>
+    <tbody>
+      <tr><td>Prodotti in griglia</td><td class="n">24</td></tr>
+      <tr><td>Con prezzo e formato</td><td class="n">16</td></tr>
+      <tr><td>Con dose dichiarata</td><td class="n">8</td></tr>
+      <tr><td>Con costo mensile calcolabile</td><td class="n">7</td></tr>
+      <tr class="hi"><td><b>Verificate aprendo la pagina</b></td><td class="n"><b>0</b></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Come si compila</h3>
+  <p>Tre giri di lavoro, in quest'ordine. Il primo riguarda solo prezzo, formato e dose: sono le colonne che producono il costo mensile, e bastano due ore per tutte le righe. Il secondo raccoglie percentuali dichiarate e promesse. Il terzo garanzie, abbonamenti e numero di recensioni.</p>
+  <p>La dose è quasi sempre dichiarata in pipette, contagocce o erogazioni e non in millilitri. Dove la marca non dichiara il volume per erogazione, o lo si misura comprando il prodotto, oppure si annota la stima scrivendo da dove viene. Una stima senza la sua origine, in questa tabella, vale come una cella vuota.</p>
+  <p class="note">Il calcolo dei giorni non sottrae il residuo che resta nel contenitore. Per il nostro flacone airless il residuo stimato è il cinque per cento, per i contagocce altrui non lo sappiamo. Il confronto è quindi leggermente a nostro sfavore, e va bene così.</p>
+</section>
+
+</body>
+</html>
