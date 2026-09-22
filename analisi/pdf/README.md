@@ -1,28 +1,22 @@
 # Documenti impaginati
 
-Due PDF, due sorgenti HTML, due script di rendering.
+## `Krine-Labs_Piano-di-progetto.pdf`
 
-## `Krine-Labs_Piano-di-progetto.pdf` (33 pagine)
+Il piano di progetto e la richiesta di finanziamento, pronto per la verifica di un
+investitore. I numeri economici non sono scritti a mano: il generatore li legge
+dal modello di cassa (`../modello/numeri.json`).
 
-Il documento principale. Piano di progetto costruito per reggere l'esame di
-un investitore: mercato ricostruito dal basso, mappa competitiva con il costo
-mensile reale dei concorrenti, economia unitaria completa, coorti e cassa,
-uso dei 250.000 euro, rischi, primi novanta giorni. Formula guida: candidata C.
-
-Sorgente: `report-piano.html`. Rendering: `node render-piano.mjs`.
-
-## `Krine-Labs_Analisi-di-mercato.pdf` (36 pagine)
-
-L'analisi di mercato precedente, tenuta come riferimento. Si legge da sola.
-
-Sorgente: `report.html`. Rendering: `node render.mjs`.
-
-## Come rigenerare
+Per rigenerarlo:
 
 ```sh
-node render-piano.mjs    # oppure render.mjs
+PY=/percorso/python-con-pymupdf ./build-piano.sh
 ```
 
-Ogni script produce `cover.pdf` e `body.pdf` con Chromium, poi li unisce nel
-PDF finale. La copertina viene generata a parte perché non porta il numero di
-pagina. I due file intermedi si possono cancellare dopo il merge.
+Lo script ricalcola i numeri dal modello, scrive `report-piano.html` con
+`gen/genera.py` (un file per gruppo di capitoli in `gen/`), lo stampa con
+Chromium (`render-piano.mjs`) e unisce copertina e corpo.
+
+## `Krine-Labs_Analisi-di-mercato.pdf`
+
+L'analisi di mercato precedente, tenuta come riferimento. Sorgente `report.html`,
+rendering con `node render.mjs`.

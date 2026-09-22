@@ -2,25 +2,20 @@
 
 ## `mappa-competitiva.xlsx`
 
-La griglia dove si raccolgono i dati sui prodotti concorrenti. Tre fogli:
+La griglia dove si raccolgono prezzi, dosi, garanzie e claim delle alternative.
 
-- **Istruzioni** — a cosa serve, la regola di verifica, l'ordine di lavoro
-- **Mappa** — 24 prodotti, 25 colonne. Giallo = da compilare a mano,
-  grigio = calcolato da formula, azzurro = valore nostro già inserito
-- **Sintesi** — conteggi, minimi, massimi e medie calcolati sulla Mappa
+- **Istruzioni**: a che cosa serve, la regola di verifica, l'ordine di lavoro,
+  come si legge una dose.
+- **Mappa**: 23 alternative (dieci prioritarie, tredici di riferimento) e le
+  quattro offerte KRINÉ. Giallo = da compilare, grigio = calcolato.
+  La tabella si estende fino alla riga 200 senza toccare le formule.
+- **Sintesi**: conteggi e statistiche. Le righe KRINÉ sono escluse; minimi,
+  massimi e medie usano solo righe verificate con dose verificata.
 
-Regola: una riga conta solo se qualcuno ha aperto la pagina del prodotto e ha
-compilato URL e data di consultazione. Senza quei due campi il dato non è
-verificato e non va usato in nessun documento.
-
-Le formule sono scritte ma non hanno valori in cache: si calcolano alla prima
-apertura in Excel o LibreOffice.
+Regola: una riga conta solo se qualcuno ha aperto le pagine e ha compilato URL e
+data di prezzo e dose. Una dose ricavata dalla durata di un ciclo di trattamento
+non vale.
 
 ## `build_mappa.py`
 
-Lo script che genera il file. Rigenerarlo sovrascrive tutto il lavoro di
-compilazione manuale: usarlo solo per ricostruire la griglia da zero.
-
-```sh
-python3 build_mappa.py
-```
+Rigenera il file da zero, sovrascrivendo la compilazione manuale.

@@ -1,1 +1,4 @@
+*.pyc
 __pycache__/
+analisi/pdf/body.pdf
+analisi/pdf/cover.pdf
