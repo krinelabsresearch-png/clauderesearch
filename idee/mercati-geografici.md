@@ -1,63 +1,69 @@
-# Dove vendere: UE, USA, Canada o America Latina?
+# Dropshipping: UE, USA, Canada o America Latina?
 
-**Data:** 11 ottobre 2026
-**Domanda di Lorenzo:** vendere in UE è la scelta più conveniente? E se vendessi altrove (USA, Canada, America Latina)?
-**Risposta breve:** per un marchio cosmetico prodotto in Italia come KRINÉ, sì: l'UE è il mercato da cui partire. Gli USA sono il mercato più grande e il passo naturale **dopo** aver dimostrato che il prodotto funziona. Il Canada è un'aggiunta piccola. L'America Latina non è adatta per partire. Per il dropshipping dalla Cina nessun mercato è una scappatoia: nel 2025–26 tutti hanno chiuso le esenzioni sui piccoli pacchi.
-
----
-
-## 1. Prima distinzione: di quale modello parliamo
-
-| Modello | Cosa cambia fuori dall'UE |
-|---|---|
-| **Dropshipping dalla Cina** | Ovunque si sono chiuse le esenzioni: **USA** (esenzione da 800 $ sospesa dal 29/8/2025, a tempo indeterminato da giugno 2026, abolita per legge dal 1/7/2027, più i dazi sulla Cina), **Messico** (33,5% sui pacchi da Paesi senza accordi commerciali, dal 15/8/2025), **Brasile** (20–60% più l'ICMS, dati non ufficiali), **UE** (3 € + 2 € in Italia). Cambiare mercato non risolve il problema |
-| **Dropshipping locale con pagamento alla consegna (America Latina)** | Modello vero e diffuso (es. Dropi in Colombia e Messico: ~2.200 negozi collegati; consegne riuscite nel 65–85% dei casi secondo fonti non indipendenti). Ma è un altro mestiere: operazioni quotidiane, conferme via WhatsApp, rete e fornitori locali. Va contro i filtri 5 (lavoro continuo) e, di fatto, 6 (presenza sul territorio) |
-| **Marchio cosmetico prodotto in Italia (KRINÉ)** | È qui che la scelta del mercato conta davvero: vedi sotto |
+**Data:** 11 ottobre 2026 (riscritto dopo la precisazione di Lorenzo: la domanda riguarda **solo il dropshipping**)
+**Domanda:** per il dropshipping, vendere in UE è la scelta più conveniente? E se vendessi negli USA, in Canada o in America Latina?
+**Risposta breve:** nessun mercato è una scorciatoia. **USA e Italia si equivalgono**: negli USA si incassa di più per ordine, ma la pubblicità costa il doppio. Gli USA convengono solo con prodotti che reggono un prezzo più alto del ~30%. Per imparare e testare, **l'Italia (e l'UE) costa la metà**. L'America Latina ha un modello che funziona (pagamento alla consegna), ma richiede presenza e un socio sul posto. Il Canada è piccolo: è un'aggiunta agli USA.
 
 ---
 
-## 2. Confronto per un marchio cosmetico italiano (KRINÉ Scalp e Lash)
+## 1. Il confronto
 
-| | **UE (Italia + altri Paesi)** | **USA** | **Canada** | **Regno Unito** | **America Latina (Messico, Brasile)** |
-|---|---|---|---|---|---|
-| Dimensione | Europa = 24% delle vendite beauty mondiali di L'Oréal; Italia 12,1 Md$ (beauty e cura persona, 2024) | Il più grande: oltre 100 Md$; Nord America = 28% delle vendite L'Oréal. Primo mercato estero della cosmetica italiana (oltre 1,1 Md€, +19,3%) | ~40 milioni di abitanti | Mercato maturo, molto online | Grandi, ma potere d'acquisto più basso |
-| Burocrazia di prodotto | **Un solo PIF e una notifica CPNP per 27 Paesi**: già nel piano | MoCRA: registrazione e listing (esenti le piccole imprese sotto 1 M$, **ma non i prodotti per la zona occhi** → Lash), agente USA, segnalazione degli effetti avversi, etichetta in formato USA | Notifica a Health Canada entro 10 giorni dalla prima vendita; etichetta **in inglese e francese** | Persona responsabile nel Regno Unito + notifica SCPN separata | **Brasile:** serve un'azienda locale con autorizzazione ANVISA che registri il prodotto a suo nome. **Messico:** COFEPRIS, etichetta in spagnolo, registro degli importatori |
-| Dazi e spedizione dall'Italia | Nessuno: mercato interno | **15% sui cosmetici UE** + fine dell'esenzione: ogni pacco richiede un'importazione formale. Serve un magazzino negli USA (scorte anticipate) | CETA: dazi azzerati sulla maggior parte dei beni di origine UE (regola d'origine da verificare); imposte sulle vendite | Accordo UE–UK: dazi zero se si rispettano le regole d'origine; dogana e IVA britannica | Tasse d'importazione alte, logistica lenta |
-| Costo della pubblicità (CPM Meta) | Italia ~7–8 € (stima 2026) **+ 3% di "location fee" Meta dal 1/7/2026**; Germania 6,5–12 $ | **16–23 $**: 2–3 volte l'Italia | Dato non trovato (probabilmente vicino agli USA) | Alto + 2% di location fee | 40–60% più basso dei mercati anglofoni |
-| Prezzo che il cliente accetta | Medio (Dercos Serum 10 a 33–42 €) | Più alto (OUAI, Briogeo; prezzi premium "Made in Italy") | Simile agli USA | Medio-alto | Basso |
-| Rischio legale | Antitrust sui claim (multa a L'Oréal Italia) | **Il più alto:** class action, avvertenze Prop 65 in California, tasse sulle vendite stato per stato oltre le soglie | Medio | Medio | Medio, con incertezza normativa |
-| Il tuo vantaggio | Lingua, cultura, ricerche già fatte | "Matematico italiano che dichiara le dosi": racconto forte | — | Inglese | Nessuna rete |
-
-### Due scoperte che riguardano proprio i tuoi prodotti
-1. **KRINÉ Scalp negli USA:** lì un prodotto "antiforfora" è un **farmaco da banco (OTC)**, e la monografia FDA ammette solo pochi principi attivi (piritione di zinco, solfuro di selenio, acido salicilico, catrame, zolfo). **Il piroctone olamina non c'è.** Negli USA KRINÉ Scalp non potrebbe dire "antiforfora": dovrebbe restare su comfort e prurito, cioè proprio sul messaggio più debole. *(Da confermare con un consulente regolatorio USA.)*
-2. **KRINÉ Lash negli USA:** il vantaggio europeo nasce dal divieto delle prostaglandine, che **negli USA non c'è**: GrandeLASH e RevitaLash restano in vendita con le loro molecole. La finestra di mercato vale in UE e in Canada (dove le prostaglandine sono già vietate), non negli USA.
-
-**Le formule che abbiamo progettato sono costruite per le regole europee: è lì che hanno un vantaggio.**
+| | **Italia / UE** | **USA** | **Canada** | **America Latina** (Messico, Colombia, Brasile) |
+|---|---|---|---|---|
+| **Dalla Cina diretto** | +3 € di dazio UE (dal 1/7/2026) + 2 € di contributo italiano (dal 1/12/2026, da verificare) | Esenzione da 800 $ sospesa dal 29/8/2025, a tempo indeterminato da giugno 2026, abolita per legge dal 1/7/2027. Dazi sulla Cina ~20% complessivi (tregua fino al 10/11/2026, scenario instabile) + importazione formale per ogni pacco | Soglie d'esenzione basse (da verificare) | **Messico:** 33,5% sui pacchi da Paesi senza accordi (dal 15/8/2025). **Brasile:** 20–60% più l'imposta statale ICMS (dati non ufficiali) |
+| **L'alternativa che funziona** | Magazzini UE (CJ in Germania e Polonia, BigBuy in Spagna): consegna in 2–5 giorni | Fornitori con magazzino negli USA (CJ USA, Spocket; Blanka per i cosmetici) | Spedizione da magazzini USA o canadesi | **Pagamento alla consegna con fornitori locali** (Dropi: ~2.200 negozi). Verso il Messico, dagli USA i pacchi fino a 50 $ sono esenti (T-MEC) |
+| **Imposte sul prezzo** | IVA 22% compresa nel prezzo | **Niente IVA.** La sales tax scatta solo oltre le soglie di ogni stato (in molti 100.000 $ di vendite l'anno) | GST/HST con registrazione oltre una soglia di vendite | Regimi locali complessi |
+| **Pubblicità (CPM Meta)** | Italia ~7–8 € + 3% di location fee dal 1/7/2026 | **16–23 $** | Dato non trovato | **3–12 $** (40–60% meno dei mercati anglofoni) |
+| **Pagamenti e resi** | Carte; recesso di 14 giorni | Carte; contestazioni dei pagamenti (chargeback) frequenti; i clienti si aspettano resi a 30 giorni e consegne veloci | Come gli USA | **Contrassegno:** il 15–35% delle consegne non va a buon fine (stime di fonti non indipendenti) |
+| **Concorrenza** | Media | **Massima**: è il mercato più battuto dai dropshipper di tutto il mondo | Media | In crescita |
+| **Cosa serve a te, dall'Italia** | Niente di nuovo | Una società non è obbligatoria; Stripe e Shopify funzionano. Assistenza in inglese e su un altro fuso orario | Etichette e assistenza anche in francese | **Colombia:** il codice fiscale (RUT) per gli stranieri richiede documenti apostillati e tradotti; il conto bancario richiede un visto oltre i 90 giorni e la presenza in filiale. **In pratica serve un socio locale** |
+| **Cosmetici (sieri)** | Selfnamed: legale, ma ~2–9 € a ordine | Blanka: legale e semplice (piccole imprese esenti dalla registrazione FDA, **tranne la zona occhi**), ma CAC doppio | Blanka + notifica a Health Canada + etichetta bilingue | Registrazione locale obbligatoria (ANVISA in Brasile, COFEPRIS in Messico): no |
 
 ---
 
-## 3. Raccomandazione
+## 2. I numeri: stesso prodotto, Italia contro USA
 
-| Fase | Mercato | Perché |
+Prodotto generico con costo di 8 € da magazzino locale, logistica 5,70 €, stesso tasso di conversione nei due mercati (`dropshipping/modello_sieri.py`):
+
+| Mercato e prezzo | Contribuzione per ordine | CAC con conversione 2% | CAC con conversione 3% | Contribuzione ÷ CAC (conv. 2%) |
+|---|:--:|:--:|:--:|:--:|
+| Italia, 34,90 € | 12,56 € | 41,20 € | 27,47 € | 0,30 |
+| USA, 34,90 € (~40 $) | 18,17 € | 85,00 € | 56,67 € | 0,21 |
+| USA, 44,90 € (~52 $) | 27,38 € | 85,00 € | 56,67 € | 0,32 |
+
+**Come leggerli:**
+- Negli USA **l'assenza di IVA** fa incassare il 45% in più a parità di prezzo, ma **la pubblicità costa il doppio**. Allo stesso prezzo l'Italia rende di più; gli USA tornano in pari solo con un prezzo più alto del ~30%, che lì il cliente accetta più spesso.
+- **Il vantaggio vero degli USA è la scala**, non il margine: un prodotto che funziona può vendere 5–10 volte di più. Ma ogni test costa il doppio.
+- Per **imparare e testare**, ogni euro di pubblicità in Italia compra il doppio dei dati.
+
+---
+
+## 3. Raccomandazione per il dropshipping
+
+| Mercato | Quando ha senso | Verdetto |
 |---|---|---|
-| **Test (ora)** | **Italia**, più una "lista d'attesa" in inglese per USA o Regno Unito | Pubblicità più economica, la tua lingua. Una lista d'attesa non vende nulla, quindi **non richiede alcuna conformità**: con 300–500 € in più si misura quanto costa un iscritto americano rispetto a uno italiano |
-| **Lancio** | **Italia + 2–3 Paesi UE** (Germania, Francia, Spagna) | Il PIF e il CPNP coprono già tutta l'UE: servono solo traduzioni. Il pubblico raggiungibile si moltiplica per quattro senza nuova burocrazia, e la pubblicità ha più spazio per scalare |
-| **Fase 2 (dopo 12–18 mesi, con riacquisto dimostrato)** | **Regno Unito**, poi **USA** con un magazzino locale | Gli USA valgono la pena solo con unit economics provate: CAC più alto, dazio del 15%, scorte da anticipare, claim antiforfora non utilizzabile |
-| **Aggiunta** | **Canada**, se c'è la linea Lash | Prostaglandine vietate anche lì, dazi bassi con il CETA; serve l'etichetta bilingue |
-| **No, per ora** | **America Latina** | Servono un partner locale (in Brasile è obbligatorio per legge), tasse alte e un'operatività quotidiana che va contro i tuoi filtri. Più avanti si potrebbe valutare una licenza a un distributore locale |
+| **Italia / UE** | Per i test e per imparare: dati a metà prezzo. Con magazzino UE, non dalla Cina | **Primo mercato** |
+| **USA** | Solo dopo aver trovato un prodotto che regge un prezzo premium, con un fornitore che ha già il magazzino negli USA. Pubblicità e test costano il doppio | **Secondo passo**, non punto di partenza |
+| **Canada** | Come estensione degli USA, con gli stessi fornitori | Aggiunta |
+| **America Latina** | Il modello con pagamento alla consegna funziona, ma è lavoro operativo quotidiano (conferme degli ordini, consegne fallite) e richiede presenza o un socio locale. È contro i tuoi filtri 5 e 6 | **No**, salvo un socio sul posto (es. Alberto o un contatto locale) |
 
-**In sintesi:** vendere in UE non è solo la scelta più comoda, è quella in cui i tuoi prodotti hanno un vantaggio normativo. Il vero errore sarebbe limitarsi all'**Italia**: il lavoro di conformità vale già per 27 Paesi.
+**In sintesi:** cambiare mercato non risolve i problemi di fondo del dropshipping (margini sottili, nessuna difendibilità), visti nelle due valutazioni. Sposta solo l'equilibrio tra prezzo e costo della pubblicità.
 
 ---
 
-## 4. Fonti
-- Fine dell'esenzione USA: [Coeur d'Alene Press / AP](https://cdapress.com/news/2025/aug/29/duty-free-no-more-parcels-worth-under-800-no-longer-qualify-for-a-us-tariff-exemption/) · [Thompson Hine, regole CBP di giugno 2026](https://www.thompsonhinesmartrade.com/2026/06/cbp-issues-interim-final-rules-indefinitely-suspending-the-de-minimis-exemption-for-imports/) · [Yahoo Finance](https://finance.yahoo.com/news/trump-signs-order-end-minimis-181352238.html)
-- Dazio USA del 15% sui cosmetici UE: [Personal Care Insights](https://www.personalcareinsights.com/news/eu-us-beauty-tariffs-approved.html) · [Premium Beauty News](https://www.premiumbeautynews.com/en/eu-us-trade-deal-what-impact-for,26100) · [Il Sole 24 Ore, export cosmetico](https://en.ilsole24ore.com/art/cosmetics-export-engine-2026-will-exceed-94-billion-euro-10-per-cent-weighted-by-usa-eu-tariffs-agreement-AHL5DCxB) · [Bloomberg Law](https://news.bloomberglaw.com/international-trade/eu-gives-us-trade-deal-final-approval-ahead-of-trump-deadline)
-- MoCRA: [Registrar Corp, esenzioni](https://www.registrarcorp.com/blog/cosmetics/mocra/mocra-exemptions/) · [eFulfillment Service](https://www.efulfillmentservice.com/2026/05/mocra-fda-cosmetics-compliance-ecommerce/) · [Craftybase](https://craftybase.com/blog/mocra-cosmetics)
-- Canada: [Registrar Corp](https://www.registrarcorp.com/blog/cosmetics/cosmetic-regulations/import-sell-us-cosmetic-products-in-canada/) · [Artixio](https://www.artixio.com/health-canada-cosmetic-regulations-in-canada/) · [BorderBuddy](https://borderbuddy.com/canada-imports/cosmetics)
-- Brasile: [Freyr](https://cosmetics.freyrsolutions.com/cosmetics-regulatory-services-brazil) · [ICE, requisiti ANVISA](https://www.ice.it/it/sites/default/files/inline-files/Flash%20ITA%20Febbraio%202025%20-%20normative%20e%20requisiti%20ANVISA%20settore%20cosmetica.pdf) · [Goods Across Borders](https://goodsacrossborders.com/posting/send/cosmetics-commercial/to/brazil)
-- Messico: [Bloomberg Tax](https://news.bloombergtax.com/daily-tax-report/mexico-raises-import-taxes-on-online-purchases-from-shein-temu) · [The Logistics World](https://thelogisticsworld.com/actualidad-logistica/mexico-lleva-al-33-5-el-impuesto-a-importaciones-por-paqueteria/) · [FreightWaves](https://www.freightwaves.com/?p=566652)
-- Dropi e pagamento alla consegna: [Portafolio](https://www.portafolio.co/innovacion/dropshipping-una-alternativa-a-la-alta-demanda-del-e-commerce-560125) · [Andrey Business](https://www.andreybusiness.com/blog/dropi-latam-dropshipping-colombia-mexico-ecuador-peru)
-- Pubblicità Meta: [Adligator, CPM per Paese](https://adligator.com/blog/meta-ads-cpm-by-country-benchmarks) · [Adamigo](https://www.adamigo.ai/blog/meta-ads-cpm-cpc-benchmarks-by-country-2026) · [MediaPost, location fee](https://www.mediapost.com/publications/article/413378/meta-passes-eu-digital-services-tax-to-advertisers.html) · [Social Media Today](https://www.socialmediatoday.com/news/meta-hikes-ad-prices-in-six-countries/814391/)
-- Mercati beauty: [Statista, Italia](https://www-statista-com.ezproxy.canberra.edu.au/outlook/cmo/beauty-personal-care/italy) · [ClickPost](https://www.clickpost.ai/blog/beauty-industry-ecommerce-market) · [Tricoci University, USA](https://www.tricociuniversity.edu/beauty-blog/skincare-industry-statistics-2025-u-s-market-overview/)
-- Monografia antiforfora USA: 21 CFR parte 358, sottoparte H (da verificare sul testo ufficiale eCFR)
+## 4. Nota sul marchio KRINÉ (dalla versione precedente)
+Se un giorno la domanda riguardasse KRINÉ e non il dropshipping, valgono due punti già emersi:
+- negli USA il piroctone non è ammesso come antiforfora (lì un antiforfora è un farmaco da banco, monografia 21 CFR 358, da verificare);
+- negli USA le prostaglandine per ciglia restano legali, quindi la finestra di mercato di KRINÉ Lash esiste solo in UE e in Canada.
+
+---
+
+## 5. Fonti
+- USA: [AP via Coeur d'Alene Press](https://cdapress.com/news/2025/aug/29/duty-free-no-more-parcels-worth-under-800-no-longer-qualify-for-a-us-tariff-exemption/) · [Thompson Hine, regole CBP 2026](https://www.thompsonhinesmartrade.com/2026/06/cbp-issues-interim-final-rules-indefinitely-suspending-the-de-minimis-exemption-for-imports/) · [China Briefing, dazi USA–Cina](https://china-briefing.com/news/us-china-tariff-rates-2025) · [EY, tregua di novembre 2025](https://taxnews.ey.com/news/2025-2247-white-house-issues-executive-order-formalizing-trade-truce-with-china) · [GoComet](https://www.gocomet.com/blog/understanding-us-china-tariff-rates/)
+- UE e Italia: vedi le fonti di `dropshipping/valutazione-10-prodotti.md`
+- Messico: [Bloomberg Tax](https://news.bloombergtax.com/daily-tax-report/mexico-raises-import-taxes-on-online-purchases-from-shein-temu) · [The Logistics World](https://thelogisticsworld.com/actualidad-logistica/mexico-lleva-al-33-5-el-impuesto-a-importaciones-por-paqueteria/) · [Bringgoship, soglie T-MEC](https://bringgoship.com/en/blog/shein-temu-tax-mexico) · [FreightWaves](https://www.freightwaves.com/?p=566652)
+- Brasile: [Goods Across Borders](https://goodsacrossborders.com/posting/send/cosmetics-commercial/to/brazil) · [Freyr, ANVISA](https://cosmetics.freyrsolutions.com/cosmetics-regulatory-services-brazil)
+- Colombia e Dropi: [Portafolio](https://www.portafolio.co/innovacion/dropshipping-una-alternativa-a-la-alta-demanda-del-e-commerce-560125) · [Andrey Business, Dropi](https://www.andreybusiness.com/blog/dropi-latam-dropshipping-colombia-mexico-ecuador-peru) · [Accounter, RUT](https://accounter.co/noticias/actualidad/titulares/el-parto-de-obtener-un-registro-unico-tributario) · [Expat.com, banche in Colombia](https://www.expat.com/es/guia/america-del-sur/colombia/13930-bancos-en-colombia.html) · [CIJUF](https://cijuf.org.co/sites/cijuf.org.co/files/documentos_interes/FLASH%20412.pdf)
+- Canada: [Registrar Corp](https://www.registrarcorp.com/blog/cosmetics/cosmetic-regulations/import-sell-us-cosmetic-products-in-canada/) · [BorderBuddy](https://borderbuddy.com/canada-imports/cosmetics)
+- Pubblicità: [Adligator, CPM per Paese](https://adligator.com/blog/meta-ads-cpm-by-country-benchmarks) · [Adamigo](https://www.adamigo.ai/blog/meta-ads-cpm-cpc-benchmarks-by-country-2026) · [MediaPost, location fee Meta](https://www.mediapost.com/publications/article/413378/meta-passes-eu-digital-services-tax-to-advertisers.html)
+- Cosmetici USA: [Registrar Corp, esenzioni MoCRA](https://www.registrarcorp.com/blog/cosmetics/mocra/mocra-exemptions/) · [Blanka, FAQ](https://faq.blankabrand.com/en/articles/4879945-what-is-blanka)
