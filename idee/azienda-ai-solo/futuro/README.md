@@ -1,6 +1,6 @@
 # Lista: idee per i bisogni dei prossimi 1–5 anni (candidati sopra 3,5)
 
-**Stato al 13/10/2026, ore 15:20 UTC: 8 candidati in lista su 32 studiati.**
+**Stato al 13/10/2026, ore 16:50 UTC: 8 candidati in lista su 33 studiati, più la 153 (gioco di società AI) in valutazione.**
 - La ricerca continua su altri 8 candidati (vedi in fondo).
 - La lista è completa quando arriva ad almeno 10 candidati, oppure, come mi hai chiesto, quando i crediti arrivano al 90%.
 
@@ -690,16 +690,144 @@ Il punteggio era 3,80. È sceso dopo la verifica dei concorrenti, perché Math A
 - **B2B con obblighi morbidi:** le PMI rimandano.
 - **Prodotti in cui chi usa non è chi paga:** serve convincere due persone.
 
-## Ricerche ancora in corso (13/10/2026)
-I rapporti delle ultime due ondate hanno anche la sezione "Modelli del 2027 e architettura AI", come mi hai chiesto.
+## In valutazione: 153 · Gioco di società AI per serate tra amici
+**Punteggio 3,35 con motivazione 4 (mia stima); 3,55 con motivazione 5, cioè entra in lista al limite.** Con motivazione neutra vale 3,15.
+- **Clienti:** consumatori; paga solo chi ospita.
+- **Primo pubblico:** i pre-serata Erasmus.
+- **Dossier:**
+  - [mercato e concorrenti](dossier/153-mercato.md);
+  - [prodotto, rischi e test](dossier/153-prodotto.md).
 
-| ID | Idea | Tipo |
+**Cos'è.** Una web app senza installazione: chi ospita mostra un QR e tutti entrano dal telefono. L'AI crea giochi su misura per i presenti e fa da presentatore:
+- indovinelli costruiti su ciò che ognuno scrive in privato;
+- impostore multilingue;
+- "chi è più probabile che…";
+- battuta migliore.
+
+Ognuno legge nella sua lingua.
+
+- **Mercato.**
+  - Erasmus+ nel 2024: circa 1,44–1,5 milioni di partecipanti (tutti i settori), di cui circa 350–450 mila universitari (stima). L'ESN ha 512 sezioni in 44 Paesi e segue circa 350 mila studenti.
+  - In UE ci sono 1,76 milioni di studenti stranieri e 18,8 milioni di universitari.
+  - La Gen Z vuole vedersi dal vivo, fa feste in casa e beve meno.
+  - Ma nel 2025 la spesa nei party game su mobile è scesa del 16,2% (AppMagic).
+  - **Gli Erasmus da soli valgono al massimo 20–80 k€ l'anno: sono il laboratorio, non il mercato.**
+- **Concorrenti.**
+  - **App affermate:**
+    - Picolo: 7,7 milioni di download, circa 50 $/anno;
+    - Undercover: 6,1 milioni di installazioni su iOS;
+    - Heads Up!: 70 milioni di download;
+    - Jackbox: il formato schermo, telefoni e codice stanza;
+    - Kahoot, Gartic Phone, Among Us.
+  - **Grandi piattaforme:**
+    - Netflix offre giochi sulla TV con il telefono come controller, gratis per gli abbonati;
+    - Meta AI è già dentro i gruppi WhatsApp.
+  - **Nuove app con AI (2025–2026), almeno 5:**
+    - Inside Joke Battle Arena fa già "chi è più probabile che…" sui presenti, con codice stanza;
+    - Whisper Games ha un presentatore AI a voce;
+    - Little Umbrella ("Death by AI") ha avuto 20 milioni di giocatori in 3 mesi, ma online.
+  - Nessuna mette insieme tutto: gruppi da 8–20, più lingue, presentatore, domande sui presenti, ingresso con QR. Ogni pezzo però è copiabile in poche settimane.
+- **Come fanno oggi.**
+  - Giochi fisici con l'alcol: beer pong, King's Cup, "Non ho mai".
+  - App su un telefono che passa di mano: Picolo, Undercover.
+  - L'"impostore" di TikTok, giocato senza app.
+  - Musica.
+
+  I problemi: lingue diverse, persone che non si conoscono, chi non beve resta escluso, contenuti ripetitivi.
+- **Cosa fa in più di ChatGPT da 20 $/mese.**
+  - ChatGPT ha ritirato le chat di gruppo il 9/7/2026, e la sua voce serve un utente alla volta.
+  - Il gioco ha ciò che una chat non può avere:
+    - segreti e voti anonimi su ogni telefono;
+    - risposte contemporanee, regole, tempi e punteggi;
+    - la lingua di ciascuno;
+    - contenuti presi da ciò che ognuno scrive in privato.
+  - **Però chi ospita non lo confronta con ChatGPT a 20 $, ma con il gratis:** Netflix, Meta AI, i giochi a dita puntate.
+  - Un abbonamento mensile ha senso solo per chi ospita almeno 2 volte al mese. Per gli Erasmus sono meglio un pass serata o un pass semestre.
+- **Quanto pagherebbero.**
+  - Riferimenti:
+    - Picolo: circa 50 $/anno;
+    - Drinktivity: 2,99 $/settimana;
+    - Drink and Tell: 5,99 $/mese;
+    - Jackbox: 25–30 $ una tantum;
+    - Kahoot per i bar: 19–59 $/mese.
+  - Plausibile: pass serata a 1,99 €, pass semestre a 9,99 €, abbonamento a 3,99 €/mese. Paga solo chi ospita: in un gruppo di 12 sono 0,17 € a testa.
+- **Fatturato.**
+  - Costo dell'AI per serata: 0,22 € nella versione essenziale, 0,85 € nella standard.
+  - Paganti necessari:
+
+    | Obiettivo | Modello | Ospiti paganti l'anno |
+    |---|---|---|
+    | 300 k€ | Abbonamento settimanale da 4,99 €, tenuto 3 settimane | circa 29.000 |
+    | 300 k€ | Annuale da 29,99 € sul web | circa 12.600 |
+    | 1 M€ | Abbonamento settimanale | circa 96.000 |
+    | 1 M€ | Locali a 99 €/mese | circa 860 locali |
+
+  - La pubblicità non rientra (LTV/CAC 0,04–0,29). **Serve un fattore virale K di almeno 0,4–0,5.**
+  - Probabilità stimata dall'analista: 300–500 k€ al 5–10%, 1 M€ all'1–3%.
+  - **Strada B2B:** un presentatore AI di quiz per locali, ostelli e scambi linguistici. I bar pagano già 25–250 $/mese per un software, oppure 300–400 $ a serata per un presentatore umano.
+- **Rischi e cosa fare.**
+  - **Essere visto come gioco alcolico.** Per Apple è una categoria satura (linee guida 4.3 e 1.4.3), e TikTok non spinge i video con alcol. Va presentato come gioco di società, non alcolico.
+  - **Umiliazioni e bullismo.** Ognuno scrive solo di sé. Il livello "piccante" si sceglie in privato, e vale il più basso del gruppo.
+  - **Minori.** Contenuti piccanti solo per maggiorenni verificati: c'è il precedente del Garante contro Replika (5 M€).
+  - **GDPR.** Dati degli amici e memoria del gruppo: cancellazione automatica salvo consenso.
+  - **AI Act, art. 50 (dal 2/8/2026).** Dichiarare che il presentatore è un'AI e marcare audio e immagini.
+  - **Marchi.** Niente nomi come Quiplash, Codenames o "Undercover".
+- **Acquirente e CAC.**
+  - Decide chi ospita, o l'"animatore" del gruppo.
+  - Canali:
+    - il QR dentro il gioco ("ospita tu la prossima, la prima è gratis");
+    - clip automatiche per TikTok e Reels;
+    - ESN e welcome week, come canale e non come cliente;
+    - ambasciatori nelle residenze.
+  - CAC per pagante: 0,4–2,2 € con il ciclo dentro il gioco, 25–184 € con la pubblicità.
+- **Come si costruisce.**
+  - Web app con QR, senza store all'inizio.
+  - Server di stanza in tempo reale (WebSocket).
+  - Contenuti generati in anticipo, per non far aspettare i giocatori.
+  - Voce solo dallo schermo condiviso; le risposte arrivano dai telefoni.
+  - Modelli economici per il gioco gratuito: circa 0,06 € a serata.
+  - Moderazione su tre livelli.
+  - I voti "😂" dei giocatori insegnano cosa fa ridere: un ciclo di dati proprio.
+  - Prodotto minimo per il test: 2–3 settimane, meno di 1.000 €. Versione pubblica: 6–8 settimane, meno di 5.000 €.
+- **Perché adesso.**
+  - LLM e voce costano centesimi.
+  - La traduzione in tempo reale è ormai normale.
+  - La Gen Z vuole vedersi dal vivo.
+  - Per Erasmus+ 2028–2034 è proposto il 56% di budget in più.
+  - Finestra di 12–24 mesi.
+- **Modelli del 2027 e architettura AI.**
+  - **Più facile:** presentatore vocale multilingue, immagini per i giochi di disegno, commenti dell'AI alle risposte.
+  - **Minacce:**
+    - Meta, con l'AI già nei gruppi WhatsApp;
+    - Netflix, con il formato TV più telefono gratis;
+    - OpenAI, che sta valutando "funzioni collaborative".
+  - **Vantaggi possibili:**
+    - la memoria del gruppo, ma limitata dal GDPR;
+    - un presentatore addestrato sui voti dei giocatori, ma servono centinaia di migliaia di voti;
+    - game design e comunità.
+  - **Difendibilità 2 su 5:** l'architettura AI migliora il prodotto più di quanto lo protegga.
+- **Cosa la ucciderebbe.**
+  - L'effetto novità: si gioca una sera e basta.
+  - Il pre-serata non è il momento giusto: si arriva a orari diversi, c'è musica, si parla.
+  - Nessuno diventa a sua volta ospite, oppure un incidente di contenuti.
+
+**Test con i tuoi gruppi Erasmus** (3–4 settimane, 12–20 serate, meno di 1.000 €)
+- Il momento è ideale: il semestre è appena iniziato.
+- In un terzo delle serate ci sei tu a osservare; negli altri due terzi dai solo il link a chi ospita.
+- Soglie fissate prima:
+
+| Metrica | Avanti se | Stop se |
 |---|---|---|
-| 123 | Preparazione AI ai colloqui tecnici di data science, statistica e finanza quantitativa (mondo) | B2C professionale |
-| 124 | Previsione della domanda e riordino AI per e-commerce (Shopify, WooCommerce) | B2B |
-| 126 | Ottimizzazione AI degli esperimenti e delle formulazioni per laboratori R&D | B2B |
-| 136 | Rilevamento AI di risposte false e bot nei sondaggi online e nella ricerca | B2B |
-| 138 | API di verifica matematica passo per passo e diagnosi degli errori per edtech | B2B |
-| 140 | Misura dell'efficacia del marketing per PMI e marchi online (MMM bayesiano e incrementalità) | B2B |
-| 146 | Allenatore AI per le gare di matematica, per studenti di talento | B2C |
-| 148 | Revenue manager AI per operatori di tour ed esperienze | B2B |
+| Durata della partita (mediana) | ≥ 40 min | < 20 min |
+| Giochi per serata | ≥ 3 | ≤ 1 |
+| **Gruppi che rigiocano entro 14 giorni, senza solleciti** | **≥ 40%** | **< 15%** |
+| **Giocatori che lanciano una partita da soli entro 21 giorni** | **≥ 5%** | **< 1,5%** |
+| NPS dei giocatori | ≥ 50 | < 20 |
+| Ospiti che pagano davvero (pass da 1,99 € o 3,99 €/mese) | ≥ 20% | < 5% |
+| Clip pubblicate | ≥ 1 ogni 4 serate | 0 |
+| Incidenti gravi di contenuto | 0 | ≥ 1 non risolvibile |
+
+**Regola.** Si va avanti con almeno 5 soglie su 8, comprese le due in grassetto. Ci si ferma se anche una sola delle due in grassetto è in zona stop.
+
+## Ricerche interrotte
+I candidati 123, 124, 126, 136, 138, 140, 146 e 148 non ti interessavano. Le ricerche sono state fermate e non sono in lista.

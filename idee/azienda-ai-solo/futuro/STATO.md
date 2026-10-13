@@ -125,7 +125,11 @@ Per i candidati ancora da valutare, ogni rapporto ha una sezione 13, "Modelli de
   | a4577421450ac72ce | Mercato, concorrenti e soldi | 1, 2, 3, 5, 6, 10 |
   | ab22344a22e4fcff4 | Prodotto, rischi, acquisizione, test e modelli del 2027 | 4, 7, 8, 9, 12, 13 e voti |
 
-- **Prossimo passo:** unire i due rapporti in `dossier/153.md`, poi scheda e punteggio.
+- **Fatto (16:50 UTC).**
+  - I due rapporti sono in `dossier/153-mercato.md` e `dossier/153-prodotto.md`.
+  - La scheda è in `README.md`, nella sezione "In valutazione".
+  - Punteggio 3,35 con motivazione 4; con 5 sarebbe 3,55.
+  - In attesa: la motivazione di Lorenzo e la sua decisione sul test.
 - **Allarme crediti** riattivato: controllo alle 16:27 UTC circa.
 
 ## Allarme crediti (richiesta di Lorenzo del 13/10/2026, ore 15:20 UTC)

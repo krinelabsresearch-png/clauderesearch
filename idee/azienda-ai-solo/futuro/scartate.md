@@ -47,3 +47,5 @@ Sono le idee che, dopo la ricerca approfondita e le risposte a tutte le domande,
    - burocrazia per 110, 112 e 114;
    - morte per 120;
    - per la 127, che è in lista, ho escluso gli esami "vita".
+
+**Nota del 13/10/2026 sulla 115.** Tra i motivi c'erano le chat di gruppo di ChatGPT, che OpenAI ha ritirato il 9/7/2026. L'esito non cambia: anche con difendibilità 2, la 115 resta a 3,00.
