@@ -1,5 +1,8 @@
-"""Punteggi dei candidati 091–111 (bisogni dei prossimi 1–5 anni) con la scheda v2 (pesi in ../scheda_v2.py).
-Voti dopo la ricerca approfondita (dossier in dossier/); la motivazione è una stima prudente di Claude, da confermare con Lorenzo.
+"""Punteggi dei candidati 091–120 (bisogni dei prossimi 1–5 anni) con la scheda v2 (pesi in ../scheda_v2.py).
+Voti dopo la ricerca approfondita (dossier in dossier/). Criteri aggiornati da Lorenzo il 13/10/2026:
+- "solo1M" = potenziale oltre 300–500 k€ l'anno senza dipendenti, con strada verso 1 M€;
+- mercato UE e mondo (l'Italia è solo un possibile punto di partenza); B2B ammesso;
+- motivazione 5 indicata da Lorenzo per 092, 093, 096, 109; le altre sono stime prudenti di Claude.
 In lista solo i candidati con punteggio > 3,5. Esecuzione: python3 punteggi.py
 """
 import sys
@@ -11,26 +14,26 @@ from scheda_v2 import PESI  # noqa: E402
 SOGLIA = 3.5
 
 CANDIDATI = {
-    "091 Voce amica: telefonata AI quotidiana agli anziani soli":         dict(mot=3, vant=3, dolore=3, mercato=4, margine=2, valid=4, solo1M=2, autom=4, dif=2),
-    "092 Allenatore AI dell'esame orale":                                 dict(mot=4, vant=3, dolore=3, mercato=3, margine=3, valid=5, solo1M=2, autom=4, dif=2),
-    "093 Tutor di matematica AI a voce per bambini 6-13":                 dict(mot=4, vant=4, dolore=3, mercato=3, margine=3, valid=4, solo1M=2, autom=4, dif=2),
-    "094 Coach AI di lettura ad alta voce per bambini 6-10":              dict(mot=3, vant=3, dolore=3, mercato=2, margine=2, valid=4, solo1M=1, autom=3, dif=2),
-    "095 Orientamento AI basato sui dati (università e lavoro)":          dict(mot=4, vant=4, dolore=3, mercato=2, margine=2, valid=4, solo1M=2, autom=4, dif=2),
-    "096 Tutor AI per Analisi 1, Geometria e Fisica 1":                   dict(mot=4, vant=5, dolore=3, mercato=3, margine=3, valid=4, solo1M=2, autom=4, dif=2),
-    "098 Coach AI per ADHD e funzioni esecutive (adulti)":                dict(mot=3, vant=3, dolore=3, mercato=3, margine=4, valid=4, solo1M=2, autom=4, dif=2),
-    "099 Storie audio AI personalizzate senza schermo (Toniebox/Yoto)":   dict(mot=3, vant=3, dolore=2, mercato=3, margine=3, valid=4, solo1M=2, autom=4, dif=1),
-    "100 Libro della vita dei nonni con interviste telefoniche AI":       dict(mot=3, vant=3, dolore=3, mercato=3, margine=3, valid=5, solo1M=2, autom=4, dif=2),
-    "101 Palestra sociale AI per giovani adulti":                         dict(mot=4, vant=3, dolore=2, mercato=3, margine=3, valid=4, solo1M=2, autom=4, dif=1),
-    "102 Tracker AI dei capelli":                                         dict(mot=3, vant=4, dolore=2, mercato=3, margine=2, valid=4, solo1M=2, autom=4, dif=1),
-    "103 Assistente AI per i caregiver familiari":                        dict(mot=3, vant=3, dolore=3, mercato=4, margine=3, valid=4, solo1M=2, autom=3, dif=2),
-    "104 Coach AI di forza ed equilibrio per over 60":                    dict(mot=3, vant=3, dolore=2, mercato=4, margine=2, valid=3, solo1M=1, autom=4, dif=2),
+    "091 Voce amica: telefonata AI quotidiana agli anziani soli":         dict(mot=3, vant=3, dolore=3, mercato=4, margine=2, valid=4, solo1M=3, autom=4, dif=2),
+    "092 Allenatore AI dell'esame orale":                                 dict(mot=5, vant=3, dolore=3, mercato=3, margine=3, valid=5, solo1M=3, autom=4, dif=2),
+    "093 Tutor di matematica AI a voce per bambini 6-13":                 dict(mot=5, vant=4, dolore=3, mercato=3, margine=3, valid=4, solo1M=3, autom=4, dif=2),
+    "094 Coach AI di lettura ad alta voce per bambini 6-10":              dict(mot=3, vant=3, dolore=3, mercato=2, margine=2, valid=4, solo1M=2, autom=3, dif=2),
+    "095 Orientamento AI basato sui dati (università e lavoro)":          dict(mot=4, vant=4, dolore=3, mercato=3, margine=2, valid=4, solo1M=2, autom=4, dif=2),
+    "096 Tutor AI per Analisi 1, Geometria e Fisica 1":                   dict(mot=5, vant=5, dolore=3, mercato=3, margine=3, valid=4, solo1M=3, autom=4, dif=2),
+    "098 Coach AI per ADHD e funzioni esecutive (adulti)":                dict(mot=3, vant=3, dolore=3, mercato=4, margine=4, valid=4, solo1M=3, autom=4, dif=2),
+    "099 Storie audio AI personalizzate senza schermo (Toniebox/Yoto)":   dict(mot=3, vant=3, dolore=2, mercato=3, margine=3, valid=4, solo1M=3, autom=4, dif=1),
+    "100 Libro della vita dei nonni con interviste telefoniche AI":       dict(mot=3, vant=3, dolore=3, mercato=3, margine=3, valid=5, solo1M=3, autom=4, dif=2),
+    "101 Palestra sociale AI per giovani adulti":                         dict(mot=4, vant=3, dolore=2, mercato=3, margine=3, valid=4, solo1M=3, autom=4, dif=1),
+    "102 Tracker AI dei capelli":                                         dict(mot=3, vant=4, dolore=2, mercato=3, margine=2, valid=4, solo1M=3, autom=4, dif=1),
+    "103 Assistente AI per i caregiver familiari":                        dict(mot=3, vant=3, dolore=3, mercato=4, margine=3, valid=4, solo1M=3, autom=3, dif=2),
+    "104 Coach AI di forza ed equilibrio per over 60":                    dict(mot=3, vant=3, dolore=2, mercato=4, margine=2, valid=3, solo1M=2, autom=4, dif=2),
     "105 Assistente di viaggio per l'Europa delle nuove regole":          dict(mot=4, vant=3, dolore=2, mercato=4, margine=2, valid=4, solo1M=2, autom=3, dif=1),
-    "106 Coach AI per perimenopausa e menopausa":                         dict(mot=3, vant=3, dolore=3, mercato=4, margine=3, valid=4, solo1M=2, autom=4, dif=2),
-    "107 Assistente AI per la tesi con dati (statistica e metodo)":       dict(mot=4, vant=5, dolore=4, mercato=2, margine=4, valid=4, solo1M=2, autom=4, dif=2),
-    "108 Preparazione AI ai concorsi pubblici":                           dict(mot=3, vant=3, dolore=3, mercato=3, margine=4, valid=4, solo1M=2, autom=3, dif=2),
-    "109 Matematica per lavorare con l'AI (adulti)":                      dict(mot=4, vant=5, dolore=2, mercato=2, margine=4, valid=4, solo1M=2, autom=4, dif=1),
-    "110 Laboratorio AI per ragazzi 9-14, sicuro per i minori":           dict(mot=3, vant=3, dolore=2, mercato=3, margine=3, valid=3, solo1M=2, autom=4, dif=2),
-    "111 Preparazione atletica e prevenzione infortuni nel padel":        dict(mot=5, vant=4, dolore=2, mercato=2, margine=2, valid=4, solo1M=2, autom=4, dif=1),
+    "106 Coach AI per perimenopausa e menopausa":                         dict(mot=3, vant=3, dolore=3, mercato=4, margine=3, valid=4, solo1M=3, autom=4, dif=2),
+    "107 Assistente AI per la tesi con dati (statistica e metodo)":       dict(mot=4, vant=5, dolore=4, mercato=3, margine=4, valid=4, solo1M=3, autom=4, dif=2),
+    "108 Preparazione AI ai concorsi pubblici":                           dict(mot=3, vant=3, dolore=3, mercato=3, margine=4, valid=4, solo1M=3, autom=3, dif=2),
+    "109 Matematica per lavorare con l'AI (adulti)":                      dict(mot=5, vant=5, dolore=2, mercato=3, margine=4, valid=4, solo1M=3, autom=4, dif=1),
+    "110 Laboratorio AI per ragazzi 9-14, sicuro per i minori":           dict(mot=3, vant=3, dolore=2, mercato=3, margine=3, valid=3, solo1M=3, autom=4, dif=2),
+    "111 Preparazione atletica e prevenzione infortuni nel padel":        dict(mot=5, vant=4, dolore=2, mercato=3, margine=2, valid=4, solo1M=3, autom=4, dif=1),
 }
 
 

@@ -35,22 +35,48 @@ Vengono dalle sue richieste sulle idee 074, 075, 077, 081 e 082.
 - **Collo di bottiglia comune:** "potenziale > 1 M€ senza dipendenti" vale 2 su 5 (o 1) per tutti e 20. Con la sola Italia servono troppi clienti rispetto al mercato, oppure il costo di acquisizione supera il valore del cliente. Seguono:
   - "lo fa già ChatGPT/Gemini" (difendibilità 1–2);
   - concorrenti già presenti in italiano o in UE.
-- Decisione chiesta a Lorenzo (13/10, ore 10:20 UTC):
-  - continuare con nuove ondate;
-  - abbassare l'asticella del fatturato;
-  - ammettere il B2B;
-  - avere subito i migliori.
+## Decisione di Lorenzo (13/10/2026, mattina)
+- **Obiettivo:** 300–500 k€ l'anno senza dipendenti, con una strada verso 1 M€. Il voto "solo1M" ora misura questo.
+- **Mercato:** non solo Italia. L'Italia può servire per partire, ma se il progetto funziona ci si espande in UE e nel mondo.
+- **B2B ammesso.**
+- **Nuova ondata mirata** per arrivare a 10 candidati diversi.
+- **Motivazione 5** per 096, 109, 093 e 092.
+- **Domanda da fare sempre:** "cosa può fare la mia app in più di ChatGPT da 20 $ al mese, per cui una persona dovrebbe pagare un abbonamento?"
 
-  Chiesti anche i suoi voti di motivazione sulle idee vicine alla soglia.
+**Con i nuovi criteri superano 3,5 in 5 su 20:**
+
+| Candidato | Punteggio |
+|---|---|
+| 096 tutor universitario di matematica | 3,85 |
+| 107 tesi con dati | 3,85 |
+| 109 matematica per l'AI | 3,80 |
+| 093 matematica per bambini | 3,70 |
+| 092 allenatore dell'orale | 3,65 |
+
+Sono tutti dell'area matematica e istruzione: per avere 10 candidati diversi serve un'altra ondata.
+
+## Ondate 3 e 4 (lanciate il 13/10/2026 verso le 10:25 UTC)
+Gli agenti di ricerca si riprendono con SendMessage, usando lo stesso agentId.
+
+| Agente | Candidati |
+|---|---|
+| ac5e51a505648efe4 | 112 copilota regolatorio AI per marchi cosmetici indipendenti (UE e Regno Unito, B2B); 117 panel sintetici AI per testare prodotti e messaggi (B2B) |
+| ae58dd77cf063a056 | 113 revenue manager AI per club di padel (B2B); 115 coach AI di coppia multilingue |
+| a968982aa6c1a7550 | 114 kit di conformità all'AI Act per le PMI (B2B); 118 analisi del portafoglio e fiscale per investitori retail |
+| af6bbf1b399467e4b | 119 motore AI white label per le scuole di preparazione ai test (B2B); 120 guardiano finanziario dei genitori anziani via open banking |
+| a06ae3b5a314b4d3e | 116 biostatistico AI per medici e ricercatori; 121 preparazione AI alla parte quantitativa di SAT, GMAT e GRE |
 
 ## Regole di decisione
 - **Punteggio** con la scheda v2: pesi in `../scheda_v2.py`, voti in `punteggi.py`.
-- **Motivazione:** è una stima prudente, basata sui suoi interessi dichiarati; accanto si mostra sempre il punteggio con motivazione neutra (3).
+- **Motivazione:** è una stima prudente, basata sui suoi interessi dichiarati; accanto si mostra sempre il punteggio con motivazione neutra (3). Restano i 5 dati da Lorenzo.
 - **Soglia:** in lista solo con punteggio maggiore di 3,5, cioè almeno 3,55.
 - **Se i candidati sopra soglia sono meno di 10:** nuova ondata di candidati, poi consegna.
 
 ## Prossimi passi
-1. Ricevere le 10 ricerche e scrivere un dossier per ogni candidato in `dossier/`.
-2. Calcolare i punteggi e separare chi va in lista da chi viene scartato (`scartate.md`).
-3. Se servono, aggiungere altri candidati.
-4. Scrivere `README.md` (la lista), fare commit e push, poi rispondere a Lorenzo.
+1. Ricevere le ricerche delle ondate 3 e 4 e salvarle in `dossier/`.
+2. Aggiungere i voti in `punteggi.py` e calcolare i punteggi.
+3. Se i candidati in lista sono almeno 10:
+   - scrivere `README.md` con la lista e le risposte a tutte le domande, compresa quella su ChatGPT da 20 $;
+   - scrivere `scartate.md`;
+   - fare commit e push, poi rispondere a Lorenzo.
+4. Se sono meno di 10: lanciare un'altra ondata mirata.
