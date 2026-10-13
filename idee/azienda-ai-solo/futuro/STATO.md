@@ -66,6 +66,18 @@ Gli agenti di ricerca si riprendono con SendMessage, usando lo stesso agentId.
 | af6bbf1b399467e4b | 119 motore AI white label per le scuole di preparazione ai test (B2B); 120 guardiano finanziario dei genitori anziani via open banking |
 | a06ae3b5a314b4d3e | 116 biostatistico AI per medici e ricercatori; 121 preparazione AI alla parte quantitativa di SAT, GMAT e GRE |
 
+**Esito delle ondate 3 e 4:** passano solo 116 (biostatistico AI, 3,75) e 113 (revenue manager per club di padel, 3,55). Siamo a **7 in lista su 30.**
+
+## Ondata 5 (lanciata il 13/10/2026 verso le 10:55 UTC)
+
+| Agente | Candidati |
+|---|---|
+| a179fbb929084fe06 | 122 analisi video AI delle partite di padel; 127 preparazione AI agli esami attuariali |
+| a795e3963c2d14bfd | 123 preparazione AI ai colloqui di data science e finanza quantitativa; 136 rilevamento AI di risposte false nei sondaggi online |
+| adc5a4ba8475af4fb | 124 previsione della domanda e riordino AI per e-commerce (B2B); 126 ottimizzazione AI degli esperimenti per laboratori R&D (B2B) |
+
+Da fare a parte: verificare i concorrenti della 109 (Math Academy, Brilliant, Coursera), che nella prima ricerca erano rimasti senza verifica web.
+
 ## Regole di decisione
 - **Punteggio** con la scheda v2: pesi in `../scheda_v2.py`, voti in `punteggi.py`.
 - **Motivazione:** è una stima prudente, basata sui suoi interessi dichiarati; accanto si mostra sempre il punteggio con motivazione neutra (3). Restano i 5 dati da Lorenzo.
