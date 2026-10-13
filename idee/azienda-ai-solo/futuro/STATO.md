@@ -99,6 +99,21 @@ Per i candidati ancora da valutare, ogni rapporto ha una sezione 13, "Modelli de
 | a23035f931cb14c03 | 138 API di verifica matematica passo per passo per edtech (B2B); 146 allenatore AI per le gare di matematica (studenti di talento) |
 | a144ab3cb1777ea50 | 140 misura dell'efficacia del marketing per PMI e marchi DTC (MMM bayesiano e incrementalità, B2B); 148 revenue manager AI per operatori di tour ed esperienze (B2B) |
 
+## Allarme crediti (richiesta di Lorenzo del 13/10/2026, ore 15:20 UTC)
+> "prima di concludere i crediti elabora riposta con tutti i candidati selezionati fino ad ora" … "mettiti un allarm al 90% dei crediti per farlo"
+
+**Come si legge l'utilizzo.** Con lo strumento `list_events` (kinds `rate_limit_event`) sulla sessione `session_014rQd1cd9ZVwEjRrzvBtikc` si leggono due finestre:
+- `five_hour.utilization`, quella di 5 ore;
+- `seven_day.utilization`, quella di 7 giorni.
+
+Valori alle 15:15 UTC: 5 ore al 24% (si azzera alle 20:10 UTC), 7 giorni al 49% (si azzera il 14/10 alle 06:00 UTC).
+
+**Regola.**
+1. Controllare l'utilizzo a ogni rapporto di un agente e con promemoria `send_later` ogni 25 minuti circa.
+2. Se una delle due finestre arriva al 90%: aggiornare `README.md` con tutti i candidati selezionati fino a quel momento, fare commit e push, e mandare subito la risposta a Lorenzo.
+
+`README.md` è già pronto, con gli 8 candidati in lista.
+
 ## Regole di decisione
 - **Punteggio** con la scheda v2: pesi in `../scheda_v2.py`, voti in `punteggi.py`.
 - **Motivazione:** è una stima prudente, basata sui suoi interessi dichiarati; accanto si mostra sempre il punteggio con motivazione neutra (3). Restano i 5 dati da Lorenzo.
