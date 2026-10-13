@@ -99,6 +99,21 @@ Per i candidati ancora da valutare, ogni rapporto ha una sezione 13, "Modelli de
 | a23035f931cb14c03 | 138 API di verifica matematica passo per passo per edtech (B2B); 146 allenatore AI per le gare di matematica (studenti di talento) |
 | a144ab3cb1777ea50 | 140 misura dell'efficacia del marketing per PMI e marchi DTC (MMM bayesiano e incrementalità, B2B); 148 revenue manager AI per operatori di tour ed esperienze (B2B) |
 
+## Decisione di Lorenzo (13/10/2026, ore 15:50 UTC)
+> "non mi interessano queste 8, proponimene altre 8 e ti dico quali approfondire"
+
+- Le ricerche su 123, 124, 126, 136, 138, 140, 146 e 148 sono ferme e **non vanno riprese**.
+- Ho proposto 8 idee nuove, numerate da 149 a 156. Lorenzo sceglie quali approfondire:
+  - 149 esperimenti su se stessi (n-of-1);
+  - 150 livello sociale per eventi;
+  - 151 esami di lingua per immigrati;
+  - 152 gruppi di studio con facilitatore AI;
+  - 153 giochi di società AI;
+  - 154 tutor AI su licenza di docenti e creator;
+  - 155 copilota per maestri di padel;
+  - 156 laboratorio virtuale di fisica.
+- Quando parte la ricerca, va riattivato l'allarme crediti.
+
 ## Allarme crediti (richiesta di Lorenzo del 13/10/2026, ore 15:20 UTC)
 > "prima di concludere i crediti elabora riposta con tutti i candidati selezionati fino ad ora" … "mettiti un allarm al 90% dei crediti per farlo"
 
