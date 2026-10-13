@@ -2,3 +2,6 @@
 __pycache__/
 analisi/pdf/body.pdf
 analisi/pdf/cover.pdf
+__pycache__/
+idee/azienda-ai-solo/radar/dati/
+idee/azienda-ai-solo/radar/*.csv
