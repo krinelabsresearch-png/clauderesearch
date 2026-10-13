@@ -1,4 +1,4 @@
-"""Punteggi dei candidati 091–120 (bisogni dei prossimi 1–5 anni) con la scheda v2 (pesi in ../scheda_v2.py).
+"""Punteggi dei candidati 091–121 (bisogni dei prossimi 1–5 anni) con la scheda v2 (pesi in ../scheda_v2.py).
 Voti dopo la ricerca approfondita (dossier in dossier/). Criteri aggiornati da Lorenzo il 13/10/2026:
 - "solo1M" = potenziale oltre 300–500 k€ l'anno senza dipendenti, con strada verso 1 M€;
 - mercato UE e mondo (l'Italia è solo un possibile punto di partenza); B2B ammesso;
@@ -34,6 +34,8 @@ CANDIDATI = {
     "109 Matematica per lavorare con l'AI (adulti)":                      dict(mot=5, vant=5, dolore=2, mercato=3, margine=4, valid=4, solo1M=3, autom=4, dif=1),
     "110 Laboratorio AI per ragazzi 9-14, sicuro per i minori":           dict(mot=3, vant=3, dolore=2, mercato=3, margine=3, valid=3, solo1M=3, autom=4, dif=2),
     "111 Preparazione atletica e prevenzione infortuni nel padel":        dict(mot=5, vant=4, dolore=2, mercato=3, margine=2, valid=4, solo1M=3, autom=4, dif=1),
+    "112 Copilota regolatorio AI per marchi cosmetici indipendenti (B2B)": dict(mot=3, vant=4, dolore=3, mercato=3, margine=4, valid=4, solo1M=3, autom=3, dif=2),
+    "117 Panel sintetici AI per testare prodotti e messaggi (B2B)":     dict(mot=4, vant=3, dolore=2, mercato=4, margine=4, valid=4, solo1M=3, autom=4, dif=1),
 }
 
 
