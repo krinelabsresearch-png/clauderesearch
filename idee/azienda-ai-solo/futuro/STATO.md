@@ -24,31 +24,24 @@ Vengono dalle sue richieste sulle idee 074, 075, 077, 081 e 082.
 11. Voti della scheda v2.
 12. Cosa la ucciderebbe e qual è il test più economico.
 
-## Candidati in ricerca (ondata 1 e 2)
-| ID | Candidato | Stato |
-|---|---|---|
-| 091 | Voce amica: telefonata AI quotidiana agli anziani soli, riassunto ai figli | in ricerca |
-| 092 | Allenatore AI dell'esame orale | in ricerca |
-| 093 | Tutor di matematica AI a voce per bambini 6–13, pensato per i minori | in ricerca |
-| 094 | Coach AI di lettura ad alta voce per bambini 6–10 | in ricerca |
-| 095 | Orientamento AI basato sui dati (università e lavoro) | in ricerca |
-| 096 | Tutor AI per gli esami di matematica e fisica del primo anno | in ricerca |
-| 098 | Coach AI per ADHD e funzioni esecutive (adulti) | in ricerca |
-| 099 | Storie audio AI personalizzate su Toniebox/Yoto | in ricerca |
-| 100 | Libro della vita dei nonni con interviste telefoniche AI | in ricerca |
-| 101 | Palestra sociale AI per giovani adulti | in ricerca |
-| 102 | Tracker AI dei capelli | in ricerca |
-| 103 | Assistente AI per i caregiver familiari | in ricerca |
-| 104 | Coach AI di forza ed equilibrio per over 60 | in ricerca |
-| 105 | Assistente di viaggio per l'Europa delle nuove regole | in ricerca |
-| 106 | Coach AI per perimenopausa e menopausa | in ricerca |
-| 107 | Assistente AI per la tesi con dati | in ricerca |
-| 108 | Preparazione AI ai concorsi pubblici | in ricerca |
-| 109 | Matematica per lavorare con l'AI (adulti) | in ricerca |
-| 110 | Laboratorio AI per ragazzi 9–14, sicuro per i minori | in ricerca |
-| 111 | Preparazione atletica e prevenzione infortuni per il padel | in ricerca |
+## Esito delle ondate 1 e 2 (20 candidati, ricerca conclusa il 13/10/2026)
+- Punteggi in `punteggi.py`; risposte complete alle domande (e concorrenti) in `dossier/`.
+- **Sopra 3,5: solo la 107** (assistente AI per la tesi con dati, 3,65).
+- Vicine alla soglia:
+  - 096 tutor universitario di matematica (3,50);
+  - 109 matematica per lavorare con l'AI (3,40);
+  - 093 tutor di matematica per bambini (3,35);
+  - 092 allenatore dell'orale (3,30).
+- **Collo di bottiglia comune:** "potenziale > 1 M€ senza dipendenti" vale 2 su 5 (o 1) per tutti e 20. Con la sola Italia servono troppi clienti rispetto al mercato, oppure il costo di acquisizione supera il valore del cliente. Seguono:
+  - "lo fa già ChatGPT/Gemini" (difendibilità 1–2);
+  - concorrenti già presenti in italiano o in UE.
+- Decisione chiesta a Lorenzo (13/10, ore 10:20 UTC):
+  - continuare con nuove ondate;
+  - abbassare l'asticella del fatturato;
+  - ammettere il B2B;
+  - avere subito i migliori.
 
-(La 097 è stata assorbita dalla 093 e dalla 096.)
+  Chiesti anche i suoi voti di motivazione sulle idee vicine alla soglia.
 
 ## Regole di decisione
 - **Punteggio** con la scheda v2: pesi in `../scheda_v2.py`, voti in `punteggi.py`.
