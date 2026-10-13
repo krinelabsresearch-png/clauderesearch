@@ -76,7 +76,28 @@ Gli agenti di ricerca si riprendono con SendMessage, usando lo stesso agentId.
 | a795e3963c2d14bfd | 123 preparazione AI ai colloqui di data science e finanza quantitativa; 136 rilevamento AI di risposte false nei sondaggi online |
 | adc5a4ba8475af4fb | 124 previsione della domanda e riordino AI per e-commerce (B2B); 126 ottimizzazione AI degli esperimenti per laboratori R&D (B2B) |
 
-Da fare a parte: verificare i concorrenti della 109 (Math Academy, Brilliant, Coursera), che nella prima ricerca erano rimasti senza verifica web.
+Da fare a parte: verificare i concorrenti della 109 (Math Academy, Brilliant, Coursera), che nella prima ricerca erano rimasti senza verifica web. Fatto: la 109 scende a 3,65.
+
+**Interruzione.** Alle 10:48 UTC si è raggiunto il limite di sessione, che si è azzerato alle 15:10 UTC.
+- Le ricerche su 123/136 e su 124/126 si sono interrotte e alle 15:12 sono state riprese con SendMessage.
+- Esito 122/127: 127 in lista (3,60, solo esami P e FM per il filtro "morte"); 122 scartata (3,25).
+- **Siamo a 8 in lista su 32.**
+
+## Nuova indicazione di Lorenzo (13/10/2026, 15:10 UTC)
+> "per gli ultimi 3 candidati considera che mi ci vorrà qualche mese per far partire il progetto quindi è plausibile che avrò a disposizione modelli ancora più potenti … (ma al contempo anche il "chatgpt" che dobbiamo battere sarà più capace). In questa ottica è utile considerare i casi in cui ciò che si costruisce è una vera e propria architettura AI, magari anche con una rag o un fine tuining. Valutiamo anche queste opzioni (senza che siano degli obblighi, ma solo delle possibilità da conisederare)"
+
+Per i candidati ancora da valutare, ogni rapporto ha una sezione 13, "Modelli del 2027 e architettura AI". Risponde a quattro punti:
+- cosa diventa più facile da costruire;
+- cosa farà da solo il ChatGPT del 2027;
+- se RAG, fine-tuning, modelli specializzati e agenti creano un vantaggio non replicabile;
+- costo e fattibilità per una persona sola.
+
+## Ondata 6 (lanciata il 13/10/2026 alle 15:13 UTC, con la nuova indicazione)
+
+| Agente | Candidati |
+|---|---|
+| a23035f931cb14c03 | 138 API di verifica matematica passo per passo per edtech (B2B); 146 allenatore AI per le gare di matematica (studenti di talento) |
+| a144ab3cb1777ea50 | 140 misura dell'efficacia del marketing per PMI e marchi DTC (MMM bayesiano e incrementalità, B2B); 148 revenue manager AI per operatori di tour ed esperienze (B2B) |
 
 ## Regole di decisione
 - **Punteggio** con la scheda v2: pesi in `../scheda_v2.py`, voti in `punteggi.py`.

@@ -1,4 +1,4 @@
-"""Punteggi dei candidati 091–121 (bisogni dei prossimi 1–5 anni) con la scheda v2 (pesi in ../scheda_v2.py).
+"""Punteggi dei candidati 091–136 (bisogni dei prossimi 1–5 anni) con la scheda v2 (pesi in ../scheda_v2.py).
 Voti dopo la ricerca approfondita (dossier in dossier/). Criteri aggiornati da Lorenzo il 13/10/2026:
 - "solo1M" = potenziale oltre 300–500 k€ l'anno senza dipendenti, con strada verso 1 M€;
 - mercato UE e mondo (l'Italia è solo un possibile punto di partenza); B2B ammesso;
@@ -44,6 +44,8 @@ CANDIDATI = {
     "119 Motore AI white label per scuole di preparazione ai test (B2B)": dict(mot=3, vant=4, dolore=2, mercato=3, margine=4, valid=3, solo1M=2, autom=3, dif=2),
     "120 Guardiano finanziario per genitori anziani via open banking":   dict(mot=3, vant=3, dolore=3, mercato=4, margine=3, valid=3, solo1M=2, autom=4, dif=2),
     "121 Preparazione AI alla parte quantitativa di SAT, GMAT e GRE":     dict(mot=4, vant=3, dolore=3, mercato=3, margine=2, valid=4, solo1M=2, autom=4, dif=1),
+    "122 Analisi video AI delle partite di padel":                         dict(mot=5, vant=3, dolore=2, mercato=3, margine=3, valid=4, solo1M=2, autom=4, dif=1),
+    "127 Preparazione AI agli esami attuariali (P e FM)":                  dict(mot=4, vant=4, dolore=4, mercato=2, margine=5, valid=4, solo1M=2, autom=4, dif=2),
 }
 
 
