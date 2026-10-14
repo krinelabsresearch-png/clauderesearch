@@ -217,3 +217,8 @@ Valori alle 15:15 UTC: 5 ore al 24% (si azzera alle 20:10 UTC), 7 giorni al 49% 
     - Sopra 3,5 con la verifica rapida: CERTO (dimostratore matematico per modelli finanziari Excel) 3,75; Momenti 4D 3,70; PEPTICA 3,65.
     - Scartate: PhoneLab (Haut.AI fa già esattamente questo) e Deepfake Drill (Adaptive Security ha raccolto oltre 130 M$).
     - Le 10 proposte 198–207 sono in `proposte-wow.md`: 5 verificate e 5 ancora da verificare. Ripresa del workflow programmata dopo il reset delle 06:20 UTC (run wf_6b80e331-97d).
+  - **Ripresa alle 06:26 UTC, dopo il reset dei crediti:** workflow completato, 16 idee su 16 verificate (5 da tenere, 7 deboli, 4 scartate).
+    - Scartate anche il Superconnector per fiere (Boardy, Swapcard, Grip e Brella occupano lo spazio) e lo Scaffale gemello (EyeSee e InContext lo fanno da oltre 10 anni).
+    - Al loro posto, con gli stessi numeri: 205 PianoFabbrica (3,60, da tenere) e 207 First Dance AI (3,25, da tenere).
+    - Sopra 3,5 con la verifica rapida: 198 CERTO 3,75; 199 Momenti 4D 3,70; 200 PEPTICA 3,65; 205 PianoFabbrica 3,60.
+    - `proposte-wow.md` è aggiornato.
