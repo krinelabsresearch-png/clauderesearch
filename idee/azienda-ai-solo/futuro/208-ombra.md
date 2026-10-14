@@ -278,3 +278,77 @@ E soprattutto non confronta il tuo impianto con mille impianti vicini.
 - che si parta dal **Conto Energia**, non dalle famiglie.
 
 Il cuore matematico è tuo. Il rischio vero è l'accesso ai dati e la precisione sul campo, e il test sotto i 10 k€ li misura entrambi.
+
+---
+
+## 11. Obiezione di Lorenzo (14/10/2026): "l'ombra spesso non si può eliminare"
+
+**L'obiezione è giusta.** Edifici, colline, torri e infrastrutture non si spostano, quindi la mappa d'ombra da sola vale poco. È la parte che fa effetto nella demo, non quella che fa guadagnare.
+
+**Dove l'ombra è risolvibile**
+- Alberi e siepi: potatura.
+- Erba alta, canne e rovi davanti alle file più basse degli impianti a terra: è una voce normale della manutenzione.
+- Sporco che si accumula sul bordo basso dei pannelli: pulizia.
+- Comignoli, antenne e parabole: spesso si possono spostare.
+- Pannelli in ombra collegati sulla stessa stringa di pannelli al sole. Il pannello in ombra frena l'intera stringa, quindi la perdita è più che proporzionale. Si rimedia ricablando (spostando i pannelli in ombra su un'altra stringa o MPPT) oppure con ottimizzatori solo su quei pannelli. Quanto si recupera va misurato caso per caso.
+- Al momento del revamping: spostare o togliere i pannelli che stanno in ombra e scegliere dove mettere quelli nuovi.
+
+**Il caso "torre di 50 m che toglie il 15%"**
+
+Il proprietario non elimina la torre, ma ci guadagna in altri modi:
+1. **Smette di pagare controlli inutili.** "Non è un guasto, è la torre" chiude la questione, anche davanti a una lettera di alerting del GSE.
+2. **Recupera la parte di perdita causata dal cablaggio.** Ricablando o con ottimizzatori sui soli pannelli in ombra.
+3. **Decide meglio il revamping.** Non rimette pannelli nuovi nella zona in ombra e dimensiona correttamente inverter e batteria.
+4. **Dà il prezzo giusto all'impianto se lo vende o lo compra.** Chi compra un impianto che rende il 15% in meno lo paga meno; saperlo prima vale soldi per entrambe le parti.
+5. **Ha prove documentate se la torre è nuova.** In Italia non esiste un diritto generale al sole e un'azione legale funziona solo in casi particolari (distanze, regolamenti locali): non va venduto come argomento.
+
+**Dove sono davvero i soldi: guasti e decisioni (esempi, stime)**
+
+| Caso | Calcolo | Perdita |
+|---|---|---|
+| Inverter fermo 3 settimane d'estate su 200 kWp in Conto Energia | ≈ 20 MWh × 0,45 € | **≈ 9.000 €** |
+| Stessa situazione, impianto C&I in autoconsumo | ≈ 20 MWh × 0,17 € | ≈ 3.400 € |
+| Una stringa su tre spenta per 4 mesi estivi su 200 kWp in Conto Energia | ≈ 33 MWh × 0,45 € | **≈ 15.000 €** |
+| Distacchi ripetuti per tensione di rete alta | — | alcuni punti percentuali l'anno sulle linee deboli |
+| Stessi guasti su un impianto domestico da 6 kW | ≈ 630 kWh × 0,20 € | ≈ 120 € |
+
+**Il vantaggio economico è reale?**
+- **Sì** per gli impianti grandi e incentivati: migliaia di euro l'anno.
+- **Debole** per le famiglie: decine di euro l'anno.
+
+**La tensione da gestire.** I guasti sono la parte che vale di più, ma anche la più coperta. I portali gratuiti dei produttori segnalano già l'inverter spento. Restano scoperti:
+- gli impianti vecchi senza monitoraggio o con il datalogger morto;
+- le perdite che non fanno scattare allarmi (stringhe, distacchi, sporco, clipping, ombre di cablaggio);
+- l'impatto in euro con la tariffa vera;
+- le decisioni di revamping.
+
+**Riposizionamento.** OMBRA va venduta come **"diagnosi in euro delle perdite risolvibili e supporto alle decisioni di revamping"**. La mappa d'ombra diventa uno strumento dentro il prodotto, non il prodotto. Venduta come semplice "mappa delle ombre", l'idea scenderebbe sotto 3,5.
+
+## 12. Prototipo a costo quasi zero e report gratuiti di prova
+
+**Si può fare.** Gli strumenti di base sono tutti gratuiti:
+- pvlib, il modello fisico, open source;
+- CAMS (irradianza da satellite) e PVGIS, gratuiti con registrazione;
+- i file esportati dai portali degli inverter, che quasi tutti i portali permettono di scaricare (il dettaglio va verificato marca per marca);
+- l'abbonamento AI già in uso, oppure le API a pochi centesimi per report, per scrivere il testo.
+
+**Costi:** 0–50 € al mese. Il costo vero è il tempo di sviluppo, 3–6 settimane part-time, che Claude può ridurre scrivendo gran parte del codice.
+
+**Funzionamento:** caricamento del CSV, modello atteso, selezione dei giorni sereni, mappa dei residui, cascata delle perdite in euro con la tariffa dell'impianto, report PDF con testo spiegato.
+
+**Report gratuiti, a chi**
+- 10–20 impianti selezionati, in prevalenza Conto Energia o C&I sopra i 50 kWp, più 2–3 installatori con le loro flotte.
+- Pochi impianti domestici, solo come demo.
+- Condizione: almeno 12 mesi di dati a 15 minuti o meno.
+
+**Offerta di conversione:** "Report gratuito sui tuoi ultimi 12 mesi. Se troviamo almeno X € l'anno di perdite risolvibili, il monitoraggio continuo costa Y."
+
+**Cosa misurare:**
+- quanti report trovano almeno 1.000 € l'anno di perdite risolvibili;
+- quante diagnosi vengono confermate sul posto;
+- quanti clienti accettano di pagare.
+
+**Cautele**
+- Report dichiaratamente "consultivo", con le probabilità esplicitate.
+- Informativa privacy; per gli impianti domestici serve anche un accordo sul trattamento dei dati.
+- Nessuna garanzia sulla produzione.
