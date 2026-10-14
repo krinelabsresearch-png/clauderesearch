@@ -811,6 +811,38 @@ Ognuno legge nella sua lingua.
   - Il pre-serata non è il momento giusto: si arriva a orari diversi, c'è musica, si parla.
   - Nessuno diventa a sua volta ospite, oppure un incidente di contenuti.
 
+**Modello di prezzo proposto da Lorenzo (14/10/2026).** Gratis, con un abbonamento a 1,99 €/mese che sblocca:
+- più di 6 giocatori;
+- le traduzioni nelle altre lingue;
+- la versione "extra hot";
+- altre funzioni da definire.
+
+La scommessa: l'abbonamento costa poco, quindi non si disdice.
+
+| | Calcolo (stima) | Netto al mese |
+|---|---|---|
+| 1,99 € con IVA al 22% | 1,63 € | — |
+| Store al 15% | — | 1,39 € |
+| Store Apple al 10% (piccoli sviluppatori UE dal 1/10/2026) | — | 1,47 € |
+| Web con Stripe (1,5% + 0,25 €) | — | 1,35 € |
+
+**Abbonati attivi in media, con un netto di 1,39 € al mese:**
+
+| Obiettivo | Abbonati attivi |
+|---|---|
+| 300 k€ | circa 18.000 |
+| 500 k€ | circa 30.000 |
+| 1 M€ | circa 60.000 |
+
+**Nuovi abbonati necessari ogni anno per tenerne 18.000:**
+
+| Abbandono mensile | Valore di un cliente | Nuovi abbonati l'anno |
+|---|---|---|
+| 5% | circa 28 € | circa 10.800 |
+| 10% | circa 14 € | circa 21.600 |
+
+**Vincolo.** Il costo AI per abbonato deve restare sotto 0,40 €/mese: modelli economici e un tetto di uso.
+
 **Test con i tuoi gruppi Erasmus** (3–4 settimane, 12–20 serate, meno di 1.000 €)
 - Il momento è ideale: il semestre è appena iniziato.
 - In un terzo delle serate ci sei tu a osservare; negli altri due terzi dai solo il link a chi ospita.
