@@ -205,3 +205,4 @@ Valori alle 15:15 UTC: 5 ore al 24% (si azzera alle 20:10 UTC), 7 giorni al 49% 
     - prodotto, canali, produzione, architettura AI 2027, test.
   - Allarme crediti attivo, con controllo ogni 25 minuti.
   - Dossier da salvare in `dossier/197-mercato.md` e `dossier/197-prodotto.md`.
+  - **Esito (14/10/2026, 01:55 UTC):** 2,70, con motivazione neutra 2,50; anche con motivazione 5 resta a 2,90. Scartata. Dossier salvati, riga aggiunta in `scartate.md` e in `punteggi.py`.
