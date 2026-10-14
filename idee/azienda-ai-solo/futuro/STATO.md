@@ -236,3 +236,8 @@ Valori alle 15:15 UTC: 5 ore al 24% (si azzera alle 20:10 UTC), 7 giorni al 49% 
   - **Esito (11:45 UTC circa):** workflow completato, 16 idee verificate: 0 da tenere, 11 deboli, 5 scartate. Nessuna supera 3,5; la migliore è 208 OMBRA, che arriva esattamente a 3,50.
     - Scartate perché esistono già: STABILE (Zornade), PLAYFORGE (Layer, AppLovin), PIANO B (BoldIQ in FL3XX), FORMULA INVERSA (Agilitas, Open Food Facts), VERSO (SoundLabs con Universal).
     - Le 10 proposte 208–217 sono in `proposte-settori-nuovi.md`. Restano tenute la 198, la 199 e la 200.
+- **Lorenzo ha chiesto di approfondire la 208 OMBRA:** in cosa consiste esattamente, tutti i possibili vantaggi, tutti i possibili clienti.
+  - Ricerca lanciata il 14/10/2026 alle 12:16 UTC con due agenti:
+    - tecnologia: come funziona, precisione, guasti diagnosticabili, accesso ai dati e Data Act, architettura, test (al massimo 30 ricerche);
+    - clienti: tutti i segmenti, compresi gli impianti in Conto Energia, mercato, concorrenti, valore in euro, prezzi, canali (al massimo 35 ricerche).
+  - Dossier da salvare in `dossier/208-tecnologia.md` e `dossier/208-clienti.md`. Allarme crediti attivo.
