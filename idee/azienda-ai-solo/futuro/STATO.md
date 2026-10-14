@@ -206,3 +206,10 @@ Valori alle 15:15 UTC: 5 ore al 24% (si azzera alle 20:10 UTC), 7 giorni al 49% 
   - Allarme crediti attivo, con controllo ogni 25 minuti.
   - Dossier da salvare in `dossier/197-mercato.md` e `dossier/197-prodotto.md`.
   - **Esito (14/10/2026, 01:55 UTC):** 2,70, con motivazione neutra 2,50; anche con motivazione 5 resta a 2,90. Scartata. Dossier salvati, riga aggiunta in `scartate.md` e in `punteggi.py`.
+- **Nuova richiesta (14/10/2026, 01:50 UTC):** 10 proposte "d'avanguardia, effetto WOW", cioè prodotti che fino a pochi anni fa nessuno avrebbe immaginato. Possono essere più complesse da costruire. I clienti possono essere consumatori, negozi e marchi, PMI o grandi aziende. Numerazione: 198–207.
+  - Metodo: un workflow in quattro passi.
+    1. Sei generatori, ciascuno con una lente diversa: capacità AI appena sbloccate, retail e marchi, PMI e grandi aziende, consumatori, scienza e matematica, mondo fisico più sinergie con KRINÉ.
+    2. Un curatore deduplica e filtra, poi sceglie 16 idee.
+    3. Quattro verificatori fanno ricerche web su concorrenti, tecnologia e rischi, e assegnano i voti della scheda v2.
+    4. Un giudice finale sceglie le 10.
+  - Allarme crediti attivo. Alle 01:48 UTC i crediti usati erano il 25% su 5 ore e il 63% su 7 giorni.
