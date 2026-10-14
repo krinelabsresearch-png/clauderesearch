@@ -222,3 +222,13 @@ Valori alle 15:15 UTC: 5 ore al 24% (si azzera alle 20:10 UTC), 7 giorni al 49% 
     - Al loro posto, con gli stessi numeri: 205 PianoFabbrica (3,60, da tenere) e 207 First Dance AI (3,25, da tenere).
     - Sopra 3,5 con la verifica rapida: 198 CERTO 3,75; 199 Momenti 4D 3,70; 200 PEPTICA 3,65; 205 PianoFabbrica 3,60.
     - `proposte-wow.md` è aggiornato.
+- **Decisione di Lorenzo (14/10/2026, mattina):** tiene la 198 CERTO, la 199 Momenti 4D e la 200 PEPTICA. Chiede altre 10 proposte, numerate 208–217, in **settori nuovi e diversi**.
+  - Metodo: stesso workflow, con lenti di settore nuove:
+    - energia, clima e costruzioni;
+    - industrie creative (musica, cinema, moda, design, videogiochi);
+    - logistica e mobilità;
+    - cibo e vino;
+    - cultura, lingue, accessibilità e sport;
+    - assicurazioni, rischio e materiali.
+  - Per risparmiare crediti: generatori senza ricerche web e verificatori con al massimo 3 ricerche per idea.
+  - Alle 06:41 UTC i crediti usati erano il 23% su 5 ore (reset alle 11:20 UTC).
