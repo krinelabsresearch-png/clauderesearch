@@ -24,6 +24,8 @@ La verifica è rapida: al massimo 3 ricerche per idea.
 
 ## 208. OMBRA: la 'TAC' dell'impianto fotovoltaico che trova chi ti ruba il sole e ti dice quanto ti costa
 
+> **Approfondita il 14/10/2026:** scheda completa in [208-ombra.md](208-ombra.md). Dopo la ricerca completa il punteggio sale a 3,80, con motivazione neutra 3,40.
+
 - **Settore:** Fotovoltaico residenziale e piccole imprese (energia); **cliente:** mixed
 - **Punteggio:** 3.50 (motivazione neutra 3.10); esito: weak
 - **Cosa fa:** Prende la curva di produzione dell'inverter, cioè l'apparecchio che converte la corrente dei pannelli, e la confronta con il sole arrivato davvero sul tetto, misurato dai satelliti. Ricostruisce come una TAC dove si trova l'ostacolo che fa ombra e divide le perdite per causa (ombra, stringa guasta, sporco, degrado), traducendole in euro. Si vende soprattutto a installatori e aziende di manutenzione con impianti di più marche, che lo usano per proporre interventi.

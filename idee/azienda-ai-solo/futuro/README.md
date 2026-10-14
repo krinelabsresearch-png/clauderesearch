@@ -690,6 +690,18 @@ Il punteggio era 3,80. È sceso dopo la verifica dei concorrenti, perché Math A
 - **B2B con obblighi morbidi:** le PMI rimandano.
 - **Prodotti in cui chi usa non è chi paga:** serve convincere due persone.
 
+## Nuovo in lista: 208 · OMBRA, la "TAC" degli impianti fotovoltaici (14/10/2026)
+
+**Punteggio dopo la ricerca completa:** 3,80; con motivazione neutra 3,40.
+
+**Cosa fa.** Dai dati dell'inverter e dal sole misurato dai satelliti ricostruisce, come una TAC, dove sta l'ostacolo che fa ombra. Poi divide le perdite per causa e le esprime in euro con la tariffa reale dell'impianto.
+
+**Primo cliente:** gli impianti in Conto Energia da 100 kWp a 1 MWp (circa 20–25 mila impianti in Italia, ~10–12 GW). Per loro ogni kWh perso vale 0,35–0,55 €.
+
+**Test:** sotto i 10 k€.
+
+**Scheda completa:** [208-ombra.md](208-ombra.md). Dossier: [208-tecnologia](dossier/208-tecnologia.md), [208-clienti](dossier/208-clienti.md).
+
 ## In valutazione: 153 · Gioco di società AI per serate tra amici
 **Punteggio 3,35 con motivazione 4 (mia stima); 3,55 con motivazione 5, cioè entra in lista al limite.** Con motivazione neutra vale 3,15.
 - **Clienti:** consumatori; paga solo chi ospita.

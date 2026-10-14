@@ -241,3 +241,6 @@ Valori alle 15:15 UTC: 5 ore al 24% (si azzera alle 20:10 UTC), 7 giorni al 49% 
     - tecnologia: come funziona, precisione, guasti diagnosticabili, accesso ai dati e Data Act, architettura, test (al massimo 30 ricerche);
     - clienti: tutti i segmenti, compresi gli impianti in Conto Energia, mercato, concorrenti, valore in euro, prezzi, canali (al massimo 35 ricerche).
   - Dossier da salvare in `dossier/208-tecnologia.md` e `dossier/208-clienti.md`. Allarme crediti attivo.
+  - **Esito (14/10/2026):** ricerca completa conclusa, punteggio 3,80 (motivazione neutra 3,40). La 208 entra in lista se la motivazione di Lorenzo è almeno 4.
+    - Cuneo consigliato: impianti in Conto Energia da 100 kWp a 1 MWp.
+    - Scheda in `208-ombra.md`, collegata da README e da `proposte-settori-nuovi.md`; punteggio aggiunto a `punteggi.py`.
