@@ -181,14 +181,14 @@ Valori alle 15:15 UTC: 5 ore al 24% (si azzera alle 20:10 UTC), 7 giorni al 49% 
   - 186: simulatore delle grandi decisioni.
 - Lorenzo ha giudicato le 177–186 "abbastanza pessime" e ha chiesto un ragionamento davvero alternativo.
   - Nuovo metodo: partire dalle asimmetrie (vantaggi che ha solo lui, effetti di secondo ordine dell'AI, canali di distribuzione già pronti, comprare invece di costruire), non da "un'app sui suoi hobby con abbonamento".
-  - Proposte 188–197:
-    - 188: comprare un piccolo business online e renderlo AI;
-    - 189: visibilità dei marchi beauty nelle risposte AI;
-    - 190: copilota di formulazione cosmetica con dati di laboratorio propri;
-    - 191: casa editrice senza dipendenti di saggi scientifici tradotti;
-    - 192: modello bayesiano del marketing (MMM) per piccoli brand online;
-    - 193: previsione delle vendite e dei prezzi dei biglietti per organizzatori di eventi;
-    - 194: test di selezione a prova di AI;
-    - 195: costruire dentro ChatGPT;
-    - 196: dati e ambienti di addestramento matematici per i laboratori AI;
-    - 197: piattaforma tra marchi esteri e terzisti cosmetici italiani.
+  - Proposte 187–196:
+    - 187: comprare un piccolo business online e renderlo AI;
+    - 188: visibilità dei marchi beauty nelle risposte AI;
+    - 189: copilota di formulazione cosmetica con dati di laboratorio propri;
+    - 190: casa editrice senza dipendenti di saggi scientifici tradotti;
+    - 191: modello bayesiano del marketing (MMM) per piccoli brand online;
+    - 192: previsione delle vendite e dei prezzi dei biglietti per organizzatori di eventi;
+    - 193: test di selezione a prova di AI;
+    - 194: costruire dentro ChatGPT;
+    - 195: dati e ambienti di addestramento matematici per i laboratori AI;
+    - 196: piattaforma tra marchi esteri e terzisti cosmetici italiani.
