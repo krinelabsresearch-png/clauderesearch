@@ -192,3 +192,9 @@ Valori alle 15:15 UTC: 5 ore al 24% (si azzera alle 20:10 UTC), 7 giorni al 49% 
     - 194: costruire dentro ChatGPT;
     - 195: dati e ambienti di addestramento matematici per i laboratori AI;
     - 196: piattaforma tra marchi esteri e terzisti cosmetici italiani.
+- **Lorenzo ha scelto la 190** (casa editrice senza dipendenti: saggi scientifici tradotti con l'AI). Le proposte erano state rinumerate 187–196.
+  - Ricerca lanciata il 14/10/2026 alle 01:35 UTC con due agenti, ciascuno con al massimo 35 ricerche:
+    - mercato, diritti, concorrenti, aspetti legali, economia (domande 1, 2, 3, 5, 6, 7, 10);
+    - prodotto, qualità, costi, canali, architettura AI 2027, test (domande 4, 8, 9, 12, 13).
+  - Allarme crediti: controllo ogni 25 minuti. Alle 01:34 UTC i crediti usati erano il 4% su 5 ore e il 60% su 7 giorni.
+  - Dossier da salvare in `dossier/190-mercato.md` e `dossier/190-prodotto.md`.
