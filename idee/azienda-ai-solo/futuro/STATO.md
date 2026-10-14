@@ -168,3 +168,14 @@ Valori alle 15:15 UTC: 5 ore al 24% (si azzera alle 20:10 UTC), 7 giorni al 49% 
   - **157:** la "chess.com" della matematica, cioè duelli di calcolo e logica con Elo e un allenatore AI;
   - **159:** quadri d'arte generativa dai propri dati (Strava, viaggi, Spotify), con stampa a richiesta.
 - Ha chiesto altre 10 proposte: 167–176.
+- Lorenzo non ha scelto tra le 167–176 e ha chiesto "altri 10": proposte 177–186. Restano salvate la 157 e la 159.
+  - 177: lega di previsioni tra amici;
+  - 178: esperimenti sociali quotidiani di teoria dei giochi;
+  - 179: esperimenti su se stessi;
+  - 180: gioco investigativo su misura da regalare;
+  - 181: rompicapi generati con soluzione unica garantita;
+  - 182: il film del proprio viaggio;
+  - 183: fantacalcio del padel;
+  - 184: master AI per giochi di ruolo tra amici;
+  - 185: arredamento da una foto con prodotti acquistabili;
+  - 186: simulatore delle grandi decisioni.
