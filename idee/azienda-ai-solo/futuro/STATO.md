@@ -199,3 +199,9 @@ Valori alle 15:15 UTC: 5 ore al 24% (si azzera alle 20:10 UTC), 7 giorni al 49% 
   - Allarme crediti: controllo ogni 25 minuti. Alle 01:34 UTC i crediti usati erano il 4% su 5 ore e il 60% su 7 giorni.
   - Dossier da salvare in `dossier/190-mercato.md` e `dossier/190-prodotto.md`.
   - **Esito (14/10/2026, 01:50 UTC):** 2,75, con motivazione neutra 2,55; anche con motivazione 5 resta a 2,95. Scartata. Dossier salvati, riga aggiunta in `scartate.md` e in `punteggi.py`.
+- **Lorenzo ha chiesto di analizzare allo stesso modo la 197:** libri "low content" (diari, agende, libri da colorare, enigmistica e attività) creati con l'AI e venduti su Amazon.
+  - Ricerca lanciata il 14/10/2026 alle 01:43 UTC con due agenti, ciascuno con al massimo 35 ricerche:
+    - mercato, saturazione, guadagni reali, regole Amazon, conti;
+    - prodotto, canali, produzione, architettura AI 2027, test.
+  - Allarme crediti attivo, con controllo ogni 25 minuti.
+  - Dossier da salvare in `dossier/197-mercato.md` e `dossier/197-prodotto.md`.
