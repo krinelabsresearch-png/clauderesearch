@@ -233,3 +233,6 @@ Valori alle 15:15 UTC: 5 ore al 24% (si azzera alle 20:10 UTC), 7 giorni al 49% 
   - Per risparmiare crediti: generatori senza ricerche web e verificatori con al massimo 3 ricerche per idea.
   - Alle 06:41 UTC i crediti usati erano il 23% su 5 ore (reset alle 11:20 UTC).
   - **11:04 UTC:** crediti all'84% e in rapida salita, con il reset alle 11:20. Workflow fermato in anticipo per non toccare il limite durante le verifiche. Il curatore aveva già finito: la shortlist delle 16 idee è salvata in `proposte-settori-nuovi-shortlist.md`. Ripresa programmata alle 11:22 UTC.
+  - **Esito (11:45 UTC circa):** workflow completato, 16 idee verificate: 0 da tenere, 11 deboli, 5 scartate. Nessuna supera 3,5; la migliore è 208 OMBRA, che arriva esattamente a 3,50.
+    - Scartate perché esistono già: STABILE (Zornade), PLAYFORGE (Layer, AppLovin), PIANO B (BoldIQ in FL3XX), FORMULA INVERSA (Agilitas, Open Food Facts), VERSO (SoundLabs con Universal).
+    - Le 10 proposte 208–217 sono in `proposte-settori-nuovi.md`. Restano tenute la 198, la 199 e la 200.
