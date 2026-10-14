@@ -213,3 +213,7 @@ Valori alle 15:15 UTC: 5 ore al 24% (si azzera alle 20:10 UTC), 7 giorni al 49% 
     3. Quattro verificatori fanno ricerche web su concorrenti, tecnologia e rischi, e assegnano i voti della scheda v2.
     4. Un giudice finale sceglie le 10.
   - Allarme crediti attivo. Alle 01:48 UTC i crediti usati erano il 25% su 5 ore e il 63% su 7 giorni.
+  - **Crediti al 91% (02:55 UTC):** workflow fermato. Verificate 8 idee su 16.
+    - Sopra 3,5 con la verifica rapida: CERTO (dimostratore matematico per modelli finanziari Excel) 3,75; Momenti 4D 3,70; PEPTICA 3,65.
+    - Scartate: PhoneLab (Haut.AI fa già esattamente questo) e Deepfake Drill (Adaptive Security ha raccolto oltre 130 M$).
+    - Le 10 proposte 198–207 sono in `proposte-wow.md`: 5 verificate e 5 ancora da verificare. Ripresa del workflow programmata dopo il reset delle 06:20 UTC (run wf_6b80e331-97d).
