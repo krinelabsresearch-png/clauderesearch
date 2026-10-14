@@ -232,3 +232,4 @@ Valori alle 15:15 UTC: 5 ore al 24% (si azzera alle 20:10 UTC), 7 giorni al 49% 
     - assicurazioni, rischio e materiali.
   - Per risparmiare crediti: generatori senza ricerche web e verificatori con al massimo 3 ricerche per idea.
   - Alle 06:41 UTC i crediti usati erano il 23% su 5 ore (reset alle 11:20 UTC).
+  - **11:04 UTC:** crediti all'84% e in rapida salita, con il reset alle 11:20. Workflow fermato in anticipo per non toccare il limite durante le verifiche. Il curatore aveva già finito: la shortlist delle 16 idee è salvata in `proposte-settori-nuovi-shortlist.md`. Ripresa programmata alle 11:22 UTC.
