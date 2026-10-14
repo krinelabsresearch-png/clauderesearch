@@ -198,3 +198,4 @@ Valori alle 15:15 UTC: 5 ore al 24% (si azzera alle 20:10 UTC), 7 giorni al 49% 
     - prodotto, qualità, costi, canali, architettura AI 2027, test (domande 4, 8, 9, 12, 13).
   - Allarme crediti: controllo ogni 25 minuti. Alle 01:34 UTC i crediti usati erano il 4% su 5 ore e il 60% su 7 giorni.
   - Dossier da salvare in `dossier/190-mercato.md` e `dossier/190-prodotto.md`.
+  - **Esito (14/10/2026, 01:50 UTC):** 2,75, con motivazione neutra 2,55; anche con motivazione 5 resta a 2,95. Scartata. Dossier salvati, riga aggiunta in `scartate.md` e in `punteggi.py`.

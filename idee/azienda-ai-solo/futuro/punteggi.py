@@ -1,4 +1,4 @@
-"""Punteggi dei candidati 091–153 (bisogni dei prossimi 1–5 anni) con la scheda v2 (pesi in ../scheda_v2.py).
+"""Punteggi dei candidati 091–190 (bisogni dei prossimi 1–5 anni) con la scheda v2 (pesi in ../scheda_v2.py).
 Voti dopo la ricerca approfondita (dossier in dossier/). Criteri aggiornati da Lorenzo il 13/10/2026:
 - "solo1M" = potenziale oltre 300–500 k€ l'anno senza dipendenti, con strada verso 1 M€;
 - mercato UE e mondo (l'Italia è solo un possibile punto di partenza); B2B ammesso;
@@ -47,6 +47,7 @@ CANDIDATI = {
     "122 Analisi video AI delle partite di padel":                         dict(mot=5, vant=3, dolore=2, mercato=3, margine=3, valid=4, solo1M=2, autom=4, dif=1),
     "127 Preparazione AI agli esami attuariali (P e FM)":                  dict(mot=4, vant=4, dolore=4, mercato=2, margine=5, valid=4, solo1M=2, autom=4, dif=2),
     "153 Gioco di società AI per serate tra amici (pre-serata Erasmus)":  dict(mot=4, vant=4, dolore=2, mercato=3, margine=3, valid=5, solo1M=2, autom=4, dif=2),  # motivazione da confermare: con 5 entra (3,55)
+    "190 Casa editrice senza dipendenti: saggi scientifici tradotti con l'AI": dict(mot=4, vant=2, dolore=2, mercato=3, margine=3, valid=3, solo1M=2, autom=3, dif=2),  # anche con motivazione 5 resta a 2,95
 }
 
 
