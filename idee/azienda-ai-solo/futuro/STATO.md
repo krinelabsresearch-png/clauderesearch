@@ -161,3 +161,10 @@ Valori alle 15:15 UTC: 5 ore al 24% (si azzera alle 20:10 UTC), 7 giorni al 49% 
    - scrivere `scartate.md`;
    - fare commit e push, poi rispondere a Lorenzo.
 4. Se sono meno di 10: lanciare un'altra ondata mirata.
+
+## Nuove proposte (14/10/2026)
+- **Lorenzo ha valutato la 153 con il suo modello di prezzo** (gratis, poi 1,99 €/mese) e ha chiesto altre 10 proposte "fuori dagli schemi".
+- Delle proposte 157–166 ha tenuto due idee:
+  - **157:** la "chess.com" della matematica, cioè duelli di calcolo e logica con Elo e un allenatore AI;
+  - **159:** quadri d'arte generativa dai propri dati (Strava, viaggi, Spotify), con stampa a richiesta.
+- Ha chiesto altre 10 proposte: 167–176.
