@@ -7,7 +7,9 @@
     "cover": "remotion still src/index.ts Cover out/cover.png",
     "guion": "node --experimental-strip-types --no-warnings scripts/make-guion.ts",
     "voice": "python3 -I scripts/make-voice.py",
-    "mute": "ffmpeg -v error -y -i out/etf-voce.mp4 -c copy -an out/etf-sottotitoli.mp4"
+    "mute": "ffmpeg -v error -y -i out/etf-voce.mp4 -c copy -an out/etf-sottotitoli.mp4",
+    "render:liquid": "remotion render src/index.ts ETFLiquid out/etf-liquid.mp4 --gl=swangle",
+    "stills": "node scripts/stills.mjs"
   },
   "dependencies": {
     "@remotion/cli": "4.0.539",

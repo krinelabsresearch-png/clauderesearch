@@ -3,3 +3,6 @@ out/draft.mp4
 out/frames/
 voice-raw/*.wav
 out/*.log
+out/stills/
+out/check/
+out/test/

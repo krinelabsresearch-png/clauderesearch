@@ -12,6 +12,8 @@ import {CostsScene} from './scenes/Costs';
 import {SimpleScene} from './scenes/Simple';
 import {RiskScene} from './scenes/Risk';
 import {CtaScene} from './scenes/Cta';
+import {GlassTest} from './v2/GlassTest';
+import {EtfLiquid} from './v2/EtfLiquid';
 
 const SCENE_COMPONENTS: Record<string, React.FC<{clock: Clock}>> = {
   hook: HookScene,
@@ -69,5 +71,15 @@ export const RemotionRoot: React.FC = () => (
   <>
     <Composition id="ETF" component={EtfVideo} durationInFrames={DURATION_FRAMES} fps={FPS} width={W} height={H} />
     <Still id="Cover" component={Cover} width={W} height={H} />
+    <Composition id="GlassTest" component={GlassTest} durationInFrames={120} fps={FPS} width={W} height={H} />
+    <Composition
+      id="ETFLiquid"
+      component={EtfLiquid}
+      durationInFrames={DURATION_FRAMES}
+      fps={FPS}
+      width={W}
+      height={H}
+      defaultProps={{quality: 1}}
+    />
   </>
 );
