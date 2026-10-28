@@ -1,6 +1,6 @@
 import React from 'react';
-import {AbsoluteFill, Composition, Freeze, Still} from 'remotion';
-import {DURATION_FRAMES, FPS, TIMELINE, cueSeconds} from './script';
+import {AbsoluteFill, Composition, Freeze, Html5Audio, Sequence, Still, staticFile} from 'remotion';
+import {DURATION_FRAMES, FPS, TIMELINE, VOICE_CLIPS, cueSeconds} from './script';
 import {C, FONT, H, W} from './theme';
 import {Background} from './components/Background';
 import {Captions} from './components/Captions';
@@ -36,6 +36,12 @@ export const EtfVideo: React.FC = () => (
       );
     })}
     <Captions />
+    {/* Voce: un file per periodo, ognuno nel punto esatto in cui inizia la sua prima frase. */}
+    {VOICE_CLIPS.map((v) => (
+      <Sequence key={v.file} from={Math.round(v.start * FPS)} layout="none">
+        <Html5Audio src={staticFile(`voice/${v.file}`)} />
+      </Sequence>
+    ))}
   </AbsoluteFill>
 );
 

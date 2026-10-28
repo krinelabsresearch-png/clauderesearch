@@ -1,4 +1,5 @@
 node_modules/
 out/draft.mp4
-out/render.log
 out/frames/
+voice-raw/*.wav
+out/*.log

@@ -3,6 +3,7 @@
 // Uso: npm run guion
 import {writeFileSync} from 'node:fs';
 import {DURATION_FRAMES, FPS, TIMELINE} from '../src/script.ts';
+import {VOICE} from '../src/voice-timings.ts';
 
 type SceneNotes = {title: string; goal: string; transition: string; beats: string[]};
 
@@ -102,7 +103,9 @@ lines.push('# Guion — “Cos’è un ETF” (reel Instagram)');
 lines.push('');
 lines.push(
   `Formato: verticale 1080×1920, ${FPS} fps, durata ${total.toFixed(1)} s (${DURATION_FRAMES} fotogrammi). ` +
-    'Video senza voce: i sottotitoli sono già nel video, sincronizzati sui tempi qui sotto. ' +
+    (VOICE
+      ? 'Voce narrante generata con Gemini (`npm run voice`): sottotitoli e animazioni seguono i tempi reali della voce, riportati qui sotto. '
+      : 'Video senza voce: i sottotitoli sono già nel video, sincronizzati sui tempi qui sotto. ') +
     'Questo file è generato da `src/script.ts` con `npm run guion`: se cambi un testo lì, video e copione restano allineati.',
 );
 lines.push('');
@@ -156,7 +159,9 @@ lines.push('');
 for (const s of TIMELINE) lines.push(`> ${s.phrases.map((p) => p.text).join(' ')}`, '>');
 lines.pop();
 lines.push('');
-lines.push('**Come aggiungere la voce:** registra o genera la voce seguendo i tempi della tabella. Se il ritmo della tua voce è diverso, posso ritagliare i sottotitoli sui tempi reali: mi basta il file audio. In alternativa, nell’editor di Instagram o in CapCut appoggia la traccia voce sopra il video e regola il volume della musica intorno al 15-20%.');
+lines.push('**Voce inclusa:** `out/etf-voce.mp4` ha già la voce generata (voce Gemini “Charon”, accelerata del 10%); `out/etf-sottotitoli.mp4` è la stessa versione muta. Per cambiare voce: `VOICE_NAME=Kore npm run voice`, poi `npm run render`.');
+lines.push('');
+lines.push('**Per usare una voce tua:** registra o genera la voce seguendo i tempi della tabella. Se il ritmo della tua voce è diverso, posso ritagliare i sottotitoli sui tempi reali: mi basta il file audio. In alternativa, nell’editor di Instagram o in CapCut appoggia la traccia voce sopra il video e regola il volume della musica intorno al 15-20%.');
 lines.push('');
 lines.push('## Pubblicazione');
 lines.push('');

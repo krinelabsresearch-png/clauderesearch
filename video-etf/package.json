@@ -3,9 +3,10 @@
   "private": true,
   "scripts": {
     "studio": "remotion studio",
-    "render": "remotion render src/index.ts ETF out/etf-sottotitoli.mp4",
+    "render": "remotion render src/index.ts ETF out/etf-voce.mp4 && ffmpeg -v error -y -i out/etf-voce.mp4 -c copy -an out/etf-sottotitoli.mp4",
     "cover": "remotion still src/index.ts Cover out/cover.png",
-    "guion": "node --experimental-strip-types --no-warnings scripts/make-guion.ts"
+    "guion": "node --experimental-strip-types --no-warnings scripts/make-guion.ts",
+    "voice": "python3 -I scripts/make-voice.py"
   },
   "dependencies": {
     "@remotion/cli": "4.0.539",
