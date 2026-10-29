@@ -126,7 +126,8 @@ export const paintWorld = (ctx: Ctx, F: number) => {
   const k = t - S.stop;
   if (k > 0 && k < 0.6) ctx.translate(Math.sin(k * 70) * 9 * Math.exp(-k / 0.13), Math.cos(k * 53) * 7 * Math.exp(-k / 0.13));
 
-  haze(ctx, t);
+  // in coda la foschia usa il tempo della moneta che torna: l'ultimo fotogramma è identico al primo
+  haze(ctx, t > S.end ? t - LAST : t);
   const ph = t > S.place - 0.1 ? photoAt(t) : null;
   if (ph) {
     photos ??= new PhotoRenderer(1080, 1920);
