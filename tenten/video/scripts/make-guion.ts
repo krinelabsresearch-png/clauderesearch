@@ -132,7 +132,7 @@ lines.push('Tutti sintetizzati in codice (`npm run sfx`), agganciati agli stessi
 lines.push('');
 lines.push('## Pubblicazione');
 lines.push('');
-lines.push('- **Video:** `out/tenten.mp4`. **Copertina:** `out/cover.png` (“TEN:TEN · Discoteca a 1 € · Ferma su 10:10, vinci una bottiglia”).');
+lines.push('- **Video:** `out/tenten-reel.mp4` (H.264, colori BT.709, pronto per telefono e Instagram; il master del render è `out/tenten.mp4`, non caricato). **Copertina:** `out/cover.png` (“TEN:TEN · Discoteca a 1 € · Ferma su 10:10, vinci una bottiglia”).');
 lines.push('- **Didascalia proposta:**');
 lines.push('');
 lines.push('> A Firenze il venerdì entri in discoteca con 1 € 🪙');

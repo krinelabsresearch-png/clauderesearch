@@ -103,7 +103,7 @@ Tutti sintetizzati in codice (`npm run sfx`), agganciati agli stessi istanti del
 
 ## Pubblicazione
 
-- **Video:** `out/tenten.mp4`. **Copertina:** `out/cover.png` (“TEN:TEN · Discoteca a 1 € · Ferma su 10:10, vinci una bottiglia”).
+- **Video:** `out/tenten-reel.mp4` (H.264, colori BT.709, pronto per telefono e Instagram; il master del render è `out/tenten.mp4`, non caricato). **Copertina:** `out/cover.png` (“TEN:TEN · Discoteca a 1 € · Ferma su 10:10, vinci una bottiglia”).
 - **Didascalia proposta:**
 
 > A Firenze il venerdì entri in discoteca con 1 € 🪙
