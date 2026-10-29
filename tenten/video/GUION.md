@@ -1,6 +1,6 @@
 # Guion — “TEN:TEN all’XO Club” (reel Instagram)
 
-Formato: verticale 1080×1920, 60 fps, durata 22.5 s (1350 fotogrammi). Tempi stimati: la voce non è ancora stata generata. Questo file è generato da `src/script.ts` con `npm run guion`: se cambi un testo lì, video e copione restano allineati.
+Formato: verticale 1080×1920, 60 fps, durata 26.7 s (1604 fotogrammi). Voce femminile generata con Gemini (voce “Achernar”): sottotitoli, animazioni ed effetti sonori seguono i tempi reali della voce. Questo file è generato da `src/script.ts` con `npm run guion`: se cambi un testo lì, video e copione restano allineati.
 
 Fonte unica dei contenuti: la pagina del venerdì di Florence International Week (informazioni, foto e loghi). Le persone e il locale sono solo quelli delle foto vere; le immagini generate (con Codex) sono solo oggetti: la moneta, il buzzer e la bottiglia.
 
@@ -30,7 +30,7 @@ Colori del marchio: rosso del buzzer #E5232C, cremisi, crema #F4E7D1 per il marc
 
 Tempi in minuti:secondi; tra parentesi i fotogrammi a 60 fps. Ogni riga è una frase dei sottotitoli e della voce. Le parole in **grassetto** sono quelle evidenziate.
 
-### Scena 1 — Gancio: la moneta da 1 € · 00:00.00 → 00:03.73 (fotogrammi 0–223)
+### Scena 1 — Gancio: la moneta da 1 € · 00:00.00 → 00:03.83 (fotogrammi 0–229)
 
 **Obiettivo:** Fermare lo scroll nel primo secondo con un oggetto in movimento e una promessa concreta: entrare in discoteca con un euro.
 
@@ -38,9 +38,9 @@ Tempi in minuti:secondi; tra parentesi i fotogrammi a 60 fps. Ogni riga è una f
 
 | Tempo (fotogrammi) | Sottotitolo / voce | Cosa appare sullo schermo |
 |---|---|---|
-| 00:00.12 → 00:03.17 (7–189) | A Firenze, il venerdì, entri in discoteca con **un euro.** | Fondo cremisi con fasci di luce che oscillano dal soffitto e luci sfocate che derivano. Al centro una moneta da 1 € (immagine generata) gira in 3D su sé stessa, con il bordo dorato visibile di taglio e un riflesso che la attraversa; rallenta e si ferma di fronte sulla parola “un euro”, con una stella di luce sul metallo e un tintinnio. Sotto si materializza la capsula di vetro “Ingresso 20 €”: le cifre scorrono come in .numericText fino a “1 €”, la colonna delle decine si richiude e la capsula si stringe con una molla; quando si ferma, il vetro viene “premuto” e si illumina. |
+| 00:00.12 → 00:03.40 (7–203) | A Firenze, il venerdì, entri in discoteca con **un euro.** | Fondo cremisi con fasci di luce che oscillano dal soffitto e luci sfocate che derivano. Al centro una moneta da 1 € (immagine generata) gira in 3D su sé stessa, con il bordo dorato visibile di taglio e un riflesso che la attraversa; rallenta e si ferma di fronte sulla parola “un euro”, con una stella di luce sul metallo e un tintinnio. Sotto si materializza la capsula di vetro “Ingresso 20 €”: le cifre scorrono come in .numericText fino a “1 €”, la colonna delle decine si richiude e la capsula si stringe con una molla; quando si ferma, il vetro viene “premuto” e si illumina. |
 
-### Scena 2 — TEN:TEN all’XO Club · 00:03.73 → 00:06.66 (fotogrammi 224–399)
+### Scena 2 — TEN:TEN all’XO Club · 00:03.83 → 00:07.95 (fotogrammi 230–476)
 
 **Obiettivo:** Dare il nome della serata e del locale, con le persone vere della serata.
 
@@ -48,9 +48,9 @@ Tempi in minuti:secondi; tra parentesi i fotogrammi a 60 fps. Ogni riga è una f
 
 | Tempo (fotogrammi) | Sottotitolo / voce | Cosa appare sullo schermo |
 |---|---|---|
-| 00:03.83 → 00:06.10 (230–365) | Si chiama **TEN:TEN,** all’XO Club di via Verdi. | Foto vera della folla sotto il palco (dal sito), in 2.5D: grazie alla mappa di profondità la camera scivola di lato e le mani in primo piano si muovono più dello sfondo. La capsula del prezzo si trasforma nella card di vetro con il marchio “TEN:TEN” (crema su vetro rosso). Su “XO” dal fondo della card si stacca, come una goccia, una capsula con il logo XO e “Via Verdi 59R”. Su “via Verdi” la folla lascia il posto alla pista. |
+| 00:03.93 → 00:07.53 (236–451) | Si chiama **TEN:TEN,** all’XO Club di via Verdi. | Foto vera della folla sotto il palco (dal sito), in 2.5D: grazie alla mappa di profondità la camera scivola di lato e le mani in primo piano si muovono più dello sfondo. La capsula del prezzo si trasforma nella card di vetro con il marchio “TEN:TEN” (crema su vetro rosso). Su “XO” dal fondo della card si stacca, come una goccia, una capsula con il logo XO e “Via Verdi 59R”. Su “via Verdi” la folla lascia il posto alla pista. |
 
-### Scena 3 — Il gioco: ferma il timer su 10:10 · 00:06.66 → 00:11.42 (fotogrammi 400–684)
+### Scena 3 — Il gioco: ferma il timer su 10:10 · 00:07.95 → 00:13.76 (fotogrammi 477–824)
 
 **Obiettivo:** Spiegare il meccanismo in pochi secondi e farlo vivere: il buzzer viene premuto davvero e il timer si ferma esattamente su 10:10.
 
@@ -58,10 +58,10 @@ Tempi in minuti:secondi; tra parentesi i fotogrammi a 60 fps. Ogni riga è una f
 
 | Tempo (fotogrammi) | Sottotitolo / voce | Cosa appare sullo schermo |
 |---|---|---|
-| 00:06.76 → 00:08.08 (406–484) | Ogni drink è una giocata: | Foto vera della ragazza che tiene il buzzer, con la scritta al neon alle spalle. Card e capsula XO si fondono in un’unica capsula “🍸 1 drink = 1 giocata”. |
-| 00:08.30 → 00:10.86 (498–651) | premi il **buzzer** e ferma il timer su **10:10.** | La foto va fuori fuoco e dal basso sale, con una molla, il buzzer rosso (immagine generata, uguale a quello della locandina). La capsula diventa il timer di vetro con le cifre a LED. Un dito preme la cupola, che si abbassa davvero, e il timer parte: le cifre corrono, sul display del buzzer e nel vetro, con un bip a ogni secondo. Su “10:10” secondo tocco: il timer si ferma esattamente su 10:10, lampo rosso, la camera trema, il display lampeggia tre volte e suona il jingle della vincita. |
+| 00:08.05 → 00:09.81 (483–588) | Ogni drink è una giocata: | Foto vera della ragazza che tiene il buzzer, con la scritta al neon alle spalle. Card e capsula XO si fondono in un’unica capsula “🍸 1 drink = 1 giocata”. |
+| 00:09.94 → 00:13.33 (597–799) | premi il **buzzer** e ferma il timer su **10:10.** | La foto va fuori fuoco e dal basso sale, con una molla, il buzzer rosso (immagine generata, uguale a quello della locandina). La capsula diventa il timer di vetro con le cifre a LED. Un dito preme la cupola, che si abbassa davvero, e il timer parte: le cifre corrono, sul display del buzzer e nel vetro, con un bip a ogni secondo. Su “10:10” secondo tocco: il timer si ferma esattamente su 10:10, lampo rosso, la camera trema, il display lampeggia tre volte e suona il jingle della vincita. |
 
-### Scena 4 — La bottiglia in area VIP · 00:11.42 → 00:16.46 (fotogrammi 685–986)
+### Scena 4 — La bottiglia in area VIP · 00:13.76 → 00:19.39 (fotogrammi 825–1163)
 
 **Obiettivo:** Mostrare il premio e legarlo all’idea di festeggiare insieme.
 
@@ -69,10 +69,10 @@ Tempi in minuti:secondi; tra parentesi i fotogrammi a 60 fps. Ogni riga è una f
 
 | Tempo (fotogrammi) | Sottotitolo / voce | Cosa appare sullo schermo |
 |---|---|---|
-| 00:11.52 → 00:14.06 (691–843) | Se ci riesci, vinci **una bottiglia** in area VIP, | Dal basso sale una bottiglia (immagine generata) con una fontana di scintille calcolata in codice che illumina il vetro e il fondo. Il timer si trasforma nella capsula “✦ Bottiglia in area VIP”. |
-| 00:14.22 → 00:15.90 (853–953) | da festeggiare con **i tuoi amici.** | La bottiglia vola via verso l’alto lasciando la scia delle scintille; la foto del brindisi va a fuoco. Poi un montaggio veloce di foto vere della serata (ragazze che ballano, DJ, MC), legate da colpi di camera laterali con scia di movimento e dalle transizioni di profondità. |
+| 00:13.86 → 00:16.85 (831–1010) | Se ci riesci, vinci **una bottiglia** in area VIP, | Dal basso sale una bottiglia (immagine generata) con una fontana di scintille calcolata in codice che illumina il vetro e il fondo. Il timer si trasforma nella capsula “✦ Bottiglia in area VIP”. |
+| 00:16.95 → 00:18.97 (1017–1137) | da festeggiare con **i tuoi amici.** | La bottiglia vola via verso l’alto lasciando la scia delle scintille; la foto del brindisi va a fuoco. Poi un montaggio veloce di foto vere della serata (ragazze che ballano, DJ, MC), legate da colpi di camera laterali con scia di movimento e dalle transizioni di profondità. |
 
-### Scena 5 — Chiusura: prenota (loop) · 00:16.46 → 00:22.49 (fotogrammi 987–1348)
+### Scena 5 — Chiusura: prenota (loop) · 00:19.39 → 00:26.72 (fotogrammi 1164–1602)
 
 **Obiettivo:** Dare la condizione esatta per l’ingresso a 1 € e tutte le informazioni in una sola schermata da salvare.
 
@@ -80,8 +80,8 @@ Tempi in minuti:secondi; tra parentesi i fotogrammi a 60 fps. Ogni riga è una f
 
 | Tempo (fotogrammi) | Sottotitolo / voce | Cosa appare sullo schermo |
 |---|---|---|
-| 00:16.56 → 00:19.53 (993–1171) | Prenota: entro le **00.30** entri a un euro. | Si materializza la scheda di vetro: “TEN:TEN”, “Ogni venerdì · 23.30–5.00”, “1 € con prenotazione entro le 00.30”, logo XO e “Via Verdi 59R, Firenze”. Dalla scheda si stacca come una goccia il pulsante di vetro “Prenota”, che viene toccato: si comprime, rimbalza e si accende di rosso. |
-| 00:19.87 → 00:20.85 (1192–1250) | **Ci vediamo venerdì.** | La scheda pulsa leggermente. Nell’ultimo secondo e mezzo tutto il vetro si smaterializza, la pista si spegne nella foschia cremisi e la moneta torna girando al centro: il reel riparte senza stacco. |
+| 00:19.50 → 00:23.71 (1170–1422) | Prenota: entro le **00.30** entri a un euro. | Si materializza la scheda di vetro: “TEN:TEN”, “Ogni venerdì · 23.30–5.00”, “1 € con prenotazione entro le 00.30”, logo XO e “Via Verdi 59R, Firenze”. Dalla scheda si stacca come una goccia il pulsante di vetro “Prenota”, che viene toccato: si comprime, rimbalza e si accende di rosso. |
+| 00:23.91 → 00:25.22 (1435–1512) | **Ci vediamo venerdì.** | La scheda pulsa leggermente. Nell’ultimo secondo e mezzo tutto il vetro si smaterializza, la pista si spegne nella foschia cremisi e la moneta torna girando al centro: il reel riparte senza stacco. |
 
 ## Testo della voce
 
@@ -110,7 +110,7 @@ Tutti sintetizzati in codice (`npm run sfx`), agganciati agli stessi istanti del
 > TEN:TEN all’XO Club, Via Verdi 59R
 > 🍸 Ogni drink è una giocata: ferma il timer su 10:10 e vinci una bottiglia in area VIP 🍾
 > 🕦 23.30–5.00 · 1 € con prenotazione entro le 00.30
-> 📲 Prenota dal link in bio o su WhatsApp
+> 📲 Prenota dal link o su WhatsApp
 > 👯 Tagga chi viene con te venerdì
 >
 > #firenze #discotecafirenze #venerdisera #nightlifefirenze #tenten
