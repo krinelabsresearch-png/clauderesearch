@@ -1,0 +1,220 @@
+// Testo del reel sulla fotosintesi e tempi. È l’unica fonte di verità: da qui escono
+// sottotitoli, momenti delle animazioni (cue) e il copione in GUION.md.
+//
+// Sintassi delle frasi:
+//   [parole]   evidenziate nel sottotitolo
+//   parola@x   "cue" x: istante in cui la parola inizia, usato dalle animazioni
+//   parola~N   peso di pronuncia (lettere parlate) quando il testo scritto
+//              è più corto di quello detto, es. "0,2%~20" = "zero virgola due per cento"
+//   say        testo letto dalla voce, se diverso da quello scritto
+//
+// Senza voce i tempi sono stimati dal ritmo qui sotto. Con la voce generata
+// (npm run voice) i tempi reali di ogni frase arrivano da voice-timings.ts.
+
+import {VOICE} from './voice-timings.ts';
+
+export const FPS = 60;
+
+export type Accent = 'green' | 'red' | 'amber' | 'blue';
+
+type PhraseSpec = {t: string; c?: Accent; say?: string};
+type SceneSpec = {id: string; accent: Accent; tail?: number; phrases: PhraseSpec[]};
+
+export const SCENES: SceneSpec[] = [
+  {
+    id: 'hook',
+    accent: 'green',
+    phrases: [
+      {t: 'L’ossigeno@o2 che stai respirando è [un avanzo]@avanzo.'},
+      {t: 'Lo scarto della [fotosintesi clorofilliana]@name, che avviene in ogni foglia@leaf.'},
+    ],
+  },
+  {
+    id: 'ingr',
+    accent: 'amber',
+    phrases: [
+      {t: 'Gli ingredienti@ingr sono tre: [luce]@luce, [acqua]@acqua e [anidride carbonica]@co2.', say: 'Gli ingredienti sono tre: luce, acqua e anidride carbonica.'},
+    ],
+  },
+  {
+    id: 'path',
+    accent: 'blue',
+    phrases: [
+      {t: 'L’acqua sale@up [dalle radici]@roots,'},
+      {t: 'l’anidride carbonica entra@in dalle foglie, attraverso minuscoli pori: [gli stomi]@stomi.'},
+    ],
+  },
+  {
+    id: 'chloro',
+    accent: 'green',
+    phrases: [
+      {t: 'Dentro@cell le cellule ci sono i [cloroplasti]@chloro, pieni di clorofilla.'},
+      {t: 'È il pigmento che cattura la luce@beam: assorbe [blu e rosso]@absorb, e riflette [il verde]@green.'},
+      {t: 'Ecco perché le foglie@verdi sono verdi.'},
+    ],
+  },
+  {
+    id: 'light',
+    accent: 'blue',
+    phrases: [
+      {t: 'Con quell’energia la pianta spezza@split [le molecole d’acqua]@h2o e libera [ossigeno]@oxy.'},
+    ],
+  },
+  {
+    id: 'sugar',
+    accent: 'amber',
+    phrases: [
+      {t: 'Poi usa l’anidride carbonica@cin per costruire [glucosio]@glu, lo zucchero che la nutre.'},
+    ],
+  },
+  {
+    id: 'formula',
+    accent: 'blue',
+    phrases: [
+      {t: 'In formula@f: sei di anidride carbonica@t1 e sei d’acqua@t2'},
+      {t: 'diventano@arrow un glucosio@t3 e [sei di ossigeno]@t4.'},
+    ],
+  },
+  {
+    id: 'tree',
+    accent: 'green',
+    phrases: [
+      {t: 'E la parte più [incredibile]@wow?'},
+      {t: 'Gran parte del legno@wood di un albero non viene dal terreno@soil, ma [dall’aria]@air.'},
+    ],
+  },
+  {
+    id: 'cta',
+    accent: 'green',
+    tail: 1.2,
+    phrases: [
+      {t: '[Salvalo]@save per il prossimo compito,'},
+      {t: 'e [mandalo]@send a chi pensa che le piante mangino terra.'},
+    ],
+  },
+];
+
+// Ritmo della voce: ~3 parole al secondo, adatto a un reel informativo.
+const WORD_BASE = 0.08;
+const PER_CHAR = 0.046;
+const PAUSE_COMMA = 0.16;
+const PAUSE_COLON = 0.22;
+const PAUSE_STOP = 0.34;
+const SCENE_GAP = 0.22;
+const SCENE_LEAD = 0.1;
+
+export type Word = {text: string; hl: boolean; start: number; end: number};
+export type Phrase = {words: Word[]; start: number; end: number; color: Accent; text: string};
+export type Scene = {id: string; accent: Accent; start: number; end: number; phrases: Phrase[]};
+
+const spokenWeight = (w: string) => {
+  const m = w.match(/~(\d+)/);
+  if (m) return Number(m[1]);
+  return (w.match(/[\p{L}\p{N}]/gu) ?? []).length;
+};
+
+type Token = {text: string; hl: boolean; cue?: string; dur: number};
+
+const tokenize = (spec: string): Token[] =>
+  (spec.match(/\[[^\]]*\]\S*|\S+/g) ?? []).map((raw) => {
+    const cm = raw.match(/@(\w+)/);
+    const tok = cm ? raw.replace(/@\w+/, '') : raw;
+    const plain = tok.replace(/[[\]]/g, '');
+    return {
+      text: plain.replace(/~\d+/g, ''),
+      hl: tok.includes('['),
+      cue: cm?.[1],
+      dur: plain.split(' ').reduce((a, w) => a + WORD_BASE + PER_CHAR * spokenWeight(w), 0),
+    };
+  });
+
+const pauseAfter = (text: string) => {
+  const last = text.slice(-1);
+  if (last === ',' || last === ';') return PAUSE_COMMA;
+  if (last === ':') return PAUSE_COLON;
+  if ('.!?'.includes(last)) return PAUSE_STOP;
+  return 0;
+};
+
+const plainText = (spec: string) => tokenize(spec).map((w) => w.text).join(' ');
+
+/**
+ * Periodi letti dalla voce tutti d'un fiato: frasi consecutive della stessa
+ * scena fino a un punto o ai due punti. Ogni periodo è un file audio.
+ */
+export type VoiceGroup = {scene: string; phrases: number[]; says: string[]; say: string};
+export const GROUPS: VoiceGroup[] = [];
+{
+  SCENES.forEach((sc) => {
+    let cur: number[] = [];
+    sc.phrases.forEach((p, pi) => {
+      cur.push(pi);
+      const last = plainText(p.t).slice(-1);
+      if (last === '.' || last === ':' || pi === sc.phrases.length - 1) {
+        const says = cur.map((i) => sc.phrases[i].say ?? plainText(sc.phrases[i].t));
+        GROUPS.push({scene: sc.id, phrases: cur, says, say: says.join(' ')});
+        cur = [];
+      }
+    });
+  });
+}
+
+/** Per ogni periodo con voce: istante d'inizio nel video e file audio. */
+export const VOICE_CLIPS: {file: string; start: number}[] = [];
+
+const cues: Record<string, number> = {};
+
+const build = (): Scene[] => {
+  if (VOICE && VOICE.length !== GROUPS.length) {
+    throw new Error(`voice-timings.ts ha ${VOICE.length} periodi, il copione ${GROUPS.length}: rigenera la voce`);
+  }
+  let t = 0.12;
+  let g = 0;
+  return SCENES.map((sc, si) => {
+    const start = si === 0 ? 0 : t;
+    if (si > 0) t += SCENE_LEAD;
+    const phrases: Phrase[] = [];
+    const layout = (spec: PhraseSpec, from: number, to: number | null) => {
+      const tokens = tokenize(spec.t);
+      // Con la voce le parole si distribuiscono nell'intervallo reale della frase,
+      // in proporzione alla loro lunghezza parlata.
+      const est = tokens.reduce((a, w, i) => a + w.dur + (i < tokens.length - 1 ? pauseAfter(w.text) : 0), 0);
+      const k = to === null ? 1 : (to - from) / est;
+      let x = from;
+      const words = tokens.map((w, i) => {
+        if (w.cue) cues[`${sc.id}.${w.cue}`] = x;
+        const word: Word = {text: w.text, hl: w.hl, start: x, end: x + w.dur * k};
+        x += w.dur * k + (i < tokens.length - 1 ? pauseAfter(w.text) * k : 0);
+        return word;
+      });
+      phrases.push({words, start: from, end: x, color: spec.c ?? sc.accent, text: words.map((w) => w.text).join(' ')});
+      return x;
+    };
+    while (g < GROUPS.length && GROUPS[g].scene === sc.id) {
+      const grp = GROUPS[g];
+      const v = VOICE?.[g];
+      if (v) {
+        VOICE_CLIPS.push({file: v.file, start: t});
+        grp.phrases.forEach((pi, k) => layout(sc.phrases[pi], t + v.phrases[k].start, t + v.phrases[k].end));
+        t += v.dur + pauseAfter(plainText(sc.phrases[grp.phrases[grp.phrases.length - 1]].t)) * 0.6;
+      } else {
+        grp.phrases.forEach((pi) => {
+          const end = layout(sc.phrases[pi], t, null);
+          t = end + pauseAfter(plainText(sc.phrases[pi].t));
+        });
+      }
+      g++;
+    }
+    t += sc.tail ?? SCENE_GAP;
+    return {id: sc.id, accent: sc.accent, start, end: t, phrases};
+  });
+};
+
+export const TIMELINE: Scene[] = build();
+export const DURATION_FRAMES = Math.ceil(TIMELINE[TIMELINE.length - 1].end * FPS);
+
+export const cueSeconds = (sceneId: string, name: string): number => {
+  const v = cues[`${sceneId}.${name}`];
+  if (v === undefined) throw new Error(`cue mancante: ${sceneId}.${name}`);
+  return v;
+};

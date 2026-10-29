@@ -1,0 +1,22 @@
+{
+  "name": "video-fotosintesi",
+  "private": true,
+  "scripts": {
+    "render": "remotion render src/index.ts Fotosintesi out/fotosintesi.mp4 --gl=swangle",
+    "stills": "node scripts/stills.mjs",
+    "voice": "python3 -I scripts/make-voice.py",
+    "guion": "node --experimental-strip-types --no-warnings scripts/make-guion.ts",
+    "cover": "remotion still src/index.ts Cover out/cover.png --gl=swangle",
+    "mute": "ffmpeg -v error -y -i out/fotosintesi.mp4 -c copy -an out/fotosintesi-muto.mp4"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.539",
+    "@remotion/cli": "4.0.539",
+    "@remotion/renderer": "4.0.539",
+    "@types/react": "18.3.12",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.539",
+    "typescript": "5.6.3"
+  }
+}
