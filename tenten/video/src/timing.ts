@@ -51,7 +51,7 @@ export const timerBlink = (t: number) => {
 /** Lampo quando il timer si ferma. */
 export const flash = (t: number) => {
   const d = t - T().stop;
-  return d < 0 ? 0 : Math.exp(-d / 0.28);
+  return d < 0 ? 0 : (1 - Math.exp(-d / 0.02)) * Math.exp(-d / 0.28);
 };
 // ─── Tempi dei controlli di vetro ─────────────────────────────────────────────
 const wtimes = () => {

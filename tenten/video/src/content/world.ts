@@ -38,7 +38,8 @@ const segments = (): Seg[] => {
         // la camera scivola verso il buzzer che lei tiene in mano, poi la foto va fuori fuoco
         const u = easeInOut(prog(t, S.game, S.rise + 0.3));
         const d = smooth(prog(t, S.rise, S.rise + 0.55));
-        return {key: 'gioco', cx: lerp(0.52, 0.74, u), cy: lerp(0.5, 0.74, u), zoom: lerp(1.12, 1.75, u) + 0.25 * d, px: lerp(0.035, -0.02, u), py: 0.015, focus: 0.7, defocus: 4.8 * d, exposure: lerp(1, 0.42, d)};
+        const drift = Math.max(0, t - S.rise - 0.55);
+        return {key: 'gioco', cx: lerp(0.52, 0.74, u) - 0.012 * drift, cy: lerp(0.5, 0.74, u), zoom: lerp(1.12, 1.75, u) + 0.25 * d + 0.03 * drift, px: lerp(0.035, -0.02, u), py: 0.015, focus: 0.7, defocus: 4.8 * d, exposure: lerp(1, 0.42, d) + 0.05 * Math.sin(drift * 2.4)};
       },
     },
     {
@@ -76,7 +77,7 @@ const montage = (a: number, b: number): Seg[] => {
     return {
       from: t0,
       mode: i === 1 ? ('flare' as Mode) : ('depth' as Mode),
-      dur: 0.32,
+      dur: 0.42,
       shot: (t: number) => {
         const u = prog(t, t0, t0 + step + 0.4);
         // entra con una frustata laterale e poi rallenta
@@ -131,7 +132,7 @@ export const paintWorld = (ctx: Ctx, F: number) => {
     photos ??= new PhotoRenderer(1080, 1920);
     const cv = photos.render(ph.a, ph.b, ph.mix, ph.mode);
     // in coda il locale si spegne e torna la foschia della moneta (loop)
-    const a = 1 - smooth(prog(t, S.end, S.end + 0.6));
+    const a = smooth(prog(t, S.place - 0.1, S.place + 0.15)) * (1 - smooth(prog(t, S.end, S.end + 0.6)));
     if (a > 0.001) {
       ctx.save();
       ctx.globalAlpha = a;
@@ -144,7 +145,8 @@ export const paintWorld = (ctx: Ctx, F: number) => {
   if (t < S.place + 0.35) {
     const r = easeIn(prog(t, S.rush, S.place + 0.3));
     if (r < 0.999) {
-      for (let j = 3; j >= 0; j--) paintCoin(ctx, t - j * 0.006 * r, 1 + 4.2 * r * (1 - j * 0.05), (1 - r) * (j ? 0.25 : 1));
+      const a = 1 - smooth(prog(r, 0.3, 0.75));
+      for (let j = 3; j >= 0; j--) paintCoin(ctx, t - j * 0.006 * r, 1 + 4.2 * r * (1 - j * 0.05), a * (j ? 0.25 : 1));
     }
     glow(ctx, 540, 880, 900 * r + 200, 'rgba(255,225,215,1)', Math.sin(Math.PI * r) * 1.2);
   }
@@ -154,10 +156,10 @@ export const paintWorld = (ctx: Ctx, F: number) => {
   if (t > S.rise - 0.1 && t < S.bottle + 0.9) {
     const up = glide(t, S.rise);
     const down = easeIn(prog(t, S.bottle, S.bottle + 0.6));
-    const y = lerp(2350, 1170, up) + 1300 * down;
+    const y = lerp(2350, 1170, up) + 1300 * down + 9 * Math.sin((t - S.rise) * 2.2);
     const pr = Math.max(pressCurve(t, S.press), pressCurve(t, S.stop));
     const lit = Math.max(pr, t > S.press && t < S.stop ? 0.35 : 0, flash(t));
-    buzzer(ctx, 540, y, 760, pr, lit, t < S.press - 0.1 ? null : timerText(timerValue(t)));
+    buzzer(ctx, 540, y, 760 + 40 * prog(t, S.rise, S.bottle), pr, lit, t < S.press - 0.1 ? null : timerText(timerValue(t)));
   }
   if (t > S.stop - 0.05) glow(ctx, 540, 720, 1100, 'rgba(255,60,60,1)', flash(t) * 0.9);
 

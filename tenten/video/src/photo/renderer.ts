@@ -91,9 +91,9 @@ void main() {
     if (uMode == 0) {
       // prima compare il primo piano della foto nuova, poi lo sfondo; sul fronte una riga di luce
       float e = dB + 1.3 * uMix - 1.0;
-      float m = smoothstep(0.0, 0.14, e);
+      float m = smoothstep(-0.02, 0.22, e);
       col = mix(a, b, m);
-      col += uFlare * exp(-pow(e / 0.05, 2.0)) * 0.9 * (1.0 - uMix * uMix);
+      col += uFlare * exp(-pow(e / 0.06, 2.0)) * 0.8 * smoothstep(0.0, 0.18, uMix) * (1.0 - uMix * uMix);
     } else if (uMode == 1) {
       float m = smoothstep(0.3, 0.7, uMix);
       col = mix(a, b, m);

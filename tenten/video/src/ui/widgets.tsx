@@ -156,8 +156,9 @@ const Led: React.FC<{text: string; x: number; y: number; w: number; h: number; a
   const ref = useRef<HTMLCanvasElement>(null);
   useLayoutEffect(() => {
     const c = ref.current!;
+    // riassegnare la larghezza azzera canvas e stato: nessun residuo dei fotogrammi prima
+    c.width = Math.round(w);
     const g = c.getContext('2d')!;
-    g.clearRect(0, 0, c.width, c.height);
     sevenSeg(g, text, 26, 20, c.width - 52, c.height - 40, BRAND.led, 1);
   });
   return <canvas ref={ref} width={Math.round(w)} height={Math.round(h)} style={{position: 'absolute', left: x - w / 2, top: y - h / 2, width: w, height: h, opacity: alpha}} />;
