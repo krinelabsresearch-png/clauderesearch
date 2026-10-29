@@ -1,0 +1,7 @@
+node_modules/
+out/stills/
+out/check/
+out/*.log
+voice-raw/*.wav
+gen/
+out/preview*.mp4
