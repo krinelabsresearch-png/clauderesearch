@@ -252,3 +252,9 @@ Valori alle 15:15 UTC: 5 ore al 24% (si azzera alle 20:10 UTC), 7 giorni al 49% 
     - 235 PREVENTIVO (video personalizzato per ogni preventivo di un installatore): 3,60.
     - Seguono 236 ABSTRACT e 237 RILASCIO (3,50) e 238 GUIDA VIVA (3,40).
     - Scheda in `proposte-video-motion.md`, voti in `video_motion.py`. Da confermare la motivazione di Lorenzo per la 234; prossimo passo proposto: ricerca completa sulla 234.
+- **Nuova richiesta (30/10/2026):** analizzare la creazione di software con un VPS e Claude Code e la vendita di software funzionanti, magari in abbonamento. Numero 255.
+  - Metodo: ricerca inline con circa 15 ricerche web su mercato e distribuzione dei ricavi dei SaaS indipendenti, saturazione da vibe coding, SaaSpocalypse, costi (Claude Max, Hetzner), sicurezza del codice AI, abbandono, merchant of record, marketplace, Cyber Resilience Act, acquisizione di micro-SaaS.
+  - **Esito:** come idea a sé ("fabbrica di software in abbonamento", senza nicchia) è scartata con 3,35 (motivazione neutra 3,15).
+    - Varianti: marketplace 3,25; comprare un micro-SaaS 3,20; licenze o software da installare 3,05, con in più il CRA; software su misura 3,05, ma è un servizio.
+    - Come veicolo resta la strada giusta per le nicchie con un canale: 234 SERATA, 107, 116, 208.
+    - Dossier in `dossier/255-software-abbonamento.md`, riga in `scartate.md` e in `punteggi.py`.
