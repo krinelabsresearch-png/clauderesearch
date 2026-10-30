@@ -244,3 +244,11 @@ Valori alle 15:15 UTC: 5 ore al 24% (si azzera alle 20:10 UTC), 7 giorni al 49% 
   - **Esito (14/10/2026):** ricerca completa conclusa, punteggio 3,80 (motivazione neutra 3,40). La 208 entra in lista se la motivazione di Lorenzo è almeno 4.
     - Cuneo consigliato: impianti in Conto Energia da 100 kWp a 1 MWp.
     - Scheda in `208-ombra.md`, collegata da README e da `proposte-settori-nuovi.md`; punteggio aggiunto a `punteggi.py`.
+- **Nuova richiesta (30/10/2026):** idee di business basate su video in motion design di alto livello fatti con Claude Code. Lorenzo chiede di eleggere le 5 migliori e di citare le altre. Numerazione: 234–254.
+  - Metodo: verifica rapida inline, senza workflow, con circa 25 ricerche web sugli strumenti (Remotion, HyperFrames, Claude Motion, licenze), i concorrenti e i prezzi. 21 idee valutate con la scheda v2.
+  - Premessa emersa: Claude Motion è in beta dall'8/10/2026 sui piani Team ed Enterprise, e le skill di Remotion e HyperFrames sono gratis. La domanda diventa quindi "cosa fa in più di Claude Motion". Reggono solo flussi automatici da dati, migliaia di varianti, numeri esatti, clienti che non useranno mai Claude.
+  - **Esito:** 2 idee su 21 sopra 3,5.
+    - 234 SERATA (contenuti animati ogni settimana per discoteche e promoter): 3,95, con motivazione neutra 3,55.
+    - 235 PREVENTIVO (video personalizzato per ogni preventivo di un installatore): 3,60.
+    - Seguono 236 ABSTRACT e 237 RILASCIO (3,50) e 238 GUIDA VIVA (3,40).
+    - Scheda in `proposte-video-motion.md`, voti in `video_motion.py`. Da confermare la motivazione di Lorenzo per la 234; prossimo passo proposto: ricerca completa sulla 234.
