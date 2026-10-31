@@ -258,3 +258,12 @@ Valori alle 15:15 UTC: 5 ore al 24% (si azzera alle 20:10 UTC), 7 giorni al 49% 
     - Varianti: marketplace 3,25; comprare un micro-SaaS 3,20; licenze o software da installare 3,05, con in più il CRA; software su misura 3,05, ma è un servizio.
     - Come veicolo resta la strada giusta per le nicchie con un canale: 234 SERATA, 107, 116, 208.
     - Dossier in `dossier/255-software-abbonamento.md`, riga in `scartate.md` e in `punteggi.py`.
+- **Nuova richiesta (31/10/2026):** valutare due idee. La 256 sono video fatti con Claude in nicchie specifiche, monetizzati con YouTube; la 257 sono corsi di formazione AI per idraulici ed elettricisti.
+  - Metodo: ricerca inline con circa 13 ricerche web.
+    - Per la 256: RPM per nicchia e in Italia, regole di YouTube sui contenuti non autentici (luglio 2025 e 16/7/2026), dati sui canali senza volto.
+    - Per la 257: numero di imprese di installazione, adozione dell'AI tra gli artigiani, concorrenti (SME AI Accelerator di OpenAI con Confartigianato, Fondartigianato Invito 1/2026), articolo 4 dell'AI Act dopo l'Omnibus, software per la dichiarazione di conformità.
+  - **Esito:** entrambe scartate.
+    - 256: 3,05, con motivazione neutra 2,85. Ha senso solo come canale per vendere un prodotto proprio.
+    - 257: 2,50. La variante software, un assistente per preventivi e pratiche, vale circa 3,10.
+    - Dossier in `dossier/256-youtube-video-claude.md` e `dossier/257-corsi-ai-impiantisti.md`; righe in `scartate.md` e in `punteggi.py`; la 251 in `proposte-video-motion.md` rimanda alla 256.
+    - Corretto anche l'ordine di `scartate.md`, dove le righe 190 e 197 erano fuori posto.

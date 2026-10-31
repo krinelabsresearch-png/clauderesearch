@@ -222,7 +222,7 @@ Le idee che non hanno almeno una di queste risposte sono finite in fondo alla cl
   - Non ho trovato strumenti per il padel: esistono solo per il calcio (Terrace, Sportgraphics) [25].
   - Il mercato però è piccolo e i circoli pagano poco.
 - **250 LANCIO (3,10)**: dal sito al video di lancio. È già fatto da UX Pilot, Clickcast, URLmotion e HeyGen [9].
-- **251 CANALE (3,00)**: canale YouTube di dati animati senza volto.
+- **251 CANALE (3,00)**: canale YouTube di dati animati senza volto. Approfondita il 31/10/2026 come [256](dossier/256-youtube-video-claude.md): scartata con 3,05.
   - Dipende da pochi video di successo.
   - Dal 2025 YouTube toglie la monetizzazione ai contenuti "prodotti in serie" [26].
 - **252 KIT (2,90)**: template e skill a pagamento. Remotion e HyperFrames ne regalano già decine.
