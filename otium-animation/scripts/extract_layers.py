@@ -10,8 +10,9 @@ import json
 import os
 import numpy as np
 import cv2
+import pickle
 from common import (LAYERS, W0, H0, PAPER, RED, PLUM, load_rgb, save_rgba,
-                    star_polygon, fill_poly_aa)
+                    star_polygon, fill_poly_aa, trace_alpha, polys_to_svg_path)
 
 os.makedirs(os.path.join(LAYERS, "text"), exist_ok=True)
 os.makedirs(os.path.join(LAYERS, "photo"), exist_ok=True)
@@ -46,6 +47,7 @@ print("paper texture std", paper_hf_std)
 
 # ------------------------------------------------------------------ text sprites
 manifest = {}
+VEC = {}            # traced vector outlines of every text sprite (absolute flyer coords)
 text_union = np.zeros((H, W), np.float32)
 
 
@@ -84,6 +86,7 @@ def make_sprite(name, alpha_src, ink, region_mask, pad=3, kind="text", exclude=N
     save_rgba(os.path.join(LAYERS, kind, name + ".png"), rgb, a_c)
     manifest[name] = {"x": int(x0), "y": int(y0), "w": int(x1 - x0), "h": int(y1 - y0),
                       "ink": [float(v) for v in ink_med]}
+    VEC[name] = [p + np.array([x0, y0], np.float32) for p in trace_alpha(a_c)]
     text_union[y0:y1, x0:x1] = np.maximum(text_union[y0:y1, x0:x1], a_c)
 
 
@@ -180,14 +183,18 @@ bx0, by0, bx1, by1 = 580, 1247, 1072, 1299
 box_soft = np.clip(np.minimum.reduce([xx - bx0 + 1.0, bx1 - xx, yy - by0 + 1.0, by1 - yy]), 0, 1)
 sl = (slice(by0 - 2, by1 + 2), slice(bx0 - 2, bx1 + 2))
 cta_a = box_soft[sl].astype(np.float32)
-save_rgba(os.path.join(LAYERS, "text", "cta_box.png"), src[sl], cta_a)
+box_red = np.clip((A_RED[sl] - 0.05) / 0.9, 0, 1) * cta_a          # red box, letters knocked out
+save_rgba(os.path.join(LAYERS, "text", "cta_box.png"), src[sl], box_red)
+cta_ink = np.median(src[sl][box_red > 0.95], axis=0)
 manifest["cta_box"] = {"x": bx0 - 2, "y": by0 - 2, "w": bx1 - bx0 + 4, "h": by1 - by0 + 4,
-                       "ink": [float(v) for v in RED]}
+                       "ink": [float(v) for v in cta_ink]}
+VEC["cta_box"] = [p + np.array([bx0 - 2, by0 - 2], np.float32) for p in trace_alpha(box_red)]
 txt_a = np.clip((1 - A_RED[sl] - 0.08) / 0.84, 0, 1) * cta_a
 txt_a[:6] = 0; txt_a[-6:] = 0; txt_a[:, :7] = 0; txt_a[:, -7:] = 0
 save_rgba(os.path.join(LAYERS, "text", "cta_text_red.png"),
           np.broadcast_to(RED, txt_a.shape + (3,)).copy(), txt_a)
 manifest["cta_text_red"] = dict(manifest["cta_box"])
+VEC["cta_text_red"] = [p + np.array([bx0 - 2, by0 - 2], np.float32) for p in trace_alpha(txt_a)]
 text_union[sl] = np.maximum(text_union[sl], cta_a)
 
 # ------------------------------------------------------------------ photo window
@@ -314,6 +321,29 @@ manifest["_meta"] = dict(BALL=BALL, BALL2=BALL2, LIGHTS=LIGHTS, STAR=STAR, slots
                          env2=[e2x, e2y, e2s], paper_hf_std=paper_hf_std)
 with open(os.path.join(LAYERS, "manifest.json"), "w") as f:
     json.dump(manifest, f, indent=1)
+with open(os.path.join(LAYERS, "vectors.pkl"), "wb") as f:
+    pickle.dump(VEC, f)
+# vector export: one SVG per element + the whole typography layer
+os.makedirs(os.path.join(LAYERS, "vector"), exist_ok=True)
+
+
+def hexcol(c):
+    return "#%02x%02x%02x" % tuple(int(round(v * 255)) for v in c)
+
+
+paths = []
+for name, polys in VEC.items():
+    m_ = manifest[name]
+    col = hexcol(RED if name == "cta_text_red" else m_["ink"])
+    d = polys_to_svg_path(polys, m_["x"], m_["y"])
+    with open(os.path.join(LAYERS, "vector", name + ".svg"), "w") as f:
+        f.write('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %d %d" width="%d" height="%d">'
+                '<path fill="%s" fill-rule="evenodd" d="%s"/></svg>\n' % (m_["w"], m_["h"], m_["w"], m_["h"], col, d))
+    if name != "cta_text_red":
+        paths.append('<path id="%s" fill="%s" fill-rule="evenodd" d="%s"/>' % (name, col, polys_to_svg_path(polys)))
+with open(os.path.join(LAYERS, "vector", "_all_typography.svg"), "w") as f:
+    f.write('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %d %d" width="%d" height="%d">'
+            '<rect width="100%%" height="100%%" fill="%s"/>%s</svg>\n' % (W, H, W, H, hexcol(PAPER), "".join(paths)))
 np.savez_compressed(os.path.join(LAYERS, "data.npz"), paper_low=paper_low, photo_alpha=photo_alpha,
                     plate=plate, depth=depth, sway_L=sway_L, sway_R=sway_R, crowd_w=crowd_w,
                     env1=env1, env2=env2, lut=lut, src=src)

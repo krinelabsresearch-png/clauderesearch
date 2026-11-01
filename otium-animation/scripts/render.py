@@ -1,13 +1,21 @@
-"""Step 2 - render the OTIUM 10 s loop frame by frame from the extracted layers.
+"""Step 2 - render the OTIUM 12 s loop (100 BPM, 5 bars) frame by frame.
 
-    python3 render.py --fmt 4x5             # full render -> out/otium_4x5_video.mp4 (no audio)
+Two-stage compositing for maximum sharpness:
+  stage A (native 1122-px flyer grid): paper + photo window (2.5D push-in, live disco balls,
+          beams, light spots, sparkles) -> area-resampled once to the output size
+  stage B (output grid): every piece of type is re-rasterised from its traced vector outline
+          (4x4 supersampled, flat ink) directly at output resolution -> crisp edges, no
+          resampling, no grain on the letters.
+
+    python3 render.py --fmt 4x5                       # -> out/OTIUM_4x5_60fps.mp4 + _30fps.mp4
     python3 render.py --fmt 9x16
-    python3 render.py --fmt 4x5 --preview 0.3,1.3,3.0   # PNG stills for review
+    python3 render.py --fmt 4x5 --preview 0.3,1.3,3.0  # PNG stills for review
 """
 import argparse
 import json
 import math
 import os
+import pickle
 import subprocess
 import time
 from multiprocessing import get_context
@@ -16,47 +24,62 @@ import numpy as np
 import cv2
 
 from common import (LAYERS, OUT, W0, H0, FPS, DURATION, BEAT, BAR, PAPER, RED, PLUM, GLINT,
-                    DARK_BG, load_rgba, smoothstep, ease_out_cubic, ease_in_cubic, ease_in_quad,
-                    ease_in_out_cubic, ease_out_back, ease_in_out_sine, halftone_screen,
-                    fill_poly_aa)
+                    DARK_BG, smoothstep, ease_out_cubic, ease_in_cubic, ease_in_quad,
+                    ease_in_out_cubic, ease_out_back, ease_in_out_sine, halftone_screen)
 
 MAN = json.load(open(os.path.join(LAYERS, "manifest.json")))
 META = MAN["_meta"]
+VEC = pickle.load(open(os.path.join(LAYERS, "vectors.pkl"), "rb"))
 B = BEAT
 FORMATS = {"4x5": dict(H=H0, out=(1080, 1350)), "9x16": dict(H=1995, out=(1080, 1920))}
 
-# =============================================================== timeline (s) - 96 BPM grid
-KICKS = [B * k for k in range(16)]
-SNARES = sorted(B * (bar * 4 + s) for bar in range(4) for s in (0.75, 1.5, 2.75, 3.5))
-LOGO_HITS = [("logo_O", B * 2), ("logo_T", B * 2.75), ("logo_I", B * 3), ("logo_U", B * 3.5),
-             ("logo_M", B * 4)]
-T_FLY0, T_FLY1 = B * 1.5, B * 2          # star flies into the O
-T_IRIS0, T_IRIS1 = B * 1.45, B * 2.35    # paper floods in
-T_REVEAL = B * 4                          # photo prints in (halftone)
+# =============================================================== timeline (s) - 100 BPM grid, 5 bars
+N_BEATS = int(round(DURATION / B))                       # 20
+KICKS = [B * k for k in range(N_BEATS)]
+SNARES = sorted(B * (bar * 4 + s) for bar in range(N_BEATS // 4) for s in (0.75, 1.5, 2.75, 3.5))
+# opening: star 0 -> 1.5 beats (25% shorter than before), then OTIUM stamps on the dembow hits
+T_FLY0, T_FLY1 = B * 1.0, B * 1.5
+T_IRIS0, T_IRIS1 = B * 0.95, B * 1.85
+LOGO_HITS = [("logo_O", B * 1.5), ("logo_T", B * 2), ("logo_I", B * 2.75), ("logo_U", B * 3),
+             ("logo_M", B * 3.5)]
+T_LOGO_DONE = LOGO_HITS[-1][1] + 0.25      # after this NOTHING shakes / jitters any more
+# bar 2: camera tilts down, photo prints, location
+T_PAN0, T_PAN1 = B * 4, B * 4 + 1.15
+T_REVEAL = B * 4
 T_ATV, ATV_STAG = B * 4.5, B / 8
 T_LINE0, T_LINE1 = B * 5.5, B * 6
 T_SSTAR = B * 6
 T_FIR, FIR_STAG = B * 6.15, B / 14
 T_BEAMS = B * 6
+# bar 3: date
 T_DOM = B * 8
 T_DATE = B * 9
 T_BSTAR = B * 9.5
-T_ROLL0, T_STOP0 = B * 9.45, B * 10
-T_SEPS = B * 10
-GENRES = [("g_hit", B * 10.5), ("g_b1", B * 10.75), ("g_reg", B * 11), ("g_b2", B * 11.25),
-          ("g_baile", B * 11.5)]
-T_TYPE0, T_TYPE1 = B * 12, B * 12.4
-T_FILL0, T_FILL1 = B * 12.5, B * 13
-T_FLASH = B * 13
-T_SPIN = B * 14
-T_CLOSE0, T_CLOSE1 = 9.56, 9.93
-T_STAR_BACK = 9.60
+T_ROLL0, T_STOP0 = B * 10, B * 10.75
+T_SEPS = B * 10.75
+# bar 4: genres + CTA
+GENRES = [("g_hit", B * 12), ("g_b1", B * 12.5), ("g_reg", B * 13), ("g_b2", B * 13.5),
+          ("g_baile", B * 14)]
+T_TYPE0, T_TYPE1 = B * 14.5, B * 14.9
+T_FILL0, T_FILL1 = B * 15, B * 16
+# bar 5: drop + hold + loop close
+T_FLASH = B * 16
+T_SPIN = B * 18
+T_CLOSE0, T_CLOSE1 = DURATION - 0.55, DURATION - 0.12
+T_STAR_BACK = DURATION - 0.5
 
-# camera: during bar 1 the logo sits centred in frame; on the bar-2 downbeat the camera
-# tilts down to the full layout while the photo prints in
 PAD = 560
 CAM0 = 540.0
-T_PAN0, T_PAN1 = B * 4, B * 4 + 1.15
+STAR_ROT_SPEED = 0.75
+S0 = 2.15
+BEAM_COL = np.array([0.96, 0.74, 0.72], np.float32)
+
+# beat-synced jitter only while OTIUM is being stamped in
+JOLTS = [(t, 1.0) for _, t in LOGO_HITS]
+SHAKES = [(LOGO_HITS[0][1], 1.6), (LOGO_HITS[-1][1], 1.8)]
+rng0 = np.random.RandomState(7)
+JOLT_DIRS = [(math.cos(a), math.sin(a)) for a in rng0.uniform(0, 2 * np.pi, len(JOLTS))]
+SHAKE_PH = rng0.uniform(0, 2 * np.pi, (len(SHAKES), 2))
 
 
 def cam_y(t):
@@ -65,23 +88,7 @@ def cam_y(t):
     return CAM0 * (1 - ease_in_out_cubic((t - T_PAN0) / (T_PAN1 - T_PAN0)))
 
 
-BEAM_COL = np.array([0.96, 0.74, 0.72], np.float32)   # warm haze, stays in the pink palette
-STAR_ROT_SPEED = 0.75          # rad/s of the opening/closing hero star
-S0 = 2.15                      # hero star scale vs. the logo star
-
-# misregistration jolts (time, strength) and shakes (time, px)
-JOLTS = [(t, 1.0) for _, t in LOGO_HITS] + [(T_SSTAR, 0.6), (T_DATE, 1.7), (T_BSTAR, 0.6),
-                                            (T_SEPS, 0.5), (T_FLASH, 1.5), (T_SPIN, 0.5)]
-JOLTS += [(k, 0.3) for k in KICKS if k >= B * 4.5 and all(abs(k - j[0]) > 0.05 for j in JOLTS)]
-SHAKES = [(B * 2, 2.0), (B * 4, 2.2), (T_DATE, 6.5), (T_FLASH, 3.5), (T_SSTAR, 1.0)]
-
-rng0 = np.random.RandomState(7)
-JOLT_DIRS = [(math.cos(a), math.sin(a)) for a in rng0.uniform(0, 2 * np.pi, len(JOLTS))]
-SHAKE_PH = rng0.uniform(0, 2 * np.pi, (len(SHAKES), 2))
-
-
 def env_kick(t, decay=0.12, times=KICKS):
-    """sum of exponential envelopes of past hits."""
     v = 0.0
     for k in times:
         if 0 <= t - k < 6 * decay:
@@ -89,15 +96,22 @@ def env_kick(t, decay=0.12, times=KICKS):
     return v
 
 
-# =============================================================== sprites
-class Sprite:
+# =============================================================== vector type
+def fill_polys_aa(h, w, polys, ss=4):
+    """even-odd fill of several polygons, ss x ss supersampled, 1/16 sub-sample precision."""
+    m = np.zeros((h * ss, w * ss), np.uint8)
+    pts = [np.round(((p + 0.5) * ss - 0.5) * 16).astype(np.int32) for p in polys]
+    cv2.fillPoly(m, pts, 255, lineType=cv2.LINE_8, shift=4)
+    return cv2.resize(m, (w, h), interpolation=cv2.INTER_AREA).astype(np.float32) / 255
+
+
+class VSprite:
     def __init__(self, name):
-        rgb, a = load_rgba(os.path.join(LAYERS, "text", name + ".png"))
         m = MAN[name]
         self.name = name
-        self.x, self.y = m["x"], m["y"]
-        self.h, self.w = a.shape
-        self.pm = np.dstack([rgb * a[..., None], a]).astype(np.float32)
+        self.x, self.y, self.w, self.h = m["x"], m["y"], m["w"], m["h"]
+        self.polys = [p.astype(np.float32) for p in VEC[name]]
+        self.color = np.array(RED if name == "cta_text_red" else m["ink"], np.float32)
 
     @property
     def cx(self):
@@ -108,69 +122,103 @@ class Sprite:
         return self.y + self.h / 2
 
 
-def blit(cv, spr, oy, dx=0.0, dy=0.0, scale=1.0, rot=0.0, alpha=1.0, anchor=None, clip=None):
-    """Composite a premultiplied sprite with an affine transform. clip = native (x0,y0,x1,y1)."""
+def _span_cov(n0, n, lo, hi):
+    """per-pixel coverage of the interval [lo,hi] (pixel centres at integers)."""
+    c = np.arange(n0, n0 + n, dtype=np.float32)
+    return np.clip(np.minimum(c + 0.5, hi) - np.maximum(c - 0.5, lo), 0, 1)
+
+
+class CovBatch:
+    """Accumulates the coverage of abutting pieces of one ink (e.g. the letters of the OTIUM
+    ligature) and composites them once -> no hairline seams where AA edges meet."""
+
+    def __init__(self, shape, color):
+        self.cov = np.zeros(shape[:2], np.float32)
+        self.color = np.asarray(color, np.float32)
+        self.used = False
+
+    def flush(self, img):
+        if self.used:
+            a = np.clip(self.cov, 0, 1)[..., None]
+            img *= 1 - a
+            img += a * self.color
+
+
+def vdraw(img, spr, oyB, dx=0.0, dy=0.0, scale=1.0, rot=0.0, alpha=1.0, anchor=None, clip=None,
+          origin=(0.0, 0.0), color=None, batch=None):
+    """Rasterise a vector sprite straight onto the output-resolution image.
+    All geometry params are in flyer (native) units; clip = native (x0,y0,x1,y1)."""
     if alpha <= 0.003 or scale <= 0.01:
         return
-    Hc, Wc = cv.shape[:2]
-    ax, ay = anchor if anchor is not None else (spr.cx, spr.cy)
-    c, s = math.cos(rot) * scale, math.sin(rot) * scale
-    bx = ax + c * (spr.x - ax) - s * (spr.y - ay) + dx
-    by = ay + oy + s * (spr.x - ax) + c * (spr.y - ay) + dy
-    corners = np.array([[0, 0], [spr.w, 0], [0, spr.h], [spr.w, spr.h]], np.float32)
-    px = bx + c * corners[:, 0] - s * corners[:, 1]
-    py = by + s * corners[:, 0] + c * corners[:, 1]
-    x0, x1 = int(math.floor(px.min())) - 1, int(math.ceil(px.max())) + 1
-    y0, y1 = int(math.floor(py.min())) - 1, int(math.ceil(py.max())) + 1
-    if clip is not None:
-        x0, x1 = max(x0, int(math.floor(clip[0]))), min(x1, int(math.ceil(clip[2])))
-        y0, y1 = max(y0, int(math.floor(clip[1] + oy))), min(y1, int(math.ceil(clip[3] + oy)))
-    x0, y0, x1, y1 = max(x0, 0), max(y0, 0), min(x1, Wc), min(y1, Hc)
-    if x1 <= x0 or y1 <= y0:
-        return
-    fast = scale == 1.0 and rot == 0.0 and float(bx).is_integer() and float(by).is_integer()
-    if fast:
-        sx0, sy0 = x0 - int(bx), y0 - int(by)
-        w = np.zeros((y1 - y0, x1 - x0, 4), np.float32)
-        ya, xa = max(0, -sy0), max(0, -sx0)
-        part = spr.pm[max(sy0, 0):sy0 + (y1 - y0), max(sx0, 0):sx0 + (x1 - x0)]
-        w[ya:ya + part.shape[0], xa:xa + part.shape[1]] = part
+    C = CTX
+    SX, SY = C.SX, C.SY
+    rest = scale == 1.0 and rot == 0.0
+    key = None
+    hit = None
+    if rest and clip is None and C.cache_ok:
+        key = (spr.name, round(dx * 64), round((dy + oyB) * 64), origin)
+        hit = C.vcache.get(key)
+    if hit is None:
+        ax, ay = anchor if anchor is not None else (spr.cx, spr.cy)
+        c, s = math.cos(rot) * scale, math.sin(rot) * scale
+        polys = []
+        for P in spr.polys:
+            if rest:
+                X, Y = P[:, 0] + dx, P[:, 1] + dy
+            else:
+                X = ax + c * (P[:, 0] - ax) - s * (P[:, 1] - ay) + dx
+                Y = ay + s * (P[:, 0] - ax) + c * (P[:, 1] - ay) + dy
+            polys.append(np.stack([X * SX - origin[0], (Y + oyB) * SY - origin[1]], 1))
+        allp = np.concatenate(polys)
+        x0, x1 = int(math.floor(allp[:, 0].min())) - 1, int(math.ceil(allp[:, 0].max())) + 2
+        y0, y1 = int(math.floor(allp[:, 1].min())) - 1, int(math.ceil(allp[:, 1].max())) + 2
+        if clip is not None:
+            cx0, cx1 = clip[0] * SX - origin[0], clip[2] * SX - origin[0]
+            cy0, cy1 = (clip[1] + oyB) * SY - origin[1], (clip[3] + oyB) * SY - origin[1]
+            x0, x1 = max(x0, int(math.floor(cx0))), min(x1, int(math.ceil(cx1)) + 1)
+            y0, y1 = max(y0, int(math.floor(cy0))), min(y1, int(math.ceil(cy1)) + 1)
+        x0, y0 = max(x0, 0), max(y0, 0)
+        x1, y1 = min(x1, img.shape[1]), min(y1, img.shape[0])
+        if x1 <= x0 or y1 <= y0:
+            return
+        off = np.array([x0, y0], np.float32)
+        cov = fill_polys_aa(y1 - y0, x1 - x0, [p - off for p in polys])
+        if clip is not None:      # anti-aliased (sub-pixel) mask edges
+            cov *= _span_cov(y0, y1 - y0, cy0, cy1)[:, None] * _span_cov(x0, x1 - x0, cx0, cx1)[None, :]
+        if key is not None:
+            C.vcache[key] = (cov, x0, y0)
     else:
-        M = np.array([[c, -s, bx - x0], [s, c, by - y0]], np.float32)
-        w = cv2.warpAffine(spr.pm, M, (x1 - x0, y1 - y0), flags=cv2.INTER_LINEAR,
-                           borderMode=cv2.BORDER_CONSTANT, borderValue=(0, 0, 0, 0))
-    if alpha < 1.0:
-        w = w * alpha
-    roi = cv[y0:y1, x0:x1]
-    roi *= 1.0 - w[..., 3:4]
-    roi += w if cv.shape[2] == 4 else w[..., :3]
+        cov, x0, y0 = hit
+    h, w = cov.shape
+    if batch is not None:
+        batch.cov[y0:y0 + h, x0:x0 + w] += cov * alpha
+        batch.used = True
+        return
+    a = (cov * alpha)[..., None]
+    col = spr.color if color is None else np.asarray(color, np.float32)
+    roi = img[y0:y0 + h, x0:x0 + w]
+    if img.shape[2] == 4:
+        roi[..., :3] = roi[..., :3] * (1 - a) + col * a
+        roi[..., 3:] = roi[..., 3:] * (1 - a) + a
+    else:
+        roi *= 1 - a
+        roi += a * col
 
 
-# =============================================================== vector star (traced logo star)
-def trace_star():
-    rgb, a = load_rgba(os.path.join(LAYERS, "text", "logo_star.png"))
-    up = cv2.resize(a, None, fx=4, fy=4, interpolation=cv2.INTER_CUBIC)
-    up = cv2.GaussianBlur(up, (0, 0), 1.2)
-    m = (up > 0.5).astype(np.uint8)
-    cnts, _ = cv2.findContours(m, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-    cnt = max(cnts, key=cv2.contourArea)[:, 0, :].astype(np.float32) / 4.0
-    mm = MAN["logo_star"]
-    ys, xs = np.where(a > 0.5)
-    cx, cy = xs.mean(), ys.mean()
-    pts = cnt - np.array([cx, cy], np.float32)
-    return pts, (mm["x"] + cx, mm["y"] + cy)
+_star = VEC["logo_star"]
+_sp = max(_star, key=lambda p: abs(cv2.contourArea(p)))
+_mo = cv2.moments(_sp)
+STAR_HOME = (float(_mo["m10"] / _mo["m00"]), float(_mo["m01"] / _mo["m00"]))
+STAR_PTS = (_sp - np.array(STAR_HOME, np.float32)).astype(np.float32)
 
 
-STAR_PTS, STAR_HOME = trace_star()
-
-
-def draw_star(cv, oy, cx, cy, scale, rot, color, alpha=1.0, blur_samples=None):
-    """Anti-aliased vector star; blur_samples = list of (cx,cy,scale,rot) for motion blur."""
+def draw_star(img, cx, cy, scale, rot, color, alpha=1.0, blur_samples=None):
+    """vector star in the pixel coords of `img`; blur_samples = [(cx,cy,scale,rot), ...]."""
     samples = blur_samples or [(cx, cy, scale, rot)]
-    Hc, Wc = cv.shape[:2]
+    Hc, Wc = img.shape[:2]
     rmax = max(s[2] for s in samples) * 80 + 4
     xs_ = [s[0] for s in samples]
-    ys_ = [s[1] + oy for s in samples]
+    ys_ = [s[1] for s in samples]
     x0, x1 = int(max(0, min(xs_) - rmax)), int(min(Wc, max(xs_) + rmax))
     y0, y1 = int(max(0, min(ys_) - rmax)), int(min(Hc, max(ys_) + rmax))
     if x1 <= x0 or y1 <= y0 or alpha <= 0.003:
@@ -179,10 +227,10 @@ def draw_star(cv, oy, cx, cy, scale, rot, color, alpha=1.0, blur_samples=None):
     for (sx, sy, sc, sr) in samples:
         c, s = math.cos(sr) * sc, math.sin(sr) * sc
         P = np.stack([STAR_PTS[:, 0] * c - STAR_PTS[:, 1] * s + sx - x0,
-                      STAR_PTS[:, 0] * s + STAR_PTS[:, 1] * c + sy + oy - y0], 1)
-        cov += fill_poly_aa(y1 - y0, x1 - x0, P, ss=3)
+                      STAR_PTS[:, 0] * s + STAR_PTS[:, 1] * c + sy - y0], 1)
+        cov += fill_polys_aa(y1 - y0, x1 - x0, [P], ss=4)
     cov = (cov / len(samples) * alpha)[..., None]
-    roi = cv[y0:y1, x0:x1]
+    roi = img[y0:y1, x0:x1]
     roi *= 1 - cov
     roi += cov * np.asarray(color, np.float32)
 
@@ -287,8 +335,14 @@ def init_ctx(fmt):
     C.H = FORMATS[fmt]["H"]
     C.out = FORMATS[fmt]["out"]
     C.oy = (C.H - H0) // 2
-    oy, Hc = C.oy, C.H
+    C.SX = C.out[0] / W0
+    C.SY = C.out[1] / C.H
     C.PAD = PAD
+    C.vcache = {}
+    C.cache_ok = False
+    oy, Hc = C.oy, C.H
+    Wo, Ho = C.out
+    # ---- stage A paper (padded above for the opening camera position), static fibre texture
     pl = D["paper_low"]
     top_n = oy + PAD
     top = np.repeat(pl[:30].mean(0, keepdims=True), top_n, 0)
@@ -299,13 +353,8 @@ def init_ctx(fmt):
     Hp = PAD + Hc
     fib = 0.6 * smooth_noise((Hp, W0), 0.7, 1) + 0.4 * smooth_noise((Hp, W0), 2.5, 2)
     C.paper = (full * (1 + 0.010 * fib[..., None])).astype(np.float32)
-    C.paper_vis = C.paper[PAD:].copy()
-    C.grain = [(0.65 * smooth_noise((Hc, W0), 0.6, 10 + i) + 0.35 * smooth_noise((Hc, W0), 1.8, 20 + i))
-               .astype(np.float32) for i in range(4)]
-    C.boil = [(smooth_noise((Hc, W0), 5, 30 + i) * 0.42, smooth_noise((Hc, W0), 5, 40 + i) * 0.42)
-              for i in range(4)]
-    C.gx, C.gy = np.meshgrid(np.arange(W0, dtype=np.float32), np.arange(Hp, dtype=np.float32))
-    C.ogx, C.ogy = np.meshgrid(np.arange(W0, dtype=np.float32), np.arange(Hc, dtype=np.float32))
+    C.paper_ref_out = cv2.resize(C.paper[PAD:PAD + Hc], C.out, interpolation=cv2.INTER_AREA)
+    # ---- photo window data (native)
     pa = D["photo_alpha"]
     rows = np.where(pa.max(1) > 0.001)[0]
     C.py0, C.py1 = int(rows.min()), int(rows.max()) + 1
@@ -315,7 +364,6 @@ def init_ctx(fmt):
     C.depth = D["depth"][sl]
     C.sway_L = D["sway_L"][sl]
     C.sway_R = D["sway_R"][sl]
-    C.crowd_w = D["crowd_w"][sl]
     C.lum = D["src"][sl].mean(2)
     C.env1, C.env2, C.lut = D["env1"], D["env2"], D["lut"]
     ph = C.py1 - C.py0
@@ -323,17 +371,16 @@ def init_ctx(fmt):
                              np.arange(C.py0, C.py1, dtype=np.float32))
     C.scr_reveal = halftone_screen(ph, W0, cell=9.0, angle_deg=45, oy=C.py0)
     C.scr_beam = halftone_screen(ph, W0, cell=5.0, angle_deg=15, oy=C.py0)
-    C.scr_dark = halftone_screen(Hp, W0, cell=12.0, angle_deg=45)
-    C.scr_iris = halftone_screen(Hp, W0, cell=16.0, angle_deg=30)
-    r = np.random.RandomState(5)
-    ph_x = cv2.GaussianBlur(r.rand(1, W0).astype(np.float32), (0, 0), 18)[0]
-    ph_x = (ph_x - ph_x.min()) / (ph_x.max() - ph_x.min() + 1e-6)
-    C.crowd_phase = (ph_x * 0.11).astype(np.float32)
-    am = cv2.GaussianBlur(r.rand(1, W0).astype(np.float32), (0, 0), 14)[0]
-    C.crowd_amp = (0.55 + 0.9 * (am - am.min()) / (am.max() - am.min() + 1e-6)).astype(np.float32)
-    C.spr = {k: Sprite(k) for k in MAN if not k.startswith("_")}
     C.bX, C.bY = np.meshgrid(np.arange(0, W0, 2, dtype=np.float32),
                              np.arange(C.py0, C.py1, 2, dtype=np.float32))
+    # ---- stage B (output-res) helpers for the opening / closing
+    C.ogx, C.ogy = np.meshgrid(np.arange(Wo, dtype=np.float32), np.arange(Ho, dtype=np.float32))
+    C.scr_dark = halftone_screen(Ho, Wo, cell=12.0 * C.SX, angle_deg=45)
+    C.scr_iris = halftone_screen(Ho, Wo, cell=16.0 * C.SX, angle_deg=30)
+    C.dgrain = [(0.65 * smooth_noise((Ho, Wo), 0.6, 10 + i) + 0.35 * smooth_noise((Ho, Wo), 1.8, 20 + i))
+                .astype(np.float32) for i in range(4)]
+    C.spr = {k: VSprite(k) for k in MAN if not k.startswith("_")}
+    # ---- deterministic random events
     r = np.random.RandomState(11)
     C.spots = []
     while len(C.spots) < 90:
@@ -342,10 +389,9 @@ def init_ctx(fmt):
             continue
         C.spots.append((x, y, r.uniform(16, 34), r.uniform(1.3, 3.0), r.uniform(0.9, 2.2), r.uniform(0, 3)))
     C.sparkles = []
-    for q in range(int(4.0 / (B / 4)), int(9.55 / (B / 4))):
+    for q in range(int((T_REVEAL + 1.5) / (B / 4)), int((T_CLOSE0 - 0.1) / (B / 4))):
         tq = B * q / 4
-        on_kick = q % 4 == 0
-        n = 2 if on_kick else (1 if r.rand() < 0.45 else 0)
+        n = 2 if q % 4 == 0 else (1 if r.rand() < 0.45 else 0)
         for _ in range(n):
             a_, rr = r.uniform(0, 2 * np.pi), math.sqrt(r.uniform(0.02, 0.8))
             C.sparkles.append(("ball", tq + r.uniform(0, 0.05), math.cos(a_) * rr, math.sin(a_) * rr,
@@ -365,12 +411,12 @@ def init_ctx(fmt):
         C.reels.append((name, seq))
 
 
-# =============================================================== photo
-def cam_k(t):
-    return ease_in_out_sine((t - T_REVEAL) / (9.9 - T_REVEAL)) if t > T_REVEAL else 0.0
-
-
+# =============================================================== stage A: photo
 ZC = (546.0, 540.0)
+
+
+def cam_k(t):
+    return ease_in_out_sine((t - T_REVEAL) / (T_CLOSE1 - T_REVEAL)) if t > T_REVEAL else 0.0
 
 
 def to_view(x, y, d, k):
@@ -401,20 +447,12 @@ def render_photo(t):
     sw = C.sway_L * swL + C.sway_R * swR
     mx -= sw
     my -= sw * 0.25
-    if t > T_REVEAL:
-        tq = math.floor(t * 12) / 12
-        bounce = np.zeros(W0, np.float32)
-        for kt in KICKS:
-            tau = tq - kt - C.crowd_phase
-            m = (tau >= 0) & (tau < 0.5)
-            tc = np.clip(tau, 0, 0.5)
-            bounce += np.where(m, (tc / 0.07) * np.exp(1 - tc / 0.07), 0).astype(np.float32)
-        my += C.crowd_w * (bounce * C.crowd_amp * 3.6)[None, :]
-    img = cv2.remap(C.plate, mx.astype(np.float32), my.astype(np.float32), cv2.INTER_LINEAR,
+    img = cv2.remap(C.plate, mx.astype(np.float32), my.astype(np.float32), cv2.INTER_CUBIC,
                     borderMode=cv2.BORDER_REFLECT)
+    img = np.clip(img, 0, 1)
     py0 = C.py0
 
-    # mirror-ball light spots sweeping the walls
+    # mirror-ball light spots drifting over the walls
     if t > T_REVEAL + 0.6:
         ov = np.zeros(img.shape[:2], np.float32)
         fade = smoothstep(T_REVEAL + 0.6, T_REVEAL + 1.6, t) * (1 - smoothstep(T_CLOSE0, T_CLOSE1, t))
@@ -481,11 +519,10 @@ def render_photo(t):
             x, y = bx + a1 * R, by + a2 * R
         else:
             x, y, _ = to_view(a1, a2, 0.28, k)
-        draw_star(img, -py0, x, y, size * e, rot + u * 0.9, GLINT, alpha=0.95)
+        draw_star(img, x, y - py0, size * e, rot + u * 0.9, GLINT, alpha=0.95)
     if T_FLASH <= t < T_FLASH + 0.45:
         u = (t - T_FLASH) / 0.45
-        draw_star(img, -py0, bx - 0.35 * R, by - 0.38 * R, 0.55 * math.sin(math.pi * u) ** 0.6,
-                  0.3 + u, GLINT)
+        draw_star(img, bx - 0.35 * R, by - 0.38 * R - py0, 0.55 * math.sin(math.pi * u) ** 0.6, 0.3 + u, GLINT)
     return img
 
 
@@ -501,6 +538,34 @@ def reveal_mask(t):
     ink = 1 - C.lum
     cov = prog * 1.3 - 0.3 * (1 - ink) * (1 - prog)
     return smoothstep(C.scr_reveal - 0.06, C.scr_reveal + 0.06, cov)
+
+
+def stage_a(t, camy):
+    """paper + photo on the native grid -> area-resampled to the output frame."""
+    C = CTX
+    top = C.PAD - camy                       # first visible padded-canvas row
+    r0 = int(math.floor(top))
+    frac = top - r0
+    nrows = C.H + (2 if frac > 1e-6 else 0)
+    view = C.paper[r0:r0 + nrows].copy()
+    rm = reveal_mask(t)
+    if rm is not None:
+        ph = render_photo(t)
+        a = (C.photo_alpha * rm)[..., None] if not isinstance(rm, float) else C.photo_alpha[..., None]
+        ya = C.py0 + C.oy + C.PAD - r0       # photo rows inside the view
+        yb = ya + ph.shape[0]
+        sa, sb = max(0, -ya), ph.shape[0] - max(0, yb - nrows)
+        if sb > sa:
+            roi = view[ya + sa:ya + sb]
+            roi *= 1 - a[sa:sb]
+            roi += ph[sa:sb] * a[sa:sb]
+    Wo, Ho = C.out
+    if frac <= 1e-6:
+        return cv2.resize(view, (Wo, Ho), interpolation=cv2.INTER_AREA)
+    ho2 = int(round(nrows * C.SY))
+    small = cv2.resize(view, (Wo, ho2), interpolation=cv2.INTER_AREA)
+    M = np.array([[1, 0, 0], [0, 1, -frac * C.SY]], np.float32)
+    return cv2.warpAffine(small, M, (Wo, Ho), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
 
 
 # =============================================================== text animation helpers
@@ -547,156 +612,194 @@ def hero_star_state(t):
         y = cyc + (hy - cyc) * e - 120 * math.sin(math.pi * e)
         r0 = STAR_ROT_SPEED * T_FLY0
         r1 = math.ceil((r0 + math.pi) / (math.pi / 2)) * (math.pi / 2)
-        return x, y, S0 + (1 - S0) * e, r0 + (r1 - r0) * e, e
+        return x, y, S0 * pulse + (1 - S0 * pulse) * e, r0 + (r1 - r0) * e, e
     return None
 
 
 def hero_star_close(t):
     if t < T_STAR_BACK:
         return None
-    u = (t - T_STAR_BACK) / (10.0 - T_STAR_BACK)
-    return W0 / 2, H0 / 2, S0 * ease_out_cubic(u), -STAR_ROT_SPEED * (10.0 - t)
+    u = (t - T_STAR_BACK) / (DURATION - T_STAR_BACK)
+    return W0 / 2, H0 / 2, S0 * ease_out_cubic(u), -STAR_ROT_SPEED * (DURATION - t)
 
 
-def dark_layer(cv, t, iris_c, iris_r, closing, camy):
-    """deep bordeaux backdrop printed with a red halftone glow; paper iris with a dotted edge."""
+def to_out(x, y, oyB):
+    return x * CTX.SX, (y + oyB) * CTX.SY
+
+
+def dark_layer(img, t, iris_c_out, iris_r, closing, centre_out):
+    """deep bordeaux backdrop printed with a red halftone glow; paper iris with dotted edge.
+    Everything in output pixels."""
     C = CTX
-    oy = C.oy + C.PAD
-    dist = np.sqrt((C.gx - iris_c[0]) ** 2 + (C.gy - (iris_c[1] + oy)) ** 2)
-    cov = np.clip((dist - iris_r) / 120.0 + 0.5, 0, 1)
+    k = C.SX
+    dist = np.sqrt((C.ogx - iris_c_out[0]) ** 2 + (C.ogy - iris_c_out[1]) ** 2)
+    cov = np.clip((dist - iris_r * k) / (120.0 * k) + 0.5, 0, 1)
     D = smoothstep(C.scr_iris - 0.05, C.scr_iris + 0.05, cov)
     if D.max() <= 0.001:
         return
-    rr = np.sqrt((C.gx - W0 / 2) ** 2 + (C.gy - (H0 / 2 - camy + oy)) ** 2)
+    rr = np.sqrt((C.ogx - centre_out[0]) ** 2 + (C.ogy - centre_out[1]) ** 2) / k
     pulse = env_kick(t, 0.14, [0.0, B])
     glow_amt = 0.42 + 0.25 * pulse
     if closing:
-        glow_amt = 0.42 * smoothstep(T_CLOSE0, 10.0, t)
+        glow_amt = 0.42 * smoothstep(T_CLOSE0, DURATION, t)
     glow = glow_amt * np.exp(-(rr / 330) ** 2)
     dots = smoothstep(C.scr_dark - 0.07, C.scr_dark + 0.07, glow)
     bg = DARK_BG + (RED * 0.85 - DARK_BG) * dots[..., None]
     if not closing:
-        for kt in (0.0, B):
-            u = (t - kt) / 0.5
-            if 0 <= u <= 1:
-                R = 190 + 520 * ease_out_cubic(u)
-                ring = np.exp(-((rr - R) / 26) ** 2) * (1 - u) * 0.9
-                rd = smoothstep(C.scr_dark - 0.08, C.scr_dark + 0.08, ring)
-                bg = bg + (PAPER - bg) * rd[..., None]
-    cv *= 1 - D[..., None]
-    cv += bg * D[..., None]
+        u = t / 0.5
+        if 0 <= u <= 1:
+            R = 190 + 520 * ease_out_cubic(u)
+            ring = np.exp(-((rr - R) / 26) ** 2) * (1 - u) * 0.9
+            rd = smoothstep(C.scr_dark - 0.08, C.scr_dark + 0.08, ring)
+            bg = bg + (PAPER - bg) * rd[..., None]
+    # printed texture lives only in the dark backdrop (12 fps)
+    bg = bg * (1 + 0.035 * C.dgrain[int(math.floor(t * 12)) % 4][..., None])
+    img *= 1 - D[..., None]
+    img += bg * D[..., None]
+
+
+TR = -np.log(np.clip(RED / PAPER, 1e-3, None))
+TP = -np.log(np.clip(PLUM / PAPER, 1e-3, None))
+MIX = np.stack([TR, TP], 1).astype(np.float32)
+PINV = np.linalg.pinv(MIX).astype(np.float32)
+
+
+def misregister(img, jx, jy):
+    """Decompose into red + plum ink densities (log domain), shift the red plate, recompose."""
+    P = np.clip(CTX.paper_ref_out, 1e-3, None)
+    T = -np.log(np.clip(img, 1e-3, None) / P)
+    ab = T @ PINV.T
+    resid = T - ab @ MIX.T
+    M = np.array([[1, 0, jx], [0, 1, jy]], np.float32)
+    a2 = cv2.warpAffine(np.ascontiguousarray(ab[..., 0]), M, (T.shape[1], T.shape[0]),
+                        flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
+    T2 = a2[..., None] * TR + ab[..., 1:2] * TP + resid
+    return P * np.exp(-T2)
 
 
 # =============================================================== frame
 def render_frame(fi):
     C = CTX
     t = fi / FPS
-    oy = C.oy + C.PAD
     camy = cam_y(t)
-    cv = C.paper.copy()
+    C.cache_ok = camy == 0.0
+    img = stage_a(t, camy)                     # output-res float image
+    oyB = C.oy + camy                          # native y -> output y = (y + oyB) * SY
     S = C.spr
 
-    # ---- photo window (prints in through a halftone screen)
-    rm = reveal_mask(t)
-    if rm is not None:
-        ph = render_photo(t)
-        a = C.photo_alpha * rm
-        roi = cv[C.py0 + oy:C.py1 + oy]
-        roi *= 1 - a[..., None]
-        roi += ph * a[..., None]
-
-    # ---- OTIUM letterpress stamps
+    # ---- OTIUM letterpress stamps (resting letters share one coverage batch -> seamless ligature)
+    logo_batch = CovBatch(img.shape, S["logo_O"].color)
+    moving = []
     for name, th in LOGO_HITS:
         st = stamp(t, th)
         if st:
-            spr = S[name]
-            blit(cv, spr, oy, scale=st[0], alpha=st[1], anchor=(spr.cx, spr.y + spr.h * 0.62))
+            if st == (1.0, 1.0):
+                vdraw(img, S[name], oyB, batch=logo_batch)
+            else:
+                moving.append((name, st))
+    logo_batch.flush(img)
+    for name, st in moving:
+        spr = S[name]
+        vdraw(img, spr, oyB, scale=st[0], alpha=st[1], anchor=(spr.cx, spr.y + spr.h * 0.62))
     if t >= T_FLY1:
         v = min(1.0, (t - T_FLY1) / 0.2)
         sc = 1 + 0.07 * math.sin(math.pi * v) * (1 - v)
-        blit(cv, S["logo_star"], oy, scale=sc, anchor=STAR_HOME)
+        vdraw(img, S["logo_star"], oyB, scale=sc, anchor=STAR_HOME)
 
     # ---- AT VIVIDO, line, star, FIRENZE
     for i in range(META["n_atv"]):
         spr = S[f"atv_{i}"]
         off = rise(t, T_ATV + i * ATV_STAG)
         if off is not None:
-            blit(cv, spr, oy, dy=off, clip=(spr.x - 6, spr.y - 60, spr.x + spr.w + 6, spr.y + spr.h))
+            clip = None if off == 0.0 else (spr.x - 6, spr.y - 60, spr.x + spr.w + 6, spr.y + spr.h)
+            vdraw(img, spr, oyB, dy=off, clip=clip)
     if t >= T_LINE0:
         spr = S["line"]
         e = ease_out_cubic((t - T_LINE0) / (T_LINE1 - T_LINE0))
-        blit(cv, spr, oy, clip=(spr.x, spr.y, spr.x + spr.w * e, spr.y + spr.h))
+        vdraw(img, spr, oyB, clip=None if e >= 1 else (spr.x - 1, spr.y - 2, spr.x + spr.w * e, spr.y + spr.h + 2))
     p = pop(t, T_SSTAR)
     if p:
-        blit(cv, S["star_small"], oy, scale=p[0], rot=-math.pi * p[1])
+        vdraw(img, S["star_small"], oyB, scale=p[0], rot=-math.pi * p[1])
     for i in range(META["n_fir"]):
         spr = S[f"fir_{i}"]
         off = rise(t, T_FIR + i * FIR_STAG, dur=0.22, dist=38)
         if off is not None:
-            blit(cv, spr, oy, dy=off, clip=(spr.x - 6, spr.y - 50, spr.x + spr.w + 6, spr.y + spr.h))
+            clip = None if off == 0.0 else (spr.x - 6, spr.y - 50, spr.x + spr.w + 6, spr.y + spr.h)
+            vdraw(img, spr, oyB, dy=off, clip=clip)
 
     # ---- DOMENICA slides down into its slot, 15/11 stamps
     if t >= T_DOM:
         spr = S["domenica"]
         u = (t - T_DOM) / 0.34
         off = -(spr.h + 6) * (1 - ease_out_back(u, 1.1)) if u < 1 else 0.0
-        blit(cv, spr, oy, dy=off, clip=(spr.x - 4, spr.y, spr.x + spr.w + 4, spr.y + spr.h + 2))
+        clip = None if off == 0.0 else (spr.x - 4, spr.y, spr.x + spr.w + 4, spr.y + spr.h + 2)
+        vdraw(img, spr, oyB, dy=off, clip=clip)
     st = stamp(t, T_DATE, pre=0.1, big=1.38, settle=0.2)
     if st:
         spr = S["date"]
-        blit(cv, spr, oy, scale=st[0], alpha=st[1], anchor=(spr.cx, spr.y + spr.h * 0.7))
+        vdraw(img, spr, oyB, scale=st[0], alpha=st[1], anchor=(spr.cx, spr.y + spr.h * 0.7))
 
     # ---- big star
     p = pop(t, T_BSTAR, dur=0.38, s=2.4)
     if p:
         rot = -1.25 * math.pi * p[1]
-        if t >= T_SPIN:
+        if T_SPIN <= t < T_SPIN + 0.4:
             rot += (math.pi / 2) * ease_in_out_cubic((t - T_SPIN) / 0.4)
-        blit(cv, S["star_big"], oy, scale=p[0], rot=rot)
+        vdraw(img, S["star_big"], oyB, scale=p[0], rot=rot)
 
     # ---- 18.00 - 24.00 slot-machine roll (motion blur = average of sub-frame layers)
     if t >= T_ROLL0:
-        sy0, sy1 = 1114, 1202
         last_stop = T_STOP0 + (len(C.reels) - 1) * (B / 16) + 0.17
-        NS = 6 if t < last_stop else 1
-        acc = np.zeros((sy1 - sy0, W0, 4), np.float32)
-        pitch = 88.0
-        for q in range(NS):
-            tq = t - (q / NS) * (0.5 / FPS)
-            strip = np.zeros_like(acc)
-            for kk, (name, seq) in enumerate(C.reels):
-                final = S[name]
-                start = T_ROLL0 + kk * 0.018
-                stop = T_STOP0 + kk * (B / 16)
-                if tq < start:
-                    continue
-                if tq < stop:
-                    n = len(seq) * (1 - ease_out_cubic((tq - start) / (stop - start)))
-                else:
-                    v = min(1.0, (tq - stop) / 0.16)
-                    n = -0.09 * math.sin(math.pi * v) * (1 - v)
-                fade = min(1.0, (tq - start) / 0.06)
-                clip = (final.x - 3, 1119, final.x + final.w + 3, 1198)
-                base_bottom = final.y + final.h
-                for gi in range(len(seq) + 1):
-                    yoff = (n - gi) * pitch
-                    if abs(yoff) > pitch * 1.05:
+        if t < last_stop:
+            ys0 = int(math.floor((1114 + oyB) * C.SY))
+            ys1 = int(math.ceil((1202 + oyB) * C.SY))
+            NS = 6
+            acc = np.zeros((ys1 - ys0, img.shape[1], 4), np.float32)
+            pitch = 88.0
+            for q in range(NS):
+                tq = t - (q / NS) * (0.5 / FPS)
+                strip = np.zeros_like(acc)
+                for kk, (name, seq) in enumerate(C.reels):
+                    final = S[name]
+                    start = T_ROLL0 + kk * 0.018
+                    stop = T_STOP0 + kk * (B / 16)
+                    if tq < start:
                         continue
-                    if gi == 0:
-                        blit(strip, final, -sy0, dy=yoff, alpha=fade, clip=clip)
+                    if tq < stop:
+                        n = len(seq) * (1 - ease_out_cubic((tq - start) / (stop - start)))
                     else:
-                        g = S[seq[-gi]]
-                        blit(strip, g, -sy0, dx=final.cx - g.cx, dy=base_bottom - (g.y + g.h) + yoff,
-                             alpha=fade, clip=clip)
-            acc += strip
-        acc /= NS
-        roi = cv[sy0 + oy:sy1 + oy]
-        roi *= 1 - acc[..., 3:4]
-        roi += acc[..., :3]
+                        v = min(1.0, (tq - stop) / 0.16)
+                        n = -0.09 * math.sin(math.pi * v) * (1 - v)
+                    fade = min(1.0, (tq - start) / 0.06)
+                    clip = (final.x - 3, 1119, final.x + final.w + 3, 1198)
+                    base_bottom = final.y + final.h
+                    for gi in range(len(seq) + 1):
+                        yoff = (n - gi) * pitch
+                        if abs(yoff) > pitch * 1.05:
+                            continue
+                        if gi == 0:
+                            vdraw(strip, final, oyB, dy=yoff, alpha=fade, clip=clip, origin=(0.0, ys0))
+                        else:
+                            g = S[seq[-gi]]
+                            vdraw(strip, g, oyB, dx=final.cx - g.cx, dy=base_bottom - (g.y + g.h) + yoff,
+                                  alpha=fade, clip=clip, origin=(0.0, ys0))
+                acc += strip
+            acc /= NS
+            roi = img[ys0:ys1]
+            roi *= 1 - acc[..., 3:4]
+            roi += acc[..., :3]
         p = pop(t, T_SEPS, dur=0.25, s=2.5)
+        time_batch = CovBatch(img.shape, S["t_1"].color)
+        if t >= last_stop:
+            for name, _ in C.reels:
+                vdraw(img, S[name], oyB, batch=time_batch)
         if p:
             for name in META["seps"]:
-                blit(cv, S[name], oy, scale=p[0])
+                if p[0] == 1.0:
+                    vdraw(img, S[name], oyB, batch=time_batch)
+                else:
+                    vdraw(img, S[name], oyB, scale=p[0])
+        time_batch.flush(img)
 
     # ---- genres
     for name, tg in GENRES:
@@ -704,11 +807,12 @@ def render_frame(fi):
         if name.startswith("g_b"):
             p = pop(t, tg, dur=0.22, s=3.0)
             if p:
-                blit(cv, spr, oy, scale=p[0])
+                vdraw(img, spr, oyB, scale=p[0])
         else:
             off = rise(t, tg, dur=0.22, dist=32)
             if off is not None:
-                blit(cv, spr, oy, dy=off, clip=(spr.x - 4, spr.y - 40, spr.x + spr.w + 4, spr.y + spr.h))
+                clip = None if off == 0.0 else (spr.x - 4, spr.y - 40, spr.x + spr.w + 4, spr.y + spr.h)
+                vdraw(img, spr, oyB, dy=off, clip=clip)
 
     # ---- CTA: typed in red, then the red box fills left->right and knocks the text out
     if t >= T_TYPE0:
@@ -720,20 +824,23 @@ def render_frame(fi):
         if t >= T_FILL0:
             fill_x = box.x + box.w * ease_in_out_cubic((t - T_FILL0) / (T_FILL1 - T_FILL0))
         if fill_x < box.x + box.w:
-            blit(cv, txt, oy, clip=(fill_x, box.y, xtype, box.y + box.h))
-        if fill_x > box.x:
-            blit(cv, box, oy, clip=(box.x, box.y, fill_x, box.y + box.h))
+            vdraw(img, txt, oyB, clip=(fill_x, box.y - 2, xtype, box.y + box.h + 2))
+        if fill_x >= box.x + box.w:
+            vdraw(img, box, oyB)
+        elif fill_x > box.x:
+            vdraw(img, box, oyB, clip=(box.x - 2, box.y - 2, fill_x, box.y + box.h + 2))
 
     # ---- opening: dark backdrop + paper iris + hero star; closing mirrors it for the loop
+    centre_out = (C.out[0] / 2, (H0 / 2 + C.oy) * C.SY)
     if t < T_IRIS1 + 0.05:
         hs = hero_star_state(t)
         cx_, cy_ = (hs[0], hs[1]) if hs else STAR_HOME
         r_iris = -200.0 if t < T_IRIS0 else -60 + 2000 * ease_in_cubic((t - T_IRIS0) / (T_IRIS1 - T_IRIS0))
-        dark_layer(cv, t, (cx_, cy_), r_iris, closing=False, camy=camy)
+        dark_layer(img, t, to_out(cx_, cy_, oyB), r_iris, False, centre_out)
     if t > T_CLOSE0:
         u = (t - T_CLOSE0) / (T_CLOSE1 - T_CLOSE0)
         r_iris = 1900 * (1 - ease_in_out_cubic(u)) if u < 1 else -400
-        dark_layer(cv, t, (W0 / 2, H0 / 2 - camy), r_iris, closing=True, camy=camy)
+        dark_layer(img, t, centre_out, r_iris, True, centre_out)
 
     hs = hero_star_state(t)
     if hs:
@@ -741,61 +848,44 @@ def render_frame(fi):
         col = GLINT + (RED - GLINT) * smoothstep(0.15, 0.85, e)
         samples = None
         if T_FLY0 <= t < T_FLY1:
-            samples = [s_[:4] for s_ in (hero_star_state(t - q * (0.5 / FPS) / 4) for q in range(5)) if s_]
-        draw_star(cv, oy, x, y, sc, rot, col, blur_samples=samples)
+            samples = []
+            for q in range(5):
+                s_ = hero_star_state(t - q * (0.5 / FPS) / 4)
+                if s_:
+                    xo, yo = to_out(s_[0], s_[1], oyB)
+                    samples.append((xo, yo, s_[2] * C.SX, s_[3]))
+        xo, yo = to_out(x, y, oyB)
+        draw_star(img, xo, yo, sc * C.SX, rot, col, blur_samples=samples)
     hc = hero_star_close(t)
     if hc:
-        draw_star(cv, oy, hc[0], hc[1], hc[2], hc[3], GLINT)
+        xo, yo = to_out(hc[0], hc[1], oyB)
+        draw_star(img, xo, yo, hc[2] * C.SX, hc[3], GLINT)
 
-    # ---- strobe flash on the CTA landing
+    # ---- strobe flash on the CTA drop (light only - nothing moves)
     if T_FLASH <= t < T_FLASH + 0.6:
-        f = 0.82 * math.exp(-(t - T_FLASH) / 0.075)
-        cv += (GLINT - cv) * f
+        f = 0.75 * math.exp(-(t - T_FLASH) / 0.08)
+        img += (GLINT - img) * f
 
-    # ---- camera + shake + boil in a single remap
-    sx = sy = 0.0
-    for (ts, amp), (p1, p2) in zip(SHAKES, SHAKE_PH):
-        if 0 <= t - ts < 0.6:
-            e = amp * math.exp(-(t - ts) / 0.11)
-            sx += e * math.sin(2 * math.pi * 19 * (t - ts) + p1)
-            sy += e * math.cos(2 * math.pi * 23 * (t - ts) + p2)
-    bi = int(math.floor(t * 12)) % 4
-    bdx, bdy = C.boil[bi]
-    cv = cv2.remap(cv, C.ogx + bdx + sx, C.ogy + (C.PAD - camy) + bdy + sy, cv2.INTER_LINEAR,
-                   borderMode=cv2.BORDER_REFLECT)
-
-    # ---- risograph misregistration: shift the red ink plate
-    jx = jy = 0.0
-    for (tj, sj), (ux, uy) in zip(JOLTS, JOLT_DIRS):
-        if 0 <= t - tj < 0.5:
-            e = sj * 3.2 * math.exp(-(t - tj) / 0.085)
-            jx += ux * e
-            jy += uy * e
-    if abs(jx) + abs(jy) > 0.15:
-        cv = misregister(cv, jx, jy)
-
-    # ---- animated grain at 12 fps
-    cv *= 1 + 0.022 * C.grain[bi][..., None]
-    out = cv2.resize(np.clip(cv, 0, 1), C.out, interpolation=cv2.INTER_AREA)
-    return (out * 255 + 0.5).astype(np.uint8)
-
-
-TR = -np.log(np.clip(RED / PAPER, 1e-3, None))
-TP = -np.log(np.clip(PLUM / PAPER, 1e-3, None))
-MIX = np.stack([TR, TP], 1).astype(np.float32)          # 3x2
-PINV = np.linalg.pinv(MIX).astype(np.float32)          # 2x3
-
-
-def misregister(cv, jx, jy):
-    """Decompose into red + plum ink densities (log domain), shift the red plate, recompose."""
-    T = -np.log(np.clip(cv, 1e-3, None) / np.clip(CTX.paper_vis, 1e-3, None))
-    ab = T @ PINV.T
-    resid = T - ab @ MIX.T
-    M = np.array([[1, 0, jx], [0, 1, jy]], np.float32)
-    a2 = cv2.warpAffine(np.ascontiguousarray(ab[..., 0]), M, (T.shape[1], T.shape[0]),
-                        flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
-    T2 = a2[..., None] * TR + ab[..., 1:2] * TP + resid
-    return CTX.paper_vis * np.exp(-T2)
+    # ---- beat jitter ONLY while OTIUM is stamped in: risograph misregistration + small shake
+    if t < T_LOGO_DONE:
+        jx = jy = 0.0
+        for (tj, sj), (ux, uy) in zip(JOLTS, JOLT_DIRS):
+            if 0 <= t - tj < 0.4:
+                e = sj * 3.0 * C.SX * math.exp(-(t - tj) / 0.07)
+                jx += ux * e
+                jy += uy * e
+        if abs(jx) + abs(jy) > 0.15:
+            img = misregister(img, jx, jy)
+        sx = sy = 0.0
+        for (ts, amp), (p1, p2) in zip(SHAKES, SHAKE_PH):
+            if 0 <= t - ts < 0.35:
+                e = amp * C.SX * math.exp(-(t - ts) / 0.08)
+                sx += e * math.sin(2 * math.pi * 19 * (t - ts) + p1)
+                sy += e * math.cos(2 * math.pi * 23 * (t - ts) + p2)
+        if abs(sx) + abs(sy) > 0.05:
+            M = np.array([[1, 0, -sx], [0, 1, -sy]], np.float32)
+            img = cv2.warpAffine(img, M, C.out, flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
+    return (np.clip(img, 0, 1) * 255 + 0.5).astype(np.uint8)
 
 
 # =============================================================== driver
@@ -825,11 +915,11 @@ def main():
     n = int(round(DURATION * FPS))
     w, h = FORMATS[args.fmt]["out"]
     # quality first: both deliverables are encoded straight from the raw frames (no second
-    # generation), x264 CRF 12 / preset slower / tune grain (keeps halftone + paper grain intact)
+    # generation): x264 CRF 10, preset slower, tune grain (keeps the halftone photo intact)
     audio = os.path.join(OUT, "otium_audio.wav")
     path = os.path.join(OUT, f"OTIUM_{args.fmt}_60fps.mp4")
     path30 = os.path.join(OUT, f"OTIUM_{args.fmt}_30fps.mp4")
-    venc = ["-c:v", "libx264", "-preset", "slower", "-crf", "12", "-tune", "grain", "-pix_fmt", "yuv420p",
+    venc = ["-c:v", "libx264", "-preset", "slower", "-crf", "10", "-tune", "grain", "-pix_fmt", "yuv420p",
             "-profile:v", "high", "-c:a", "aac", "-b:a", "320k", "-shortest", "-movflags", "+faststart"]
     cmd = ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{w}x{h}",
            "-r", str(FPS), "-i", "-", "-i", audio,

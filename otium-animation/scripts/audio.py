@@ -1,4 +1,4 @@
-"""Step 3 - synthesise the 10 s, 96 BPM reggaeton loop + sound design, synced to the visuals.
+"""Step 3 - synthesise the 12 s, 100 BPM (5 bars) reggaeton loop + sound design, synced to the visuals.
 
 Everything is generated from scratch (no samples) -> no licensing issues.
 Output: out/otium_audio.wav (44.1 kHz stereo, seamless loop)
@@ -171,7 +171,8 @@ drums, bass, music, sfx, verb = (np.zeros((2, N)) for _ in range(5))
 
 K = kick()
 SN = snare()
-for bar in range(4):
+NBARS = int(round(DURATION / (4 * B)))       # 5
+for bar in range(NBARS):
     for st in (0, 4, 8, 12):
         place(drums, K, bar * 4 * B + st * S16, gain=0.95)
     for st in (3, 6, 11, 14):
@@ -184,14 +185,14 @@ for bar in range(4):
         for st in (5, 13):
             place(drums, hat(), bar * 4 * B + st * S16, pan=-0.2, gain=0.6)
 
-roots = [55.0, 43.65, 65.41, 49.0]                     # Am  F  C  G
-for bar in range(1, 4):                                # bar 1 = intro, sub drops on bar 2
+roots = [55.0, 43.65, 65.41, 49.0, 55.0]               # Am  F  C  G  Am(drop)
+for bar in range(1, NBARS):                            # bar 1 = intro, sub drops on bar 2
     for st, ln in [(0, 3), (3, 5), (8, 3), (11, 5)]:
         place(bass, sub(roots[bar], ln * S16 * 0.92), bar * 4 * B + st * S16)
 
-chords = [[69, 72, 76, 81], [65, 69, 72, 77], [67, 72, 76, 79], [67, 71, 74, 79]]
+chords = [[69, 72, 76, 81], [65, 69, 72, 77], [67, 72, 76, 79], [67, 71, 74, 79], [69, 72, 76, 81]]
 motif = [(0, 3), (3, 1), (6, 2), (8, 0), (10, 2), (11, 3), (14, 1)]
-for bar in range(4):
+for bar in range(NBARS):
     for st, deg in motif:
         f = 440 * 2 ** ((chords[bar][deg] - 69) / 12)
         x = pluck(f)
@@ -245,20 +246,19 @@ for kk in range(8):                                                   # slot-mac
 for name, tg in R.GENRES:
     bullet = name.startswith("g_b")
     place(sfx, tick(0.22 if bullet else 0.16, 2200 if bullet else 3000), tg, pan=0.5)
-riser_t0 = 3 * 4 * B - 0.95                                           # riser into bar 4
+riser_t0 = R.T_FLASH - 0.95                                           # riser into the drop
 place(sfx, whoosh(0.95, 300, 9000, 0.32, rev=True), riser_t0)
 t_r = tt(0.95)
 place(sfx, np.sin(2 * np.pi * np.cumsum(220 * 2 ** (2.2 * t_r / 0.95)) / SR) * (t_r / 0.95) ** 2 * 0.06,
       riser_t0)
-place(sfx, impact(0.55), 3 * 4 * B)
 for i in range(18):                                                   # CTA typing
     place(sfx, tick(0.13, 2900 + rng.rand() * 600), R.T_TYPE0 + i * (R.T_TYPE1 - R.T_TYPE0) / 18, pan=0.4)
 place(sfx, whoosh(R.T_FILL1 - R.T_FILL0 + 0.05, 600, 4000, 0.3), R.T_FILL0, pan=0.5)
 place(sfx, impact(1.0), R.T_FLASH)                                    # strobe flash
 place(verb, twinkle(1.2), R.T_FLASH + 0.02)
 place(sfx, twinkle(0.6), R.T_SPIN, pan=-0.2)
-place(sfx, whoosh(10.0 - R.T_CLOSE0 + 0.02, 400, 7000, 0.35, rev=True), R.T_CLOSE0 - 0.02)
-for q in range(int(4.0 / S16), int(9.4 / S16)):                      # ball sparkles
+place(sfx, whoosh(DURATION - R.T_CLOSE0 + 0.02, 400, 7000, 0.35, rev=True), R.T_CLOSE0 - 0.02)
+for q in range(int((R.T_REVEAL + 1.5) / S16), int((R.T_CLOSE0 - 0.1) / S16)):   # ball sparkles
     if rng.rand() < 0.16:
         place(verb, twinkle(0.35), q * S16, pan=rng.uniform(-0.6, 0.6))
 

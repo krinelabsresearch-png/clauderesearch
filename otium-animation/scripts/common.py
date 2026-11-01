@@ -10,9 +10,9 @@ OUT = os.path.join(ROOT, "out")
 
 W0, H0 = 1122, 1402          # source flyer size (all layout coords live here)
 FPS = 60
-DURATION = 10.0
-BPM = 96.0
-BEAT = 60.0 / BPM            # 0.625 s -> 4 bars = 10 s exactly
+DURATION = 12.0
+BPM = 100.0
+BEAT = 60.0 / BPM            # 0.6 s -> 5 bars = 12 s exactly
 BAR = 4 * BEAT
 
 # measured inks (sRGB 0..1)
@@ -126,3 +126,38 @@ def fill_poly_aa(h, w, pts, ss=4):
     cv2.fillPoly(m, [p], 255, lineType=cv2.LINE_8)
     m = cv2.resize(m, (w, h), interpolation=cv2.INTER_AREA)
     return m.astype(np.float32) / 255
+
+
+def trace_alpha(a, up=8, thr=0.5, min_area=0.4):
+    """Sub-pixel vector outline of an anti-aliased alpha mask.
+    Returns a list of closed polygons (N,2) in pixel-centre coords of `a`
+    (outer contours and holes; fill them with the even-odd rule)."""
+    h, w = a.shape
+    pad = 2
+    ap = np.pad(a.astype(np.float32), pad)
+    big = cv2.resize(ap, ((w + 2 * pad) * up, (h + 2 * pad) * up), interpolation=cv2.INTER_CUBIC)
+    m = (big > thr).astype(np.uint8)
+    cnts, _ = cv2.findContours(m, cv2.RETR_CCOMP, cv2.CHAIN_APPROX_NONE)
+    k = np.exp(-0.5 * (np.arange(-4, 5) / 1.4) ** 2)
+    k /= k.sum()
+    out = []
+    for c in cnts:
+        p = c[:, 0, :].astype(np.float32)
+        if len(p) < 6:
+            continue
+        # light smoothing along the closed contour removes the 1/8 px staircase
+        pw = np.concatenate([p[-4:], p, p[:4]])
+        p = np.stack([np.convolve(pw[:, 0], k, "valid"), np.convolve(pw[:, 1], k, "valid")], 1)
+        p = ((p + 0.5) / up - 0.5 - pad).astype(np.float32)
+        if abs(cv2.contourArea(p)) < min_area:
+            continue
+        p = cv2.approxPolyDP(p.reshape(-1, 1, 2), 0.04, True)[:, 0, :]
+        out.append(p.astype(np.float32))
+    return out
+
+
+def polys_to_svg_path(polys, ox=0.0, oy=0.0):
+    d = []
+    for p in polys:
+        d.append("M" + " L".join("%.2f %.2f" % (x - ox, y - oy) for x, y in p) + " Z")
+    return " ".join(d)
