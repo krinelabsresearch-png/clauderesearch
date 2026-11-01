@@ -267,3 +267,17 @@ Valori alle 15:15 UTC: 5 ore al 24% (si azzera alle 20:10 UTC), 7 giorni al 49% 
     - 257: 2,50. La variante software, un assistente per preventivi e pratiche, vale circa 3,10.
     - Dossier in `dossier/256-youtube-video-claude.md` e `dossier/257-corsi-ai-impiantisti.md`; righe in `scartate.md` e in `punteggi.py`; la 251 in `proposte-video-motion.md` rimanda alla 256.
     - Corretto anche l'ordine di `scartate.md`, dove le righe 190 e 197 erano fuori posto.
+- **Esercizio di Lorenzo (01/11/2026): "obiettivo piccolo".** Togliere, solo per questo esercizio, il milione. Al suo posto: 500–1.000 € netti al mese, meno di 10 ore a settimana dopo il lancio, al massimo 30 k€ lordi per restare nel forfettario (nel 2026 fattura circa 55 k€).
+  - Selezione: solo le idee con automazione almeno 4, cioè 48 idee con voti salvati. Il criterio "solo1M" (peso 0,15) è sostituito da "piccolo"; gli altri voti non cambiano.
+  - **Sopra 3,5: 10 idee.**
+    - 234 SERATA 4,40;
+    - 107 tesi 4,00;
+    - 127 attuariali 3,90;
+    - 116 biostatistico 3,90;
+    - 096 tutor di Analisi 3,85;
+    - 109 matematica per l'AI 3,80;
+    - 113 revenue manager per il padel 3,70;
+    - 093 tutor per bambini 3,70;
+    - 092 esame orale 3,65;
+    - 235 PREVENTIVO 3,60.
+  - Esattamente a 3,50 restano fuori 236, 237 e 255. Script: `obiettivo_piccolo.py`.
