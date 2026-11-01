@@ -2,6 +2,15 @@
 
 L'animazione del flyer OTIUM (Vivido, Firenze, domenica 15/11). Il video è costruito a partire dalla grafica originale: il flyer viene scomposto in livelli separati, poi animati e riassemblati. Le scritte vengono **vettorializzate** e ridisegnate nitide alla risoluzione d'uscita.
 
+Ci sono due grafiche di partenza, con la stessa identica animazione:
+
+| Variante | Sorgente | Livelli | Video |
+|---|---|---|---|
+| `feed` | `source/flyer.png` (4:5, 1122×1402) | `layers/` | `OTIUM_4x5_*`, `OTIUM_9x16_*` |
+| `reel` | `source/flyer_reel.png` (9:16, 941×1672) | `layers_reel/` | `OTIUM_reel_9x16_*` |
+
+Le coordinate di ogni grafica (riquadri dei testi, disco ball, fari, palme, folla) stanno in `scripts/layouts.py`. Si sceglie la variante con la variabile d'ambiente `OTIUM_VARIANT`.
+
 ## File finali (`out/`)
 
 | File | Formato | Uso |
@@ -10,6 +19,8 @@ L'animazione del flyer OTIUM (Vivido, Firenze, domenica 15/11). Il video è cost
 | `OTIUM_4x5_30fps.mp4` | 1080×1350, 30 fps | feed, se la piattaforma converte comunque a 30 fps |
 | `OTIUM_9x16_60fps.mp4` | 1080×1920, 60 fps | Reel, Storie e TikTok |
 | `OTIUM_9x16_30fps.mp4` | 1080×1920, 30 fps | Reel, Storie e TikTok (versione compatibile) |
+| `OTIUM_reel_9x16_60fps.mp4` | 1080×1920, 60 fps | **Reel dalla grafica 9:16 dedicata** |
+| `OTIUM_reel_9x16_30fps.mp4` | 1080×1920, 30 fps | Reel dalla grafica 9:16 dedicata (versione compatibile) |
 | `otium_audio.wav` | stereo, 44,1 kHz | traccia audio a sé, in loop continuo |
 
 La codifica privilegia la qualità sul peso: x264 con CRF 10, preset slower e `tune grain`. Ogni versione viene codificata direttamente dai fotogrammi originali, senza una seconda compressione. I file `.mp4` non sono nel repository perché superano il limite di 100 MB per file di GitHub. Si rigenerano con `bash scripts/build.sh`.
@@ -21,7 +32,7 @@ Tutti i video durano **12,0 s** e girano in **loop perfetto**: l'ultimo fotogram
 - **Scritte vettoriali.** Ogni lettera ed elemento grafico ha un contorno ricalcato con precisione sub-pixel (in `layers/vector/`, anche come SVG). Ogni fotogramma lo ridisegna alla risoluzione d'uscita, con antialiasing 4×4 e inchiostro pieno: niente ricampionamento, niente grana sulle lettere.
 - **Legature senza giunture.** I pezzi che si toccano (O–T, U–M, le cifre dell'orario) sono composti in un unico strato di copertura, quindi non compare la sottile linea chiara tra un pezzo e l'altro.
 - **Grana solo dove serve.** La texture della carta è statica. La grana animata vive solo nel fondo bordeaux dell'apertura e della chiusura.
-- **Composizione in due stadi.** La foto (2.5D, disco ball, luci) è composta sulla griglia originale del flyer e ricampionata una sola volta. Le scritte sono disegnate direttamente sul fotogramma finale.
+- **Composizione in due stadi.** La foto (2.5D, disco ball, luci) è composta sulla griglia originale del flyer e ricampionata una sola volta: ridotta con filtro ad area nel feed, ingrandita con Lanczos nel Reel (941 → 1080 px). Le scritte sono disegnate direttamente sul fotogramma finale, quindi restano nitide anche nel Reel ingrandito.
 
 ## Timeline (100 BPM: 5 battute = 12 s esatti)
 
@@ -39,7 +50,7 @@ Tutti i video durano **12,0 s** e girano in **loop perfetto**: l'ultimo fotogram
 - le palme che ondeggiano piano;
 - la lenta spinta della camera in 2.5D.
 
-## Livelli separati (`layers/`)
+## Livelli separati (`layers/` e `layers_reel/`)
 
 - `text/`: 44 sprite RGBA, uno per lettera o elemento, ritagliati dal flyer. Il logo OTIUM è una legatura, quindi è stato diviso a mano: O, stella, T, I, U, M.
 - `vector/`: gli stessi elementi in SVG vettoriale. `_all_typography.svg` contiene tutta la tipografia del flyer.
@@ -71,7 +82,11 @@ bash scripts/build.sh
 Per vedere un fotogramma singolo senza fare il render completo:
 
 ```bash
-python3 scripts/render.py --fmt 4x5 --preview 1.3,5.0,10.5
+OTIUM_VARIANT=feed python3 scripts/render.py --fmt 4x5 --preview 1.3,5.0,10.5
+```
+
+```bash
+OTIUM_VARIANT=reel python3 scripts/render.py --fmt 9x16 --preview 1.3,5.0,10.5
 ```
 
 La timeline (tutti i tempi sono agganciati alla griglia dei 100 BPM) è in cima a `scripts/render.py`. `scripts/audio.py` la importa, quindi suono e immagine restano sincronizzati se si sposta un evento.

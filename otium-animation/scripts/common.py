@@ -3,12 +3,16 @@ import os
 import numpy as np
 import cv2
 
+from layouts import LAYOUTS
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SRC = os.path.join(ROOT, "source", "flyer.png")
-LAYERS = os.path.join(ROOT, "layers")
+VARIANT = os.environ.get("OTIUM_VARIANT", "feed")      # "feed" (4:5 flyer) | "reel" (9:16 flyer)
+LAYOUT = LAYOUTS[VARIANT]
+SRC = os.path.join(ROOT, "source", LAYOUT["src"])
+LAYERS = os.path.join(ROOT, LAYOUT["layers"])
 OUT = os.path.join(ROOT, "out")
 
-W0, H0 = 1122, 1402          # source flyer size (all layout coords live here)
+W0, H0 = LAYOUT["size"]      # source artwork size (all layout coords live here)
 FPS = 60
 DURATION = 12.0
 BPM = 100.0
@@ -16,7 +20,7 @@ BEAT = 60.0 / BPM            # 0.6 s -> 5 bars = 12 s exactly
 BAR = 4 * BEAT
 
 # measured inks (sRGB 0..1)
-PAPER = np.array([246, 200, 197], np.float32) / 255
+PAPER = np.array(LAYOUT["paper"], np.float32) / 255
 RED = np.array([183, 12, 27], np.float32) / 255
 PLUM = np.array([81, 21, 55], np.float32) / 255
 DARK_BG = np.array([58, 12, 34], np.float32) / 255     # opening backdrop (deep bordeaux)

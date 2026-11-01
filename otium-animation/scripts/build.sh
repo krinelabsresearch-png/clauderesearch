@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
-# Full pipeline: layers -> audio -> final MP4s (4:5 + 9:16, 60 fps + 30 fps, with sound).
+# Full pipeline: layers -> audio -> final MP4s with sound (60 fps + 30 fps each).
+#   feed  = 4:5 flyer  (source/flyer.png)      -> OTIUM_4x5_*, OTIUM_9x16_*
+#   reel  = 9:16 flyer (source/flyer_reel.png) -> OTIUM_reel_9x16_*
 set -euo pipefail
 cd "$(dirname "$0")"
 
-python3 extract_layers.py
-python3 make_overview.py
+for v in feed reel; do
+  OTIUM_VARIANT=$v python3 extract_layers.py
+  OTIUM_VARIANT=$v python3 make_overview.py
+done
 python3 audio.py                      # must exist before the renders (muxed in directly)
-python3 -u render.py --fmt 4x5
-python3 -u render.py --fmt 9x16
+OTIUM_VARIANT=feed python3 -u render.py --fmt 4x5
+OTIUM_VARIANT=feed python3 -u render.py --fmt 9x16
+OTIUM_VARIANT=reel python3 -u render.py --fmt 9x16
 ls -la ../out

@@ -23,7 +23,7 @@ from multiprocessing import get_context
 import numpy as np
 import cv2
 
-from common import (LAYERS, OUT, W0, H0, FPS, DURATION, BEAT, BAR, PAPER, RED, PLUM, GLINT,
+from common import (LAYERS, LAYOUT, OUT, W0, H0, FPS, DURATION, BEAT, BAR, PAPER, RED, PLUM, GLINT,
                     DARK_BG, smoothstep, ease_out_cubic, ease_in_cubic, ease_in_quad,
                     ease_in_out_cubic, ease_out_back, ease_in_out_sine, halftone_screen)
 
@@ -31,7 +31,7 @@ MAN = json.load(open(os.path.join(LAYERS, "manifest.json")))
 META = MAN["_meta"]
 VEC = pickle.load(open(os.path.join(LAYERS, "vectors.pkl"), "rb"))
 B = BEAT
-FORMATS = {"4x5": dict(H=H0, out=(1080, 1350)), "9x16": dict(H=1995, out=(1080, 1920))}
+FORMATS = LAYOUT["formats"]
 
 # =============================================================== timeline (s) - 100 BPM grid, 5 bars
 N_BEATS = int(round(DURATION / B))                       # 20
@@ -58,8 +58,7 @@ T_BSTAR = B * 9.5
 T_ROLL0, T_STOP0 = B * 10, B * 10.75
 T_SEPS = B * 10.75
 # bar 4: genres + CTA
-GENRES = [("g_hit", B * 12), ("g_b1", B * 12.5), ("g_reg", B * 13), ("g_b2", B * 13.5),
-          ("g_baile", B * 14)]
+GENRES = list(zip(META["genres"], [B * 12, B * 12.5, B * 13, B * 13.5, B * 14]))
 T_TYPE0, T_TYPE1 = B * 14.5, B * 14.9
 T_FILL0, T_FILL1 = B * 15, B * 16
 # bar 5: drop + hold + loop close
@@ -68,8 +67,10 @@ T_SPIN = B * 18
 T_CLOSE0, T_CLOSE1 = DURATION - 0.55, DURATION - 0.12
 T_STAR_BACK = DURATION - 0.5
 
-PAD = 560
-CAM0 = 540.0
+_logo_y = np.concatenate([p[:, 1] for n in ("logo_O", "logo_T", "logo_I", "logo_U", "logo_M")
+                          for p in VEC[n]])
+CAM0 = float(round(H0 / 2 - (_logo_y.min() + _logo_y.max()) / 2))   # logo centred in frame
+PAD = int(CAM0) + 20
 STAR_ROT_SPEED = 0.75
 S0 = 2.15
 BEAM_COL = np.array([0.96, 0.74, 0.72], np.float32)
@@ -236,18 +237,20 @@ def draw_star(img, cx, cy, scale, rot, color, alpha=1.0, blur_samples=None):
 
 
 # =============================================================== mirror ball
-def render_ball(img, cx, cy, R, theta, env, R0, t, seed, tilt=-0.5, n_lat=30, glint=0.0, ss=2):
+def render_ball(img, cx, cy, Rx, Ry, theta, env, t, seed, tilt=-0.5, n_lat=30, glint=0.0, ss=2):
     """Mirror ball with a rotating tile grid; each facet re-samples the (fixed) reflection
-    map taken from the original flyer -> same look, but the ball really turns."""
+    map taken from the original flyer -> same look, but the ball really turns.
+    Rx != Ry draws the slightly oval ball of the reel artwork."""
     H, W = img.shape[:2]
-    x0, x1 = int(max(0, cx - R - 2)), int(min(W, cx + R + 3))
-    y0, y1 = int(max(0, cy - R - 2)), int(min(H, cy + R + 3))
+    x0, x1 = int(max(0, cx - Rx - 2)), int(min(W, cx + Rx + 3))
+    y0, y1 = int(max(0, cy - Ry - 2)), int(min(H, cy + Ry + 3))
     if x1 <= x0 or y1 <= y0:
         return
+    R = math.sqrt(Rx * Ry)
     hh, ww = (y1 - y0) * ss, (x1 - x0) * ss
     yy, xx = np.mgrid[0:hh, 0:ww].astype(np.float32)
-    u = ((xx + 0.5) / ss + x0 - cx) / R
-    v = ((yy + 0.5) / ss + y0 - cy) / R
+    u = ((xx + 0.5) / ss + x0 - cx) / Rx
+    v = ((yy + 0.5) / ss + y0 - cy) / Ry
     r2 = u * u + v * v
     z = np.sqrt(np.clip(1 - r2, 0, 1))
     ca, sa = math.cos(tilt), math.sin(tilt)
@@ -283,6 +286,7 @@ def render_ball(img, cx, cy, R, theta, env, R0, t, seed, tilt=-0.5, n_lat=30, gl
     kk = np.where(rr > 0.97, 0.97 / np.maximum(rr, 1e-6), 1.0)
     su, sv = su * kk, sv * kk
     es = env.shape[0]
+    R0 = es / 2.6                                   # env maps are ball-normalised squares
     mx = (su * R0 + es / 2).astype(np.float32)
     my = (sv * R0 + es / 2).astype(np.float32)
     val = cv2.remap(env, mx, my, cv2.INTER_LINEAR, borderMode=cv2.BORDER_REPLICATE)
@@ -353,7 +357,8 @@ def init_ctx(fmt):
     Hp = PAD + Hc
     fib = 0.6 * smooth_noise((Hp, W0), 0.7, 1) + 0.4 * smooth_noise((Hp, W0), 2.5, 2)
     C.paper = (full * (1 + 0.010 * fib[..., None])).astype(np.float32)
-    C.paper_ref_out = cv2.resize(C.paper[PAD:PAD + Hc], C.out, interpolation=cv2.INTER_AREA)
+    C.interp = cv2.INTER_AREA if C.SX <= 1.0 else cv2.INTER_LANCZOS4
+    C.paper_ref_out = cv2.resize(C.paper[PAD:PAD + Hc], C.out, interpolation=C.interp)
     # ---- photo window data (native)
     pa = D["photo_alpha"]
     rows = np.where(pa.max(1) > 0.001)[0]
@@ -380,12 +385,17 @@ def init_ctx(fmt):
     C.dgrain = [(0.65 * smooth_noise((Ho, Wo), 0.6, 10 + i) + 0.35 * smooth_noise((Ho, Wo), 1.8, 20 + i))
                 .astype(np.float32) for i in range(4)]
     C.spr = {k: VSprite(k) for k in MAN if not k.startswith("_")}
+    ys_ = np.concatenate([p[:, 1] for n in META["slots"] for p in VEC[n]])
+    C.reel_y0, C.reel_y1 = float(ys_.min()), float(ys_.max())
+    C.reel_pitch = 1.3 * (C.reel_y1 - C.reel_y0)
     # ---- deterministic random events
     r = np.random.RandomState(11)
     C.spots = []
     while len(C.spots) < 90:
-        x, y = r.uniform(0, W0), r.uniform(C.py0 + 20, 930)
-        if math.hypot(x - 546, y - 665) < 140 or C.lum[int(y) - C.py0, int(x)] > 0.75:
+        x, y = r.uniform(0, W0), r.uniform(C.py0 + 20, LAYOUT["spots_ymax"])
+        bl = META["BALL"]
+        if (math.hypot((x - bl["cx"]) / bl["rx"], (y - bl["cy"]) / bl["ry"]) < 1.15
+                or C.lum[int(y) - C.py0, int(x)] > 0.75):
             continue
         C.spots.append((x, y, r.uniform(16, 34), r.uniform(1.3, 3.0), r.uniform(0.9, 2.2), r.uniform(0, 3)))
     C.sparkles = []
@@ -399,7 +409,7 @@ def init_ctx(fmt):
         if r.rand() < 0.22:
             lx, ly = META["LIGHTS"][r.randint(len(META["LIGHTS"]))]
             C.sparkles.append(("abs", tq, lx, ly + 4, r.uniform(0.12, 0.2), r.uniform(0, np.pi)))
-    glyph_pool = ["t_1", "t_8", "t_0d", "t_2", "t_4"]
+    glyph_pool = list(META["slots"])
     C.reels = []
     for k, name in enumerate(META["slots"]):
         seq = []
@@ -412,7 +422,7 @@ def init_ctx(fmt):
 
 
 # =============================================================== stage A: photo
-ZC = (546.0, 540.0)
+ZC = tuple(LAYOUT["zoom_c"])
 
 
 def cam_k(t):
@@ -505,18 +515,20 @@ def render_photo(t):
     glint = 1.0 * math.exp(-(t - T_FLASH) / 0.3) if t >= T_FLASH else 0.0
     for b, env, seed in [(META["BALL2"], C.env2, 3.0), (META["BALL"], C.env1, 1.0)]:
         bx, by, sc = to_view(b["cx"], b["cy"], 0.32, k)
-        render_ball(img, bx, by - py0, (b["r"] + 3) * sc, theta, env, b["r"], t, seed, glint=glint)
+        render_ball(img, bx, by - py0, (b["rx"] + 3) * sc, (b["ry"] + 3) * sc, theta, env, t, seed,
+                    glint=glint)
 
     # sparkles (vector stars) on the ball and lamps
     bx, by, sc = to_view(META["BALL"]["cx"], META["BALL"]["cy"], 0.32, k)
-    R = META["BALL"]["r"] * sc
+    R = META["BALL"]["rx"] * sc
+    Ry = META["BALL"]["ry"] * sc
     for kind, ts, a1, a2, size, rot in C.sparkles:
         u = (t - ts) / 0.34
         if not (0 <= u <= 1):
             continue
         e = math.sin(math.pi * u) ** 0.8
         if kind == "ball":
-            x, y = bx + a1 * R, by + a2 * R
+            x, y = bx + a1 * R, by + a2 * Ry
         else:
             x, y, _ = to_view(a1, a2, 0.28, k)
         draw_star(img, x, y - py0, size * e, rot + u * 0.9, GLINT, alpha=0.95)
@@ -530,7 +542,7 @@ def reveal_mask(t):
     C = CTX
     if t <= T_REVEAL:
         return None
-    yrel = (C.pY - 340) / 770
+    yrel = (C.pY - C.py0) / float(C.py1 - C.py0)
     prog = np.clip((t - T_REVEAL - 0.45 * yrel) / 1.25, 0, 1)
     prog = prog * prog * (3 - 2 * prog)
     if prog.min() >= 1:
@@ -561,9 +573,9 @@ def stage_a(t, camy):
             roi += ph[sa:sb] * a[sa:sb]
     Wo, Ho = C.out
     if frac <= 1e-6:
-        return cv2.resize(view, (Wo, Ho), interpolation=cv2.INTER_AREA)
+        return np.clip(cv2.resize(view, (Wo, Ho), interpolation=C.interp), 0, 1)
     ho2 = int(round(nrows * C.SY))
-    small = cv2.resize(view, (Wo, ho2), interpolation=cv2.INTER_AREA)
+    small = np.clip(cv2.resize(view, (Wo, ho2), interpolation=C.interp), 0, 1)
     M = np.array([[1, 0, 0], [0, 1, -frac * C.SY]], np.float32)
     return cv2.warpAffine(small, M, (Wo, Ho), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
 
@@ -751,11 +763,11 @@ def render_frame(fi):
     if t >= T_ROLL0:
         last_stop = T_STOP0 + (len(C.reels) - 1) * (B / 16) + 0.17
         if t < last_stop:
-            ys0 = int(math.floor((1114 + oyB) * C.SY))
-            ys1 = int(math.ceil((1202 + oyB) * C.SY))
+            ys0 = int(math.floor((C.reel_y0 - 6 + oyB) * C.SY))
+            ys1 = int(math.ceil((C.reel_y1 + 6 + oyB) * C.SY))
             NS = 6
             acc = np.zeros((ys1 - ys0, img.shape[1], 4), np.float32)
-            pitch = 88.0
+            pitch = C.reel_pitch
             for q in range(NS):
                 tq = t - (q / NS) * (0.5 / FPS)
                 strip = np.zeros_like(acc)
@@ -771,7 +783,7 @@ def render_frame(fi):
                         v = min(1.0, (tq - stop) / 0.16)
                         n = -0.09 * math.sin(math.pi * v) * (1 - v)
                     fade = min(1.0, (tq - start) / 0.06)
-                    clip = (final.x - 3, 1119, final.x + final.w + 3, 1198)
+                    clip = (final.x - 3, C.reel_y0 - 1, final.x + final.w + 3, C.reel_y1 + 1)
                     base_bottom = final.y + final.h
                     for gi in range(len(seq) + 1):
                         yoff = (n - gi) * pitch
@@ -789,7 +801,7 @@ def render_frame(fi):
             roi *= 1 - acc[..., 3:4]
             roi += acc[..., :3]
         p = pop(t, T_SEPS, dur=0.25, s=2.5)
-        time_batch = CovBatch(img.shape, S["t_1"].color)
+        time_batch = CovBatch(img.shape, S[META["slots"][0]].color)
         if t >= last_stop:
             for name, _ in C.reels:
                 vdraw(img, S[name], oyB, batch=time_batch)
@@ -896,7 +908,7 @@ def _init(fmt):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--fmt", default="4x5", choices=list(FORMATS))
+    ap.add_argument("--fmt", default=list(FORMATS)[0], choices=list(FORMATS))
     ap.add_argument("--preview", default="")
     ap.add_argument("--outdir", default="")
     ap.add_argument("--workers", type=int, default=4)
@@ -917,8 +929,8 @@ def main():
     # quality first: both deliverables are encoded straight from the raw frames (no second
     # generation): x264 CRF 10, preset slower, tune grain (keeps the halftone photo intact)
     audio = os.path.join(OUT, "otium_audio.wav")
-    path = os.path.join(OUT, f"OTIUM_{args.fmt}_60fps.mp4")
-    path30 = os.path.join(OUT, f"OTIUM_{args.fmt}_30fps.mp4")
+    path = os.path.join(OUT, f"{LAYOUT['out_prefix']}_{args.fmt}_60fps.mp4")
+    path30 = os.path.join(OUT, f"{LAYOUT['out_prefix']}_{args.fmt}_30fps.mp4")
     venc = ["-c:v", "libx264", "-preset", "slower", "-crf", "10", "-tune", "grain", "-pix_fmt", "yuv420p",
             "-profile:v", "high", "-c:a", "aac", "-b:a", "320k", "-shortest", "-movflags", "+faststart"]
     cmd = ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{w}x{h}",
