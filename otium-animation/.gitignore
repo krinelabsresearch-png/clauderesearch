@@ -1,0 +1,3 @@
+out/*.mp4
+layers/data.npz
+__pycache__/
