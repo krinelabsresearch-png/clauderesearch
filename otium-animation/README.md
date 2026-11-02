@@ -7,7 +7,7 @@ Ci sono due grafiche di partenza, con la stessa identica animazione:
 | Variante | Sorgente | Livelli | Video |
 |---|---|---|---|
 | `feed` | `source/flyer.png` (4:5, 1122×1402) | `layers/` | `OTIUM_4x5_*`, `OTIUM_9x16_*` |
-| `reel` | `source/flyer_reel.png` (9:16, 941×1672) | `layers_reel/` | `OTIUM_reel_9x16_*` |
+| `reel` | `source/flyer_reel.png` (9:16, 941×1672, con margini laterali) | `layers_reel/` | `OTIUM_reel_9x16_60fps` |
 
 Le coordinate di ogni grafica (riquadri dei testi, disco ball, fari, palme, folla) stanno in `scripts/layouts.py`. Si sceglie la variante con la variabile d'ambiente `OTIUM_VARIANT`.
 
@@ -19,8 +19,7 @@ Le coordinate di ogni grafica (riquadri dei testi, disco ball, fari, palme, foll
 | `OTIUM_4x5_30fps.mp4` | 1080×1350, 30 fps | feed, se la piattaforma converte comunque a 30 fps |
 | `OTIUM_9x16_60fps.mp4` | 1080×1920, 60 fps | Reel, Storie e TikTok |
 | `OTIUM_9x16_30fps.mp4` | 1080×1920, 30 fps | Reel, Storie e TikTok (versione compatibile) |
-| `OTIUM_reel_9x16_60fps.mp4` | 1080×1920, 60 fps | **Reel dalla grafica 9:16 dedicata** |
-| `OTIUM_reel_9x16_30fps.mp4` | 1080×1920, 30 fps | Reel dalla grafica 9:16 dedicata (versione compatibile) |
+| `OTIUM_reel_9x16_60fps.mp4` | 1080×1920, 60 fps | **Reel dalla grafica 9:16 dedicata** (consegnato solo a 60 fps) |
 | `otium_audio.wav` | stereo, 44,1 kHz | traccia audio a sé, in loop continuo |
 
 La codifica privilegia la qualità sul peso: x264 con CRF 10, preset slower e `tune grain`. Ogni versione viene codificata direttamente dai fotogrammi originali, senza una seconda compressione. I file `.mp4` non sono nel repository perché superano il limite di 100 MB per file di GitHub. Si rigenerano con `bash scripts/build.sh`.
@@ -31,6 +30,7 @@ Tutti i video durano **12,0 s** e girano in **loop perfetto**: l'ultimo fotogram
 
 - **Scritte vettoriali.** Ogni lettera ed elemento grafico ha un contorno ricalcato con precisione sub-pixel (in `layers/vector/`, anche come SVG). Ogni fotogramma lo ridisegna alla risoluzione d'uscita, con antialiasing 4×4 e inchiostro pieno: niente ricampionamento, niente grana sulle lettere.
 - **Legature senza giunture.** I pezzi che si toccano (O–T, U–M, le cifre dell'orario) sono composti in un unico strato di copertura, quindi non compare la sottile linea chiara tra un pezzo e l'altro.
+- **Logo senza tagli.** Il taglio tra U e M segue la fessura naturale tra le due lettere, e gli eventuali frammenti isolati passano al pezzo a cui appartengono. Durante l'apertura le lettere di OTIUM si stampano **in posizione**, con un riempimento a retino, e il colpo di timbro è un leggero "punch" di tutto il logo insieme: i pezzi non si muovono mai l'uno rispetto all'altro, quindi nessun bordo di taglio è visibile.
 - **Grana solo dove serve.** La texture della carta è statica. La grana animata vive solo nel fondo bordeaux dell'apertura e della chiusura.
 - **Composizione in due stadi.** La foto (2.5D, disco ball, luci) è composta sulla griglia originale del flyer e ricampionata una sola volta: ridotta con filtro ad area nel feed, ingrandita con Lanczos nel Reel (941 → 1080 px). Le scritte sono disegnate direttamente sul fotogramma finale, quindi restano nitide anche nel Reel ingrandito.
 
@@ -38,13 +38,13 @@ Tutti i video durano **12,0 s** e girano in **loop perfetto**: l'ultimo fotogram
 
 | Battuta | Tempo | Cosa succede |
 |---|---|---|
-| 1 | 0,0 – 2,4 s | La stella pulsa sul fondo bordeaux con un'onda d'urto a punti e vola nella **O** mentre si apre l'iride di carta. La O atterra a 0,9 s, dopo 1,5 tempi invece di 2: è la riduzione del 25% dell'intro. Poi T, I, U e M si stampano sui colpi del dembow. |
+| 1 | 0,0 – 2,4 s | La stella pulsa sul fondo bordeaux con un'onda d'urto a punti e vola nella **O** mentre si apre l'iride di carta. La O atterra a 0,9 s, dopo 1,5 tempi invece di 2: è la riduzione del 25% dell'intro. Poi T, I, U e M si stampano in posizione sui colpi del dembow. |
 | 2 | 2,4 – 4,8 s | La camera scende sul layout completo e la foto **si stampa a retino**. Entrano "AT VIVIDO", la linea, la stellina e "FIRENZE"; si accendono le teste mobili. |
 | 3 | 4,8 – 7,2 s | Entrano "DOMENICA" e poi il timbro **15/11**. La stella grande gira e l'orario **rulla come una slot machine**. |
 | 4 | 7,2 – 9,6 s | Entrano i generi. "FREE ENTRY SU PRENOTAZIONE" si scrive in rosso, poi il riquadro si riempie fino al primo tempo della battuta 5. |
 | 5 | 9,6 – 12 s | **Drop**: flash sul primo tempo, poi circa 1,9 s con il layout completo fermo. Infine l'iride bordeaux si richiude sulla stella e riparte il loop. |
 
-**Nessuna vibrazione dopo OTIUM.** Il fuori registro risograph e la piccola scossa a tempo ci sono solo mentre si stampano le lettere del logo. Dalla M in poi scritte e foto restano ferme. Si muovono soltanto in modo fluido e continuo:
+**Nessuna vibrazione dopo OTIUM.** L'unico movimento a tempo è il "punch" del logo mentre si stampano le sue lettere. Il fuori registro e la scossa sono stati tolti perché lasciavano un alone chiaro sui bordi. Dalla M in poi scritte e foto restano ferme. Si muovono soltanto in modo fluido e continuo:
 - la disco ball 3D che ruota;
 - i fasci delle teste mobili, i punti di luce sulle pareti e i riflessi stellati;
 - le palme che ondeggiano piano;

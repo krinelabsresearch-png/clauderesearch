@@ -148,11 +148,52 @@ for y in range(lb[1], lb[3]):
     O_mask[y, :xr] = True
 O_only = OT & O_mask
 T_only = OT & ~O_mask
+# U|M: cut along the natural paper gap between U's right stroke and M's left stem
+# (row by row); where the two letters merge (top band, bottom serif) the cut continues
+# the gap line, so each piece keeps its true outline and no straight "chop" shows.
 ca, cb = L["um_cut"]
-cut = ca + int(np.argmin(UM[lb[1]:lb[3], ca:cb].sum(0)))
-U_only = UM.copy(); U_only[:, cut:] = False
-M_only = UM.copy(); M_only[:, :cut] = False
-print("O centre", ocx, ocy, "U|M cut", cut)
+ux0, uy0, ux1, uy1 = bbox(UM)
+path = np.full(H, np.nan, np.float32)
+for y in range(uy0, uy1):
+    paper_ = A_RED[y, ca:cb] < 0.5
+    if not paper_.any():
+        continue
+    best_len, best_c, run_s = 0, None, None
+    for i, v in enumerate(np.append(paper_, False)):
+        if v and run_s is None:
+            run_s = i
+        elif not v and run_s is not None:
+            if i - run_s > best_len:
+                best_len, best_c = i - run_s, ca + (run_s + i - 1) / 2.0
+            run_s = None
+    if best_len >= 2:
+        path[y] = best_c
+rows = np.arange(uy0, uy1)
+vals = path[uy0:uy1]
+ok = ~np.isnan(vals)
+vals = np.interp(rows, rows[ok], vals[ok]).astype(np.float32)
+vals = np.convolve(np.pad(vals, 3, mode="edge"), np.ones(7) / 7, "valid")
+path[:] = np.median(vals)
+path[uy0:uy1] = vals
+U_only = UM & (xx < path[:, None])
+M_only = UM & (xx >= path[:, None])
+
+
+def give_islands(a, b, frac=0.05):
+    """move small pieces of `a` that are detached from its main body over to `b`
+    (avoids stray crumbs showing while a letter is on screen alone)."""
+    n_, lab_, st_, _ = cv2.connectedComponentsWithStats(a.astype(np.uint8), connectivity=8)
+    if n_ <= 2:
+        return a, b
+    main = 1 + int(np.argmax(st_[1:, 4]))
+    small = (lab_ > 0) & (lab_ != main)
+    small &= np.isin(lab_, [i for i in range(1, n_) if st_[i, 4] < frac * st_[main, 4]])
+    return a & ~small, b | small
+
+
+U_only, M_only = give_islands(U_only, M_only)
+M_only, U_only = give_islands(M_only, U_only)
+print("O centre", ocx, ocy, "U|M gap path x %.1f..%.1f" % (vals.min(), vals.max()))
 for name, m, ex in [("logo_O", O_only, T_only), ("logo_star", star_O, None),
                     ("logo_T", T_only, O_only), ("logo_I", I_, None),
                     ("logo_U", U_only, M_only), ("logo_M", M_only, U_only)]:

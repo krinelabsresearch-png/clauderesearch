@@ -69,15 +69,21 @@ T_STAR_BACK = DURATION - 0.5
 
 _logo_y = np.concatenate([p[:, 1] for n in ("logo_O", "logo_T", "logo_I", "logo_U", "logo_M")
                           for p in VEC[n]])
+_logo_x = np.concatenate([p[:, 0] for n in ("logo_O", "logo_T", "logo_I", "logo_U", "logo_M")
+                          for p in VEC[n]])
+LOGO_C = ((_logo_x.min() + _logo_x.max()) / 2, (_logo_y.min() + _logo_y.max()) / 2)
 CAM0 = float(round(H0 / 2 - (_logo_y.min() + _logo_y.max()) / 2))   # logo centred in frame
+LOGO_PUNCH = 0.028           # whole-logo "stamp" punch on every letter hit
 PAD = int(CAM0) + 20
 STAR_ROT_SPEED = 0.75
 S0 = 2.15
 BEAM_COL = np.array([0.96, 0.74, 0.72], np.float32)
 
 # beat-synced jitter only while OTIUM is being stamped in
-JOLTS = [(t, 1.0) for _, t in LOGO_HITS]
-SHAKES = [(LOGO_HITS[0][1], 1.6), (LOGO_HITS[-1][1], 1.8)]
+# (risograph misregistration and frame shake were removed: they left a pale fringe on the
+# ligature edges; the stamp feel now comes from the in-place ink press + whole-logo punch)
+JOLTS = []
+SHAKES = []
 rng0 = np.random.RandomState(7)
 JOLT_DIRS = [(math.cos(a), math.sin(a)) for a in rng0.uniform(0, 2 * np.pi, len(JOLTS))]
 SHAKE_PH = rng0.uniform(0, 2 * np.pi, (len(SHAKES), 2))
@@ -146,7 +152,7 @@ class CovBatch:
 
 
 def vdraw(img, spr, oyB, dx=0.0, dy=0.0, scale=1.0, rot=0.0, alpha=1.0, anchor=None, clip=None,
-          origin=(0.0, 0.0), color=None, batch=None):
+          origin=(0.0, 0.0), color=None, batch=None, press=None):
     """Rasterise a vector sprite straight onto the output-resolution image.
     All geometry params are in flyer (native) units; clip = native (x0,y0,x1,y1)."""
     if alpha <= 0.003 or scale <= 0.01:
@@ -191,6 +197,9 @@ def vdraw(img, spr, oyB, dx=0.0, dy=0.0, scale=1.0, rot=0.0, alpha=1.0, anchor=N
     else:
         cov, x0, y0 = hit
     h, w = cov.shape
+    if press is not None and press < 1.0:     # ink pressed in through a halftone screen
+        sp = CTX.scr_press[y0:y0 + h, x0:x0 + w]
+        cov = cov * smoothstep(sp - 0.08, sp + 0.08, press * 1.2 - 0.1)
     if batch is not None:
         batch.cov[y0:y0 + h, x0:x0 + w] += cov * alpha
         batch.used = True
@@ -382,6 +391,7 @@ def init_ctx(fmt):
     C.ogx, C.ogy = np.meshgrid(np.arange(Wo, dtype=np.float32), np.arange(Ho, dtype=np.float32))
     C.scr_dark = halftone_screen(Ho, Wo, cell=12.0 * C.SX, angle_deg=45)
     C.scr_iris = halftone_screen(Ho, Wo, cell=16.0 * C.SX, angle_deg=30)
+    C.scr_press = halftone_screen(Ho, Wo, cell=7.0 * C.SX, angle_deg=45)
     C.dgrain = [(0.65 * smooth_noise((Ho, Wo), 0.6, 10 + i) + 0.35 * smooth_noise((Ho, Wo), 1.8, 20 + i))
                 .astype(np.float32) for i in range(4)]
     C.spr = {k: VSprite(k) for k in MAN if not k.startswith("_")}
@@ -610,6 +620,27 @@ def pop(t, t0, dur=0.32, s=2.2):
     return ease_out_back(u, s), 1 - ease_out_cubic(u)
 
 
+def logo_group(t):
+    """scale of the whole OTIUM ligature: a short punch on every letter hit. All pieces share
+    it, so they never move relative to each other (no visible cuts between pieces)."""
+    g = 0.0
+    for _, th in LOGO_HITS:
+        d = t - th
+        if -0.08 < d < 0:
+            g += math.exp(-(d / 0.045) ** 2)
+        elif 0 <= d < 0.6:
+            g += math.exp(-d / 0.11)
+    return 1.0 + LOGO_PUNCH * g if g > 1e-4 else 1.0
+
+
+def press_prog(t, th, pre=0.09, post=0.015):
+    """0..1 ink coverage of a letter being pressed in place, fully inked right on the hit."""
+    if t < th - pre:
+        return None
+    u = (t - (th - pre)) / (pre + post)
+    return 1.0 if u >= 1 else u * u * (3 - 2 * u)
+
+
 def hero_star_state(t):
     """position/scale/rotation/colour-mix of the opening star (native coords)."""
     cxc, cyc = W0 / 2, H0 / 2 - CAM0
@@ -619,12 +650,14 @@ def hero_star_state(t):
     if t < T_FLY1:
         u = (t - T_FLY0) / (T_FLY1 - T_FLY0)
         e = ease_in_out_cubic(u)
-        hx, hy = STAR_HOME
+        g = logo_group(t)                      # land exactly where the punched logo puts it
+        hx = LOGO_C[0] + g * (STAR_HOME[0] - LOGO_C[0])
+        hy = LOGO_C[1] + g * (STAR_HOME[1] - LOGO_C[1])
         x = cxc + (hx - cxc) * e
         y = cyc + (hy - cyc) * e - 120 * math.sin(math.pi * e)
         r0 = STAR_ROT_SPEED * T_FLY0
         r1 = math.ceil((r0 + math.pi) / (math.pi / 2)) * (math.pi / 2)
-        return x, y, S0 * pulse + (1 - S0 * pulse) * e, r0 + (r1 - r0) * e, e
+        return x, y, S0 * pulse + (g - S0 * pulse) * e, r0 + (r1 - r0) * e, e
     return None
 
 
@@ -699,24 +732,21 @@ def render_frame(fi):
     oyB = C.oy + camy                          # native y -> output y = (y + oyB) * SY
     S = C.spr
 
-    # ---- OTIUM letterpress stamps (resting letters share one coverage batch -> seamless ligature)
+    # ---- OTIUM: each letter is pressed in IN PLACE (halftone ink-in) on its hit, and the whole
+    # ligature punches together; one shared coverage batch -> pieces stay perfectly joined
+    g = logo_group(t)
     logo_batch = CovBatch(img.shape, S["logo_O"].color)
-    moving = []
     for name, th in LOGO_HITS:
-        st = stamp(t, th)
-        if st:
-            if st == (1.0, 1.0):
-                vdraw(img, S[name], oyB, batch=logo_batch)
-            else:
-                moving.append((name, st))
+        pr = press_prog(t, th)
+        if pr is not None:
+            vdraw(img, S[name], oyB, scale=g, anchor=LOGO_C, batch=logo_batch, press=pr)
     logo_batch.flush(img)
-    for name, st in moving:
-        spr = S[name]
-        vdraw(img, spr, oyB, scale=st[0], alpha=st[1], anchor=(spr.cx, spr.y + spr.h * 0.62))
     if t >= T_FLY1:
         v = min(1.0, (t - T_FLY1) / 0.2)
         sc = 1 + 0.07 * math.sin(math.pi * v) * (1 - v)
-        vdraw(img, S["logo_star"], oyB, scale=sc, anchor=STAR_HOME)
+        dxs = (1 - g) * (LOGO_C[0] - STAR_HOME[0])
+        dys = (1 - g) * (LOGO_C[1] - STAR_HOME[1])
+        vdraw(img, S["logo_star"], oyB, scale=g * sc, anchor=STAR_HOME, dx=dxs, dy=dys)
 
     # ---- AT VIVIDO, line, star, FIRENZE
     for i in range(META["n_atv"]):
@@ -912,6 +942,7 @@ def main():
     ap.add_argument("--preview", default="")
     ap.add_argument("--outdir", default="")
     ap.add_argument("--workers", type=int, default=4)
+    ap.add_argument("--fps30", action="store_true", help="also write a 30 fps version")
     args = ap.parse_args()
     os.makedirs(OUT, exist_ok=True)
     if args.preview:
@@ -936,7 +967,7 @@ def main():
     cmd = ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{w}x{h}",
            "-r", str(FPS), "-i", "-", "-i", audio,
            "-map", "0:v", "-map", "1:a", *venc, path,
-           "-map", "0:v", "-map", "1:a", "-vf", "fps=30", *venc, path30]
+           *(["-map", "0:v", "-map", "1:a", "-vf", "fps=30", *venc, path30] if args.fps30 else [])]
     enc = subprocess.Popen(cmd, stdin=subprocess.PIPE)
     t0 = time.time()
     ctx = get_context("spawn")      # fork + OpenCV's thread pool can deadlock
