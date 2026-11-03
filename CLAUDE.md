@@ -6,3 +6,8 @@
   - Non trattarlo come un marchio attivo, una società, un canale di vendita o un pubblico già disponibile.
   - Non contare sinergie, clienti o fornitori "di KRINÉ" nelle valutazioni, salvo che Lorenzo dica di averlo ripreso.
   - Molti documenti già presenti nel repository (per esempio in `idee/dropshipping/` e `idee/azienda-ai-solo/`) trattano KRINÉ come esistente o in lancio a marzo 2027. Vanno letti alla luce di questa nota.
+
+## Progetti software
+
+- Per ogni progetto che riguarda software (SaaS, app, strumenti in abbonamento) leggere e applicare prima [idee/azienda-ai-solo/futuro/guida-software.md](idee/azienda-ai-solo/futuro/guida-software.md). È il metodo tratto dal video di Adrián Sáenz che Lorenzo ha indicato il 3/11/2026 come informazione preziosa per tutti i progetti software, con le correzioni critiche.
+  - In sintesi: lanciare subito con l'analisi delle visite (Umami), verificare la disponibilità a pagare con porte finte oneste, provare più canali e spingere il migliore, test A/B solo con dati sufficienti, avatar AI dichiarati, costi bassi finché non ci sono ricavi.

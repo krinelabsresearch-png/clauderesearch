@@ -281,3 +281,6 @@ Valori alle 15:15 UTC: 5 ore al 24% (si azzera alle 20:10 UTC), 7 giorni al 49% 
     - 092 esame orale 3,65;
     - 235 PREVENTIVO 3,60.
   - Esattamente a 3,50 restano fuori 236, 237 e 255. Script: `obiettivo_piccolo.py`.
+- **Richiesta di Lorenzo (03/11/2026):** usare il video https://www.youtube.com/watch?v=LycpBgBiWKw ("Dame 32 Minutos y Te Enseño a Ganar Dinero Con Claude", Adrián Sáenz) come informazione per tutti i progetti software.
+  - Scaricati i sottotitoli automatici in spagnolo, dopo che Lorenzo ha consentito l'accesso a YouTube.
+  - Metodo, numeri, lettura critica e regole operative in `guida-software.md`, richiamata da `CLAUDE.md`.
