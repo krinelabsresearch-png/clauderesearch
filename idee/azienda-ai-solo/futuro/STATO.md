@@ -287,3 +287,6 @@ Valori alle 15:15 UTC: 5 ore al 24% (si azzera alle 20:10 UTC), 7 giorni al 49% 
 - **Richiesta di Lorenzo (03/11/2026):** analizzare i siti web per ristoranti e locali, partendo da Firenze con le sue conoscenze e poi nel mondo. Numero 258.
   - **Esito:** 3,10 con l'obiettivo da 1 M€, quindi scartata. Con l'obiettivo piccolo vale 3,55, solo come canone con aggiornamenti automatici; resta però fuori dal filtro perché ha automazione 3.
   - Dossier in `dossier/258-siti-ristoranti.md`; righe aggiunte in `punteggi.py`, `scartate.md` e `obiettivo_piccolo.py`.
+- **Richiesta di Lorenzo (03/11/2026):** per i siti web, valutare tutte le categorie di attività con A (quota senza sito in Italia) e B (importanza del sito per le vendite, da 0 a 100), poi la top 10 per A×B.
+  - Tabella di 34 categorie, con stime ragionate partendo da CNA, Mama Industry, Fipe e Scrap.io, in `dossier/258-categorie-siti.md`.
+  - Le prime tre: imprese edili, botteghe artigiane artistiche, idraulici ed elettricisti.
