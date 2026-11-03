@@ -284,3 +284,6 @@ Valori alle 15:15 UTC: 5 ore al 24% (si azzera alle 20:10 UTC), 7 giorni al 49% 
 - **Richiesta di Lorenzo (03/11/2026):** usare il video https://www.youtube.com/watch?v=LycpBgBiWKw ("Dame 32 Minutos y Te Enseño a Ganar Dinero Con Claude", Adrián Sáenz) come informazione per tutti i progetti software.
   - Scaricati i sottotitoli automatici in spagnolo, dopo che Lorenzo ha consentito l'accesso a YouTube.
   - Metodo, numeri, lettura critica e regole operative in `guida-software.md`, richiamata da `CLAUDE.md`.
+- **Richiesta di Lorenzo (03/11/2026):** analizzare i siti web per ristoranti e locali, partendo da Firenze con le sue conoscenze e poi nel mondo. Numero 258.
+  - **Esito:** 3,10 con l'obiettivo da 1 M€, quindi scartata. Con l'obiettivo piccolo vale 3,55, solo come canone con aggiornamenti automatici; resta però fuori dal filtro perché ha automazione 3.
+  - Dossier in `dossier/258-siti-ristoranti.md`; righe aggiunte in `punteggi.py`, `scartate.md` e `obiettivo_piccolo.py`.

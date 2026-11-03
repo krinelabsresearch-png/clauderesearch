@@ -1,4 +1,4 @@
-"""Punteggi dei candidati 091–257 (bisogni dei prossimi 1–5 anni) con la scheda v2 (pesi in ../scheda_v2.py).
+"""Punteggi dei candidati 091–258 (bisogni dei prossimi 1–5 anni) con la scheda v2 (pesi in ../scheda_v2.py).
 Voti dopo la ricerca approfondita (dossier in dossier/). Criteri aggiornati da Lorenzo il 13/10/2026:
 - "solo1M" = potenziale oltre 300–500 k€ l'anno senza dipendenti, con strada verso 1 M€;
 - mercato UE e mondo (l'Italia è solo un possibile punto di partenza); B2B ammesso;
@@ -53,6 +53,7 @@ CANDIDATI = {
     "255 Fabbrica di software in abbonamento con Claude Code su VPS (senza nicchia)": dict(mot=4, vant=3, dolore=2, mercato=5, margine=5, valid=4, solo1M=2, autom=4, dif=1),  # come veicolo vale il punteggio della nicchia (es. 234 SERATA)
     "256 Video fatti con Claude in nicchie, monetizzati con YouTube":       dict(mot=4, vant=3, dolore=1, mercato=4, margine=4, valid=4, solo1M=2, autom=3, dif=2),  # come canale per un prodotto vale il punteggio del prodotto
     "257 Corsi di formazione AI per idraulici ed elettricisti":             dict(mot=3, vant=2, dolore=2, mercato=2, margine=4, valid=4, solo1M=1, autom=3, dif=1),  # variante software (assistente per preventivi e pratiche) circa 3,10
+    "258 Siti web per ristoranti e locali (Firenze, poi il mondo)":       dict(mot=4, vant=4, dolore=2, mercato=4, margine=3, valid=5, solo1M=1, autom=3, dif=1),  # con l'obiettivo piccolo 3,55 (solo1M sostituito da 4)
 }
 
 
