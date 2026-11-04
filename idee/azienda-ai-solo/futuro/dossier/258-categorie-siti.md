@@ -87,3 +87,34 @@ Escluse come clienti per le esclusioni di Lorenzo: onoranze funebri e veterinari
 1. https://rivista.microcredito.gov.it/content_page/146-numero-23/549-l’impatto-della-tecnologia-e-del-web-sulle-microimprese-e-sulle-startup.html
 2. https://www.fipe.it/wp-content/uploads/2025/05/Consumi-fuori-casa-III-EDIZIONE_20-MARZO-2025.pdf
 3. https://scrap.io/it/italia-google-maps-scraper
+
+## Misura sul campo a Firenze (Google Maps tramite Apify, 4/11/2026)
+
+**Come è stata fatta.**
+- Strumento: l'attore `compass/crawler-google-places`, con una ricerca per categoria nel comune di Firenze, fino a 100 schede ciascuna, escludendo i locali chiusi. In totale 925 schede.
+- Conteggio: "senza sito proprio" vuol dire nessun sito sulla scheda, oppure solo una pagina social o di un portale (Facebook, Instagram, Linktree, Booking, TripAdvisor e simili).
+
+| Categoria cercata | Schede | Senza sito proprio | B (stima) | Indice misurato A×B/100 |
+|---|---|---|---|---|
+| traslochi | 100 | 38% | 55 | **20,9** |
+| impresa di pulizie | 100 | 39% | 50 | **19,5** |
+| idraulico | 100 | 43% | 45 | **19,4** |
+| noleggio bici | 52 | 25% | 70 | 17,5 |
+| impresa edile | 100 | 25% | 65 | 16,3 |
+| serramenti | 100 | 21% | 65 | 13,7 |
+| fisioterapista | 100 | 24% | 55 | 13,2 |
+| bottega artigiana | 73 | 19% | 60 | 11,4 |
+| ristorante | 100 | 14% | 45 | 6,3 |
+| tour guidato | 100 | 2% | 65 | 1,3 |
+| **Totale** | **925** | **25%** | | |
+
+**Come leggerla.**
+- **Il campione è distorto verso chi è più visibile.** Google mostra prima le attività più rilevanti e recensite, che di solito hanno un sito.
+  - Per i ristoranti risulta il 14% senza sito, contro il 53% del conteggio nazionale di Scrap.io su tutte le schede.
+  - Quindi le A vere sono più alte. Il confronto **tra categorie** però resta valido.
+- **Rispetto alle stime, la classifica cambia:**
+  - restano in alto **traslochi, pulizie e idraulici**;
+  - scendono **botteghe artigiane e tour**, che a Firenze sono già quasi tutti online: i tour attraverso le piattaforme e i siti dei grandi operatori;
+  - le imprese edili restano a metà classifica.
+- **Prossimo passo, se serve:** una seconda estrazione più ampia, senza limite di 100 e per zone, sulle 3 categorie migliori, per avere il numero reale di potenziali clienti.
+- **Per contattarli:** dati e numeri di telefono vengono da schede pubbliche di attività. Per le telefonate commerciali in Italia vale il Registro pubblico delle opposizioni, quindi conviene contattarli di persona, per email aziendale o tramite le associazioni.
