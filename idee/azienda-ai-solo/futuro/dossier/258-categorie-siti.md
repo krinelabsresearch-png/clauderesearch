@@ -118,3 +118,48 @@ Escluse come clienti per le esclusioni di Lorenzo: onoranze funebri e veterinari
   - le imprese edili restano a metà classifica.
 - **Prossimo passo, se serve:** una seconda estrazione più ampia, senza limite di 100 e per zone, sulle 3 categorie migliori, per avere il numero reale di potenziali clienti.
 - **Per contattarli:** dati e numeri di telefono vengono da schede pubbliche di attività. Per le telefonate commerciali in Italia vale il Registro pubblico delle opposizioni, quindi conviene contattarli di persona, per email aziendale o tramite le associazioni.
+
+## Seconda misura a Firenze: 20 categorie (Google Places API, 6/11/2026)
+
+**Come è stata fatta.**
+- Strumento: l'API ufficiale Google Places (New), ricerca testuale. Lo script è [../misura_places_258.py](../misura_places_258.py).
+- Il comune di Firenze è diviso in 4 zone. Per ogni categoria e zona sono stati presi fino a 60 risultati (il massimo dell'API), poi tolti i doppioni, le attività chiuse e quelle con indirizzo fuori dal comune (CAP diverso da 501xx). In totale **3.099 schede con 204 chiamate**, che restano nella soglia gratuita mensile di Google.
+- Conteggio: "senza sito proprio" vuol dire, come nella prima misura, nessun sito sulla scheda oppure solo una pagina social o di un portale (Facebook, Instagram, Linktree, MioDottore, Doctolib, Treatwell, Booking, PagineGialle e simili).
+- B è la stima della tabella completa. Per imbianchini (40) e fabbri (45) non c'era: è una stima nuova. Per i falegnami ho usato quella di serramenti e arredo su misura (65).
+
+| Categoria cercata | Schede | Nessun sito | Solo social o portale | Senza sito proprio | B (stima) | Indice misurato A×B/100 |
+|---|---|---|---|---|---|---|
+| falegname | 62 | 33 | 1 | 55% | 65 | **35,6** |
+| nutrizionista | 197 | 43 | 60 | 52% | 55 | **28,8** |
+| osteopata | 200 | 55 | 36 | 46% | 55 | **25,0** |
+| barbiere | 207 | 122 | 17 | 67% | 35 | **23,5** |
+| parrucchiere | 220 | 111 | 31 | 65% | 35 | **22,6** |
+| fotografo | 205 | 48 | 7 | 27% | 80 | 21,5 |
+| dentista | 211 | 69 | 6 | 36% | 60 | 21,3 |
+| imbianchino | 70 | 35 | 2 | 53% | 40 | 21,1 |
+| elettricista | 144 | 61 | 5 | 46% | 45 | 20,6 |
+| tatuatore | 65 | 14 | 19 | 51% | 40 | 20,3 |
+| centro estetico | 193 | 72 | 15 | 45% | 45 | 20,3 |
+| psicologo | 216 | 35 | 34 | 32% | 55 | 17,6 |
+| fioraio | 82 | 29 | 7 | 44% | 40 | 17,6 |
+| fabbro | 63 | 19 | 5 | 38% | 45 | 17,1 |
+| carrozzeria | 163 | 72 | 7 | 48% | 35 | 17,0 |
+| autofficina | 172 | 76 | 7 | 48% | 35 | 16,9 |
+| pasticceria | 189 | 85 | 19 | 55% | 30 | 16,5 |
+| palestra | 178 | 38 | 14 | 29% | 55 | 16,1 |
+| bed and breakfast | 218 | 37 | 14 | 23% | 60 | 14,0 |
+| giardiniere | 44 | 12 | 0 | 27% | 35 | 9,5 |
+| **Totale** | **3.099** | **1.066** | **306** | **44%** | | |
+
+**Come leggerla.**
+- **Il campione è più ampio della prima misura**: fino a 240 schede per categoria su 4 zone, invece delle prime 100 di una sola ricerca. Quindi pesa meno la distorsione verso le attività più visibili, e le percentuali escono più alte.
+  - Per confrontare le due misure conviene guardare le categorie simili: elettricisti 46% qui, idraulici 43% nella prima. Sono vicini, quindi l'ordine di grandezza regge.
+  - Anche così le A vere sono probabilmente un po' più alte, perché chi non ha nemmeno la scheda Google non compare.
+- **Dove manca di più il sito proprio:** barbieri e parrucchieri (due su tre), poi falegnami, pasticcerie e imbianchini (più di metà). Il problema è che per questi B è basso, tranne che per i falegnami.
+- **Le categorie più interessanti per l'indice:**
+  1. **Falegnami (36).** Il lavoro è su misura e lo scontrino alto, e più di metà non ha un sito. È in linea con serramenti e arredo della stima iniziale. Il campione però è piccolo (62) e misto: dentro ci sono anche laboratori e piccole imprese di ristrutturazione.
+  2. **Nutrizionisti e osteopati (29 e 25).** Molti hanno solo il profilo su MioDottore o Doctolib (60 nutrizionisti su 197): a pagamento, ma senza un sito proprio. Va venduto come "sito tuo, con prenotazione, oltre a MioDottore".
+  3. **Barbieri e parrucchieri (23–24).** Sono tantissimi e quasi due su tre non hanno il sito, ma pagano poco. Funzionano solo con un'offerta economica e ripetibile.
+- **Dove il sito c'è già quasi sempre:** bed and breakfast (23% senza, perché sono su Booking e Airbnb), fotografi (27%), palestre (29%) e psicologi (32%).
+- **Campioni piccoli** (giardinieri 44, fabbri 63, falegnami 62, tatuatori 65, imbianchini 70): Google ne restituisce pochi dentro il comune, e molti risultati sono di altre categorie (per esempio imprese edili tra i giardinieri, ferramenta tra i fabbri). Queste percentuali hanno un margine d'errore di circa ±12 punti.
+- **Le categorie restituite non sono sempre pulite:** tra le pasticcerie ci sono anche bar, e tra i fotografi negozi di elettronica. Non li ho tolti, come nella prima misura.
