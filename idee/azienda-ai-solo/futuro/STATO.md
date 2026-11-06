@@ -293,3 +293,8 @@ Valori alle 15:15 UTC: 5 ore al 24% (si azzera alle 20:10 UTC), 7 giorni al 49% 
 - **Richiesta di Lorenzo (06/11/2026):** valutare cabine per foto originali nelle città turistiche, rese iconiche con i social. Numero 259.
   - **Esito:** scartata con 2,45 (2,75 con l'obiettivo piccolo). Fotoautomatica occupa già lo spazio a Firenze, il suolo pubblico UNESCO è quasi impossibile e il lavoro è fisico.
   - Resta come test una cabina digitale con ritratti AI in un locale. Dossier in `dossier/259-cabine-foto.md`.
+- **Scheda v3 (06/11/2026)**, decisa con Lorenzo dopo il "gioco inverso", in `../scheda_v3.py`.
+  - Regole: obiettivo 300–500 k€; ammessi B2B e nicchie regolamentate; motivazione solo se data da Lorenzo; nuovo voto "diy", la difesa dal cliente che fa da sé con l'AI.
+  - Soglie: dolore, diy, concorrenti e obiettivo almeno 3. Media geometrica pesata.
+  - Corrette 107, 116, 234 e 260 con le critiche di Lorenzo, e tolto il vantaggio KRINÉ a 200, 202, 205 e 206.
+  - **Esito:** 9 idee su 101 passano le soglie: 199 (3,90), 087 (3,68), 208 (3,68), 198 (3,50), 200 (3,44), 201 (3,39), 205 (3,33), 253 (3,12), 216 (3,08).
