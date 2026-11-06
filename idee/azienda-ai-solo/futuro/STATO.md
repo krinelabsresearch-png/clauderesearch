@@ -290,3 +290,6 @@ Valori alle 15:15 UTC: 5 ore al 24% (si azzera alle 20:10 UTC), 7 giorni al 49% 
 - **Richiesta di Lorenzo (03/11/2026):** per i siti web, valutare tutte le categorie di attività con A (quota senza sito in Italia) e B (importanza del sito per le vendite, da 0 a 100), poi la top 10 per A×B.
   - Tabella di 34 categorie, con stime ragionate partendo da CNA, Mama Industry, Fipe e Scrap.io, in `dossier/258-categorie-siti.md`.
   - Le prime tre: imprese edili, botteghe artigiane artistiche, idraulici ed elettricisti.
+- **Richiesta di Lorenzo (06/11/2026):** valutare cabine per foto originali nelle città turistiche, rese iconiche con i social. Numero 259.
+  - **Esito:** scartata con 2,45 (2,75 con l'obiettivo piccolo). Fotoautomatica occupa già lo spazio a Firenze, il suolo pubblico UNESCO è quasi impossibile e il lavoro è fisico.
+  - Resta come test una cabina digitale con ritratti AI in un locale. Dossier in `dossier/259-cabine-foto.md`.
