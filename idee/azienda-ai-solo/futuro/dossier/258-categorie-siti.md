@@ -163,3 +163,68 @@ Escluse come clienti per le esclusioni di Lorenzo: onoranze funebri e veterinari
 - **Dove il sito c'è già quasi sempre:** bed and breakfast (23% senza, perché sono su Booking e Airbnb), fotografi (27%), palestre (29%) e psicologi (32%).
 - **Campioni piccoli** (giardinieri 44, fabbri 63, falegnami 62, tatuatori 65, imbianchini 70): Google ne restituisce pochi dentro il comune, e molti risultati sono di altre categorie (per esempio imprese edili tra i giardinieri, ferramenta tra i fabbri). Queste percentuali hanno un margine d'errore di circa ±12 punti.
 - **Le categorie restituite non sono sempre pulite:** tra le pasticcerie ci sono anche bar, e tra i fotografi negozi di elettronica. Non li ho tolti, come nella prima misura.
+
+## Classifica completa (stime e misure insieme, 6/11/2026)
+
+Tutte le 45 categorie in un'unica classifica. A viene dalla fonte migliore disponibile per ciascuna. Per renderle confrontabili, tutte le A sono riportate alla scala della misura con Google Places, la più ampia e la meno distorta.
+
+**Come sono state rese confrontabili le tre fonti.**
+- **¹ Misura Apify del 4/11 (prime 100 schede per ricerca), moltiplicata per 1,6.** Rispetto alle stime iniziali, la misura Apify dà in media il 48% (tour esclusi, perché anomali) e la misura Places il 77%. Il rapporto fra le due è circa 1,6.
+- **² Stima ragionata, moltiplicata per 0,77.** È il rapporto medio fra misura Places e stima, calcolato sulle 18 categorie che hanno entrambe.
+- Le categorie senza segno sono misurate direttamente con Places. L'indice è ricalcolato con la A arrotondata, quindi può differire di qualche decimale dalle tabelle precedenti.
+- Gommisti e gelaterie, che nella tabella iniziale erano raggruppati con autofficine e pasticcerie, hanno qui una riga a parte con la stima del loro gruppo.
+
+| # | Categoria | Fonte di A | Schede | A grezza | A su scala Places | B | Indice A×B/100 |
+|---|---|---|---|---|---|---|---|
+| 1 | Falegnami | misura Places 6/11 | 62 | 55% | 55% | 65 | **35,8** |
+| 2 | Traslochi e sgomberi | misura Apify 4/11 | 100 | 38% | 61%¹ | 55 | **33,5** |
+| 3 | Idraulici e termoidraulici | misura Apify 4/11 | 100 | 43% | 69%¹ | 45 | **31,1** |
+| 4 | Imprese di pulizie | misura Apify 4/11 | 100 | 39% | 62%¹ | 50 | **31,0** |
+| 5 | Nutrizionisti | misura Places 6/11 | 197 | 52% | 52% | 55 | **28,6** |
+| 6 | Noleggi (bici, scooter, auto, barche) | misura Apify 4/11 | 52 | 25% | 40%¹ | 70 | **28,0** |
+| 7 | Imprese edili e ristrutturazioni | misura Apify 4/11 | 100 | 25% | 40%¹ | 65 | **26,0** |
+| 8 | Osteopati | misura Places 6/11 | 200 | 46% | 46% | 55 | **25,3** |
+| 9 | Produttori agricoli (olio, miele, km zero) | stima | – | 65% | 50%² | 50 | **25,0** |
+| 10 | Barbieri | misura Places 6/11 | 207 | 67% | 67% | 35 | **23,4** |
+| 11 | Parrucchieri | misura Places 6/11 | 220 | 65% | 65% | 35 | 22,8 |
+| 12 | Serramenti, cucine e arredo su misura | misura Apify 4/11 | 100 | 21% | 34%¹ | 65 | 22,1 |
+| 13 | Dentisti | misura Places 6/11 | 211 | 36% | 36% | 60 | 21,6 |
+| 14 | Fotografi e videomaker | misura Places 6/11 | 205 | 27% | 27% | 80 | 21,6 |
+| 15 | Imbianchini | misura Places 6/11 | 70 | 53% | 53% | 40 | 21,2 |
+| 16 | Fisioterapisti | misura Apify 4/11 | 100 | 24% | 38%¹ | 55 | 20,9 |
+| 17 | Elettricisti | misura Places 6/11 | 144 | 46% | 46% | 45 | 20,7 |
+| 18 | Tatuatori | misura Places 6/11 | 65 | 51% | 51% | 40 | 20,4 |
+| 19 | Centri estetici e nail | misura Places 6/11 | 193 | 45% | 45% | 45 | 20,2 |
+| 20 | Cantine e aziende vinicole | stima | – | 35% | 27%² | 70 | 18,9 |
+| 21 | Pizzerie e asporto | stima | – | 60% | 46%² | 40 | 18,4 |
+| 22 | Botteghe artigiane artistiche | misura Apify 4/11 | 73 | 19% | 30%¹ | 60 | 18,0 |
+| 23 | Fiorai | misura Places 6/11 | 82 | 44% | 44% | 40 | 17,6 |
+| 24 | Psicologi | misura Places 6/11 | 216 | 32% | 32% | 55 | 17,6 |
+| 25 | Gommisti | stima | – | 65% | 50%² | 35 | 17,5 |
+| 26 | Fabbri | misura Places 6/11 | 63 | 38% | 38% | 45 | 17,1 |
+| 27 | Autofficine | misura Places 6/11 | 172 | 48% | 48% | 35 | 16,8 |
+| 28 | Carrozzerie | misura Places 6/11 | 163 | 48% | 48% | 35 | 16,8 |
+| 29 | Negozi di abbigliamento e boutique | stima | – | 55% | 42%² | 40 | 16,8 |
+| 30 | Pasticcerie | misura Places 6/11 | 189 | 55% | 55% | 30 | 16,5 |
+| 31 | Location e ville per eventi, wedding planner | stima | – | 25% | 19%² | 85 | 16,1 |
+| 32 | Palestre, yoga, pilates | misura Places 6/11 | 178 | 29% | 29% | 55 | 15,9 |
+| 33 | Avvocati, commercialisti | stima | – | 45% | 35%² | 45 | 15,8 |
+| 34 | Gelaterie | stima | – | 65% | 50%² | 30 | 15,0 |
+| 35 | Scuole guida, di lingue, corsi | stima | – | 35% | 27%² | 55 | 14,8 |
+| 36 | Agriturismi | stima | – | 25% | 19%² | 75 | 14,2 |
+| 37 | B&B, affittacamere, case vacanza | misura Places 6/11 | 218 | 23% | 23% | 60 | 13,8 |
+| 38 | Concessionari e auto usate | stima | – | 30% | 23%² | 55 | 12,7 |
+| 39 | Ristoranti e trattorie | misura Apify 4/11 | 100 | 14% | 22%¹ | 45 | 9,9 |
+| 40 | Giardinieri e manutenzione del verde | misura Places 6/11 | 44 | 27% | 27% | 35 | 9,4 |
+| 41 | Alimentari, macellerie, panifici | stima | – | 80% | 62%² | 15 | 9,3 |
+| 42 | Bar e caffè | stima | – | 80% | 62%² | 15 | 9,3 |
+| 43 | Agenzie immobiliari | stima | – | 20% | 15%² | 50 | 7,5 |
+| 44 | Hotel | stima | – | 5% | 4%² | 90 | 3,6 |
+| 45 | Guide turistiche, tour ed esperienze | misura Apify 4/11 | 100 | 2% | 3%¹ | 65 | 1,9 |
+
+**Come leggerla.**
+- **Le righe ¹ e ² sono estrapolate, non misurate.** Il fattore 1,6 vale in media, ma una singola categoria può allontanarsene molto: idraulici, traslochi e pulizie, dal 2° al 4° posto, sono le più esposte a questo errore. Prima di puntarci, conviene rimisurarle con Places: sono circa 12 chiamate per categoria.
+- **In alto ci sono due gruppi:**
+  - **artigiani e servizi a domicilio con preventivo** (falegnami, traslochi, idraulici, pulizie, imprese edili);
+  - **professioni sanitarie private** (nutrizionisti e osteopati), che spesso hanno solo un profilo su MioDottore o Doctolib.
+- **Barbieri e parrucchieri** entrano nella top 10 solo per quanti sono senza sito, perché B è basso. Vanno bene solo con un'offerta molto economica e ripetibile.
