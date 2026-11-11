@@ -1,0 +1,73 @@
+{
+ "type": "object",
+ "additionalProperties": false,
+ "required": [
+  "risultati"
+ ],
+ "properties": {
+  "risultati": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "id",
+     "sito_ufficiale",
+     "fa_parte_di",
+     "instagram",
+     "instagram_attivo",
+     "email_dominio_proprio",
+     "chiusa",
+     "note"
+    ],
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "sito_ufficiale": {
+      "type": [
+       "string",
+       "null"
+      ],
+      "description": "URL del sito proprio dell'attivit\u00e0 (non social, non portali, non directory). null se non esiste o non sei sicuro."
+     },
+     "fa_parte_di": {
+      "type": [
+       "string",
+       "null"
+      ],
+      "description": "Nome della catena, franchising, hotel o struttura pi\u00f9 grande con un suo sito di cui l'attivit\u00e0 fa parte; null se \u00e8 indipendente."
+     },
+     "instagram": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "instagram_attivo": {
+      "type": [
+       "boolean",
+       "null"
+      ],
+      "description": "true se risultano post negli ultimi 3 mesi, false se fermo, null se non verificabile."
+     },
+     "email_dominio_proprio": {
+      "type": [
+       "string",
+       "null"
+      ],
+      "description": "Dominio dell'email aziendale se \u00e8 un dominio proprio (es. nome.it), null se gmail/libero o non trovata."
+     },
+     "chiusa": {
+      "type": "boolean",
+      "description": "true solo se fonti recenti dicono che ha chiuso."
+     },
+     "note": {
+      "type": "string",
+      "description": "Una frase con cosa hai trovato e la fonte principale."
+     }
+    }
+   }
+  }
+ }
+}

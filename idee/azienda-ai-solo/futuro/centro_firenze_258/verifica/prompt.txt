@@ -1,0 +1,9 @@
+Sei un ricercatore. Nel file allegato sotto c'è un elenco JSON di attività nel centro di Firenze che, secondo la loro scheda Google Maps, NON hanno un sito web proprio (al massimo un profilo social o un portale).
+Per ciascuna, cerca sul web (Google, Instagram, Facebook, PagineGialle, registro imprese, articoli) e stabilisci:
+- se in realtà ha un sito ufficiale proprio (dominio dell'attività, anche se non è collegato alla scheda Google). Portali, directory, social, Booking, TripAdvisor, MioDottore, Linktree NON contano come sito.
+- se fa parte di una catena, franchising, hotel o struttura più grande che ha già un suo sito;
+- il profilo Instagram e se è attivo (post negli ultimi 3 mesi), se si vede;
+- se usa un'email con un dominio proprio;
+- se risulta chiusa definitivamente.
+Regole: non inventare. Se non trovi o non sei sicuro, metti null e dillo nelle note. Usa l'id esattamente come fornito. Rispondi solo con il JSON richiesto dallo schema, un elemento per ogni attività.
+Elenco:
